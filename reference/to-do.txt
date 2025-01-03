@@ -1,0 +1,61 @@
+HomePage:
+    x-logo
+    x-1 button to navigate to page 1 (form)
+    x-logging
+    -theme styling
+
+Page 1- form:
+    -form with:
+        -text entry generic widget: validate that only text entered and not null
+        -checkbox generic widget
+        -radio button generic widget
+        -pull down selection generic widget
+    -log inputs
+    -submit button to pass into BLoC
+    -pass and log inputs through each layer
+    -create mock repo for API call
+    - return three result sets based on input
+        -1) error response is user enters "a"
+        -2) no data response is user enters "b"
+            -redirect to Page 2- details
+            -display no data with message
+        -3) valid list of data if user enters anything else
+            -redirect to Page 2- details
+
+Page 2- details:
+    -list view with tiles for each data element
+
+
+---
+
+x-Radio buttons:
+https://www.youtube.com/watch?v=JLdit0tnwp8&t=658s&ab_channel=CodingWithTea
+https://stackoverflow.com/questions/63895921/create-dynamic-radio-buttons-in-flutter
+https://stackoverflow.com/questions/50060276/flutter-custom-radio-button
+
+x-Dropdown button:
+https://www.youtube.com/watch?v=6_Azs3fq9O4&ab_channel=CodingWithTea
+
+x-Form validation/submittal:
+https://www.youtube.com/watch?v=BubDWUrbPQY&ab_channel=CodingWithTea
+
+Splash screen:
+https://www.geeksforgeeks.org/splash-screen-in-flutter/
+
+Flash package
+
+Routing
+
+Testing
+
+Riverpod / GetIt
+
+BLoC
+
+Firebase
+
+Transitions
+
+Dio Connectivity
+
+Error Handling

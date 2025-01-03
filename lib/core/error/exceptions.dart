@@ -1,0 +1,1 @@
+class PlaceholderException implements Exception {}
