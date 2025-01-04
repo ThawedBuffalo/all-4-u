@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'expanding-action-button.dart';
 
+// ref: https://docs.flutter.dev/cookbook/effects/expandable-fab
+
 @immutable
 class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
