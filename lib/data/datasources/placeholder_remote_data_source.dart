@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 // app specific imports
-import 'package:flutter_template/core/error/exceptions.dart';
-import 'package:flutter_template/data/datasources/placeholder_remote_data_source_intf.dart';
-import 'package:flutter_template/data/models/placeholder_model.dart';
+import 'package:all_4_u/core/error/exceptions.dart';
+import 'package:all_4_u/data/datasources/placeholder_remote_data_source_intf.dart';
+import 'package:all_4_u/data/models/placeholder_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/logging/custom_logger.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/core/logging/custom_logger.dart';
-import 'package:flutter_template/presentation/pages/page-1/product-model.dart.dart';
-import 'package:flutter_template/presentation/pages/widgets/radio-button-widget.dart';
-import 'package:flutter_template/presentation/pages/widgets/text-form-widget.dart';
+import 'package:all_4_u/core/logging/custom_logger.dart';
+import 'package:all_4_u/presentation/pages/page-1/product-model.dart.dart';
+import 'package:all_4_u/presentation/pages/widgets/radio-button-widget.dart';
+import 'package:all_4_u/presentation/pages/widgets/text-form-widget.dart';
 
 import '../page-2/page-2.dart';
 

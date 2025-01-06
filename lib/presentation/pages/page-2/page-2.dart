@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/presentation/pages/page-1/product-model.dart.dart';
+import 'package:all_4_u/presentation/pages/page-1/product-model.dart.dart';
 
 class Page2 extends StatelessWidget {
   Page2({Key? key, required this.product}) : super(key: key);

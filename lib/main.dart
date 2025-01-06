@@ -1,11 +1,29 @@
+import 'package:all_4_u/presentation/pages/home/home_page.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/presentation/pages/home/home_page.dart';
-import 'package:flutter_template/presentation/pages/home_old/home_page_old.dart';
-import 'package:flutter_template/themes/buffalo-sabres-light-theme.dart';
+import 'package:all_4_u/themes/buffalo-sabres-light-theme.dart';
+import 'package:all_4_u/core/logging/custom_logger.dart';
 
-void main() {
-  runApp(App());
+import 'core/logging/logger_enums.dart';
+
+void main() async {
+  init();
+}
+
+init() async {
+  // FlutterError.onError = (FlutterErrorDetails details) {
+  //   FlutterError.dumpErrorToConsole(details);
+  //   runApp(ErrorWidgetClass(details));
+  // };
+
+  // implement logging framework
+  // CustomLogger logger =
+  // CustomLogger(callingClass: 'main', defLogLevel: MessageTypes.info);
+  //
+  // logger.logIt(
+  //     methodName: 'init()',
+  //     type: MessageTypes.info,
+  //     message: 'application initializing...');
 }
 
 class App extends StatefulWidget {

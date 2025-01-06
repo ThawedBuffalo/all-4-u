@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/presentation/pages/flash-demo/flash-home-page.dart';
-import 'package:flutter_template/presentation/pages/page-1/page-1.dart';
-import 'package:flutter_template/presentation/pages/widgets/expandable-fab/action-button.dart';
-import 'package:flutter_template/presentation/pages/widgets/expandable-fab/expandable-fab.dart';
+import 'package:all_4_u/presentation/pages/flash-demo/flash-home-page.dart';
+import 'package:all_4_u/presentation/pages/page-1/page-1.dart';
+import 'package:all_4_u/presentation/pages/widgets/expandable-fab/action-button.dart';
+import 'package:all_4_u/presentation/pages/widgets/expandable-fab/expandable-fab.dart';
 import '../../../core/logging/custom_logger.dart';
 
 class HomePage extends StatelessWidget {
