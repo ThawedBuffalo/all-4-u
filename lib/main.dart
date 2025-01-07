@@ -6,8 +6,8 @@ import 'package:all_4_u/core/logging/custom_logger.dart';
 
 import 'core/logging/logger_enums.dart';
 
-void main() async {
-  init();
+void main() {
+  runApp(App());
 }
 
 init() async {
