@@ -9,11 +9,10 @@ class Category with _$Category {
   Category._();
 
   @HiveType(typeId: 0)
-  factory Category({
-    required int id,
-    required String name,
-    required DateTime lastEditDate,
-  }) = _Category;
+  factory Category(
+      { //required int id,
+      required String name,
+      required DateTime lastEditDate}) = _Category;
 
   factory Category.fromJson(Map<String, dynamic> json) =>
       _$CategoryFromJson(json);

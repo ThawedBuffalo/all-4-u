@@ -10,12 +10,11 @@ class Person with _$Person {
 
   @HiveType(typeId: 1)
   factory Person({
-    required int id,
+    //required int id,
     required String firstName,
     required String lastName,
     required DateTime lastEditDate,
   }) = _Person;
 
-  factory Person.fromJson(Map<String, dynamic> json) =>
-      _$PersonFromJson(json);
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 }

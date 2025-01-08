@@ -9,22 +9,23 @@ import 'package:hive/hive.dart';
 part 'item.freezed.dart';
 part 'item.g.dart';
 
-
 @freezed
-class Item with _$Item {
+sealed class Item with _$Item {
   Item._();
 
   @HiveType(typeId: 2)
-  factory Item({
-    required int id,
-    required String name,
-    required String description,
-    required DateTime lastEditDate,
-    required List<Category> categoryList,
-    required List<Person> personList,
-    required File audioFile,
-    //required Image imageFile
-  }) = _Item;
+  factory Item(
+      { //required int id,
+      required String name,
+      @Default('empty') String description,
+      required DateTime lastEditDate,
+      List<Category>? categoryList,
+      List<Person>? personList,
+      String? notes,
+      String? imageFilenameWPath,
+      String? audioFilenameWPath}) = _Item;
+
+  static Item temp = Item(name: 'tbd', lastEditDate: DateTime.now());
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 }
