@@ -5,14 +5,13 @@ part 'category.freezed.dart';
 part 'category.g.dart';
 
 @freezed
+@HiveType(typeId: 0)
 class Category with _$Category {
   Category._();
 
-  @HiveType(typeId: 0)
   factory Category(
-      { //required int id,
-      required String name,
-      required DateTime lastEditDate}) = _Category;
+      {@HiveField(0) required String name,
+      @HiveField(1) required DateTime lastEditDate}) = _Category;
 
   factory Category.fromJson(Map<String, dynamic> json) =>
       _$CategoryFromJson(json);
