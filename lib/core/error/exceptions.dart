@@ -1,1 +1,1 @@
-class PlaceholderException implements Exception {}
+class LocalStoreException implements Exception {}
