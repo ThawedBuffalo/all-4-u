@@ -5,7 +5,6 @@ import '../../core/error/failure.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/repositories/category_repository_intf.dart';
 import '../datasources/category_local_data_source_intf.dart';
-import 'package:dartz/dartz.dart';
 
 class CategoryRepository implements CategoryRepositoryInterface {
   final CategoryLocalDataSourceInterface dataSource;
@@ -22,7 +21,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
   //   }
   // }
 
-
   Either<Failure, Category> getSettingsData() {
     try {
       final localSettings = dataSource.getSettingsData();
@@ -31,17 +29,15 @@ class CategoryRepository implements CategoryRepositoryInterface {
       return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
     }
   }
-  
-  
-  
+
   @override
   Future<Either<Failure, Category>> saveCategory(Category categoryToSave) {
-      try {
-        final localCategory = dataSource.getCategory(categoryToSave);
-        return (Right(localCategory));
-      } on LocalStoreException {
-        return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-      }
+    try {
+      final localCategory = dataSource.getCategory(categoryToSave);
+      return (Right(localCategory));
+    } on LocalStoreException {
+      return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
+    }
   }
 
   @override

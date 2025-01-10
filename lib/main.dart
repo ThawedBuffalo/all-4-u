@@ -4,7 +4,6 @@ import 'package:all_4_u/domain/entities/person.dart';
 import 'package:all_4_u/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -27,10 +26,6 @@ init() async {
   //     message: 'application initializing...');
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
-  await Hive.initFlutter();
-  Hive.registerAdapter(CategoryAdapter());
-  Hive.registerAdapter(PersonAdapter());
-  Hive.registerAdapter(ItemAdapter());
 
   CustomLogger.loggerNoStack.i('application starting...');
   runApp(App());
