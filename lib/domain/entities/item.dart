@@ -1,15 +1,15 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:all_4_u/domain/entities/category.dart';
 import 'package:all_4_u/domain/entities/person.dart';
+import 'package:isar/isar.dart';
 
 part 'item.freezed.dart';
 part 'item.g.dart';
 
 @freezed
+@Collection(ignore: {'copyWith'})
 sealed class Item with _$Item {
-  Item._();
-
-  factory Item(
+  const factory Item(
       {required String name,
       String? description,
       required DateTime lastEditDate,
@@ -18,6 +18,8 @@ sealed class Item with _$Item {
       String? notes,
       String? imageFilenameWPath,
       String? audioFilenameWPath}) = _Item;
+
+  Id id = Isar.autoIncrement;
 
   static Item temp = Item(name: 'tbd', lastEditDate: DateTime.now());
 
