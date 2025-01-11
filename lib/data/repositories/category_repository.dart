@@ -11,6 +11,12 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   CategoryRepository({required this.dataSource});
 
+  @override
+  Future<Either<Failure, Category>> saveCategory(Category categoryToSave) {
+    // TODO: implement saveCategory
+    throw UnimplementedError();
+  }
+
   // @override
   // Either<Failure, Category>> getCategory(String categoryName) {
   //   try {
@@ -21,30 +27,30 @@ class CategoryRepository implements CategoryRepositoryInterface {
   //   }
   // }
 
-  Either<Failure, Category> getSettingsData() {
-    try {
-      final localSettings = dataSource.getSettingsData();
-      return (Right(localSettings));
-    } on LocalStoreException {
-      return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-    }
-  }
+  // Either<Failure, Category> getSettingsData() {
+  //   try {
+  //     final localSettings = dataSource.getSettingsData();
+  //     return (Right(localSettings));
+  //   } on LocalStoreException {
+  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
+  //   }
+  // }
 
-  @override
-  Future<Either<Failure, Category>> saveCategory(Category categoryToSave) {
-    try {
-      final localCategory = dataSource.getCategory(categoryToSave);
-      return (Right(localCategory));
-    } on LocalStoreException {
-      return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Category>> getCategory(String categoryName) {
-    // TODO: implement getCategory
-    throw UnimplementedError();
-  }
+  // @override
+  // Future<Either<Failure, Category>> saveCategory(Category categoryToSave) {
+  //   try {
+  //     final localCategory = dataSource.getCategory(categoryToSave);
+  //     return (Right(localCategory));
+  //   } on LocalStoreException {
+  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
+  //   }
+  // }
+  //
+  // @override
+  // Future<Either<Failure, Category>> getCategory(String categoryName) {
+  //   // TODO: implement getCategory
+  //   throw UnimplementedError();
+  // }
 
   // @override
   // Future<Either<Failure, void>> saveCategory(Category userCategory) async {

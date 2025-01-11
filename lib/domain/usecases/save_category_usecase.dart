@@ -12,17 +12,19 @@ class SaveCategoryUseCase implements UseCase {
   SaveCategoryUseCase({required this.repository});
 
   @override
-  Future<Either<Failure, dynamic>> call(params) async {
-    final result = await repository.saveSettings(params.);
-    if (result.isLeft()) {
-      return Left(LocalStorageFailure(errorMessage: SETTINGS_STORE_FAILURE));
-    }
-    return const Right(null);
-  }
+  Future<Either<Failure, dynamic>> call(params) {
+    // TODO: implement call
+    throw UnimplementedError();
   }
 
-
-
+  // @override
+  // Future<Either<Failure, dynamic>> call(params) async {
+  //   final result = await repository.saveSettings(params.);
+  //   if (result.isLeft()) {
+  //     return Left(LocalStorageFailure(errorMessage: SETTINGS_STORE_FAILURE));
+  //   }
+  //   return const Right(null);
+  // }
 }
 
 class Params extends Equatable {
