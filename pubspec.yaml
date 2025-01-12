@@ -50,6 +50,7 @@ dependencies:
   freezed_annotation: ^2.4.4
   json_serializable: ^6.9.0
   path_provider: ^2.1.5
+  sqflite: ^2.4.1
 
 dev_dependencies:
   flutter_test:

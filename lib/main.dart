@@ -1,4 +1,4 @@
-import 'package:all_4_u/domain/entities/category.dart';
+import 'package:all_4_u/domain/entities/category_entity.dart';
 import 'package:all_4_u/domain/entities/item.dart';
 import 'package:all_4_u/domain/entities/person.dart';
 import 'package:all_4_u/presentation/pages/home/home_page.dart';

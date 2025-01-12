@@ -11,10 +11,10 @@ class PlaceholderFailure extends Failure {
   List<Object?> get props => [errorMessage];
 }
 
-class LocalStorageFailure extends Failure {
+class DBFailure extends Failure {
   final String errorMessage;
 
-  LocalStorageFailure({required this.errorMessage});
+  DBFailure({required this.errorMessage});
 
   @override
   List<Object?> get props => [errorMessage];

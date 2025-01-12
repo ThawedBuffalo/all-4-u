@@ -3,7 +3,7 @@ import 'package:all_4_u/core/usecases/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../entities/category.dart';
+import '../entities/category_entity.dart';
 import '../repositories/category_repository_intf.dart';
 
 class SaveCategoryUseCase implements UseCase {

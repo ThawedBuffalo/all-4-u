@@ -1,3 +1,3 @@
-enum PlaceholderStatus { PLACEHOLDER, ANOTHER_PLACEHOLDER }
+//enum PlaceholderStatus { PLACEHOLDER, ANOTHER_PLACEHOLDER }
 
-const String PLACEHOLDER_NAME = 'PlacehodlerName';
+//const String PLACEHOLDER_NAME = 'PlacehodlerName';

@@ -1,1 +1,1 @@
-class LocalStoreException implements Exception {}
+class DBException implements Exception {}

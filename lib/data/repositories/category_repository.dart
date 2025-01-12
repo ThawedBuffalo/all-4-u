@@ -1,19 +1,38 @@
+import 'package:all_4_u/data/mapper/category_mapper.dart';
+import 'package:all_4_u/domain/entities/category_id_entity.dart';
 import 'package:dartz/dartz.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/exceptions.dart';
 import '../../core/error/failure.dart';
-import '../../domain/entities/category.dart';
+import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/category_repository_intf.dart';
-import '../datasources/category_local_data_source_intf.dart';
+import '../datasources/database/all4u_database.dart';
 
 class CategoryRepository implements CategoryRepositoryInterface {
-  final CategoryLocalDataSourceInterface dataSource;
+  final All4UDatabase database;
 
-  CategoryRepository({required this.dataSource});
+  const CategoryRepository({required this.database});
 
   @override
-  Future<Either<Failure, Category>> saveCategory(Category categoryToSave) {
-    // TODO: implement saveCategory
+  Future<Either<Failure, CategoryEntity>> createCategory(String name) async {
+    try {
+      final categoryModel = await database
+          .insertCategory(CategoryMapper.transformToNewModelMap(name));
+      return (Right(CategoryMapper.transformToEntity(categoryModel)));
+    } on DBException {
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    }
+  }
+
+  @override
+  Future<void> deleteCategory(CategoryIdEntity id) {
+    // TODO: implement deleteCategory
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateCategory(CategoryIdEntity id, String name) {
+    // TODO: implement updateCategory
     throw UnimplementedError();
   }
 
