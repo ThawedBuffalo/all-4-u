@@ -15,26 +15,14 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<Either<Failure, CategoryEntity>> insertCategory(
-      final String name, final DateTime dateNow) async {
+      final String name) async {
     try {
       final categoryModel = await database
-          .insertCategory(CategoryMapper.transformToNewModelMap(name, dateNow));
+          .insertCategory(CategoryMapper.transformToNewModelMap(name));
       return (Right(CategoryMapper.transformToEntity(categoryModel)));
     } on DBException {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
     }
-  }
-
-  @override
-  Future<void> deleteCategory(CategoryIdEntity id) {
-    // TODO: implement deleteCategory
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updateCategory(CategoryIdEntity id, String name) {
-    // TODO: implement updateCategory
-    throw UnimplementedError();
   }
 
   // @override

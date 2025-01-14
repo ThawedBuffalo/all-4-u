@@ -1,14 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'category_id_entity.dart';
+import 'package:flutter/foundation.dart';
+
+import 'category_entity_id.dart';
 
 part 'category_entity.freezed.dart';
+part 'category_entity.g.dart';
 
 @freezed
 class CategoryEntity with _$CategoryEntity {
   const factory CategoryEntity(
-      {required CategoryIdEntity id,
-      required String name,
-      required DateTime lastEditDate}) = _CategoryEntity;
+      {required CategoryEntityId id, required String name}) = _CategoryEntity;
 
-  const CategoryEntity._();
+  factory CategoryEntity.fromJson(Map<String, Object?> json) =>
+      _$CategoryEntityFromJson(json);
 }

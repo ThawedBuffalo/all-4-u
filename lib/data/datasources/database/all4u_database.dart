@@ -35,18 +35,6 @@ class All4UDatabase implements All4UDatabaseInterface {
   }
 
   @override
-  Future<CategoryModel> allCategories() {
-    // TODO: implement allCategories
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteCategory(int id) {
-    // TODO: implement deleteCategory
-    throw UnimplementedError();
-  }
-
-  @override
   Future<CategoryModel> insertCategory(
       final CategoryModel categoryModel) async {
     final db = await database;
@@ -54,19 +42,13 @@ class All4UDatabase implements All4UDatabaseInterface {
     await db.transaction((txn) async {
       final id = await txn.insert(
         _categoryTableName,
-        categoryModel,
+        categoryModel as Map<String, Object?>,
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
       final results = await txn.query(_categoryTableName,
           where: '$_categoryIdColumn = ?', whereArgs: [id]);
-      categoryModel = results.first;
+      categoryModel = results.first as CategoryModel;
     });
     return categoryModel;
-  }
-
-  @override
-  Future<void> updateCategory(CategoryModel categoryModel) {
-    // TODO: implement updateCategory
-    throw UnimplementedError();
   }
 }
