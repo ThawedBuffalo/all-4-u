@@ -47,9 +47,21 @@ class All4UDatabase implements All4UDatabaseInterface {
   }
 
   @override
-  Future<CategoryModel> insertCategory(CategoryModel categoryModel) {
-    // TODO: implement insertCategory
-    throw UnimplementedError();
+  Future<CategoryModel> insertCategory(
+      final CategoryModel categoryModel) async {
+    final db = await database;
+    late final CategoryModel categoryModel;
+    await db.transaction((txn) async {
+      final id = await txn.insert(
+        _categoryTableName,
+        categoryModel,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      final results = await txn.query(_categoryTableName,
+          where: '$_categoryIdColumn = ?', whereArgs: [id]);
+      categoryModel = results.first;
+    });
+    return categoryModel;
   }
 
   @override

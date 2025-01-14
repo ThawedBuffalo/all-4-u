@@ -8,19 +8,16 @@ class CategoryMapper {
     return CategoryEntity(
         id: CategoryIdEntity(value: model['id']),
         name: model['name'],
-        lastEditDate: DateTime.parse(model['lastEditDate']));
+        lastEditDate: model['lastEditDate']);
   }
 
-  static CategoryModel transformToModelMap(final CategoryEntity entity) {
-    return {
-      'id': entity.id,
-      'name': entity.name,
-      'lastEditDate': entity.lastEditDate
-    };
+  static CategoryModel transformToModelMap(
+      final String name, final DateTime time) {
+    return {'id': null, 'name': name, 'lastEditDate': time};
   }
 
-  static CategoryModel transformToNewModelMap(final String name) {
-    final dateNow = DateTime.now();
+  static CategoryModel transformToNewModelMap(
+      final String name, final DateTime dateNow) {
     return {
       'id': null,
       'name': name,

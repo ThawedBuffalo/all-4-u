@@ -14,10 +14,11 @@ class CategoryRepository implements CategoryRepositoryInterface {
   const CategoryRepository({required this.database});
 
   @override
-  Future<Either<Failure, CategoryEntity>> createCategory(String name) async {
+  Future<Either<Failure, CategoryEntity>> insertCategory(
+      final String name, final DateTime dateNow) async {
     try {
       final categoryModel = await database
-          .insertCategory(CategoryMapper.transformToNewModelMap(name));
+          .insertCategory(CategoryMapper.transformToNewModelMap(name, dateNow));
       return (Right(CategoryMapper.transformToEntity(categoryModel)));
     } on DBException {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));

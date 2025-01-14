@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../core/error/error_messages.dart';
-import '../entities/category_entity.dart';
 import '../repositories/category_repository_intf.dart';
 
 class CreateCategoryUseCase implements UseCase {
@@ -14,7 +13,8 @@ class CreateCategoryUseCase implements UseCase {
 
   @override
   Future<Either<Failure, dynamic>> call(params) async {
-    final result = await repository.createCategory(params);
+    final result = await repository.insertCategory(
+        params.categoryName, params.currentTime);
     if (result.isLeft()) {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
     }
@@ -24,9 +24,11 @@ class CreateCategoryUseCase implements UseCase {
 
 class Params extends Equatable {
   final String categoryName;
+  final DateTime currentTime;
 
-  const Params({required this.categoryName}) : super();
+  const Params({required this.categoryName, required this.currentTime})
+      : super();
 
   @override
-  List<Object?> get props => [categoryName];
+  List<Object?> get props => [categoryName, currentTime];
 }
