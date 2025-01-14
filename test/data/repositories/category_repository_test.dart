@@ -1,7 +1,9 @@
-import 'package:all_4_u/data/models/category_model.dart';
 import 'package:all_4_u/data/repositories/category_repository.dart';
+import 'package:all_4_u/domain/entities/category_entity.dart';
+import 'package:all_4_u/domain/entities/category_entity_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:dartz/dartz.dart';
 
 import '../../mock/data/datasource/database/all4u_database_mock.mocks.dart';
 
@@ -9,61 +11,35 @@ import '../../mock/data/datasource/database/all4u_database_mock.mocks.dart';
 void main() {
   final database = MockAll4UDatabase();
   final CategoryRepository repository = CategoryRepository(database: database);
-  final DateTime currentTime = DateTime.now();
-  final testDate = currentTime.copyWith(
-      year: 1964, month: 04, day: 18, hour: 12, minute: 0, second: 0);
-  final CategoryModel insertCategoryModel = CategoryModel();
-//
-//   group('#', () {
-//     setUp(() {
-//       when(database.allTodos()).thenAnswer((_) async => [
-//         {
-//           'id': 1,
-//           'title': 'title',
-//           'description': 'description',
-//           'is_completed': 0,
-//           'due_date': date.toIso8601String(),
-//         },
-//       ]);
-//     });
-//
-//     test('should return TodoList', () async {
-//       final actual = await repository.getTodoList();
-//       final expected = TodoList(
-//         values: [
-//           Todo(
-//             id: const TodoId(value: 1),
-//             title: 'title',
-//             description: 'description',
-//             isCompleted: false,
-//             dueDate: date,
-//           ),
-//         ],
-//       );
-//       expect(actual.values.first.id, expected.values.first.id);
-//       verify(database.allTodos()).called(1);
-//     });
-//   });
-//
+
+  // test data
+  final int testId = 7;
+  final String testName = 'testName';
+
   group('#createTodo', () {
     setUp(() {
+
       when(database.insertCategory(
-        {'id': null, 'name': 'testName', 'lastEditDate': testDate},
+        {'id': null, 'name': 'testName'},
       )).thenAnswer(
         (_) async => {
-          'id': 7,
-          'name': 'testName',
-          'lastEditDate': testDate,
-        },
+          'id': testId,
+          'name': testName},
       );
     });
 
-    test('should return void', () async {
-      final result = await repository.insertCategory('testName', testDate);
+    test('should return CategoryEntity', () async {
+      final CategoryEntityId testCategoryEntityId = CategoryEntityId(id: 7);
+      final CategoryEntity testCategoryEntity = CategoryEntity(id: testCategoryEntityId, name: testName);
+
+
+      final result = await repository.insertCategory('testName');
 
       verify(database.insertCategory(
-        {'id': null, 'name': 'testName', 'lastEditDate': testDate},
+        {'id': null, 'name': testName},
       )).called(1);
+
+     expect(result, equals( Right(testCategoryEntity)));
     });
   });
 }
