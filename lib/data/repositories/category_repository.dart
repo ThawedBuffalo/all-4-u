@@ -1,5 +1,4 @@
 import 'package:all_4_u/data/mapper/category_entity_mapper.dart';
-import 'package:all_4_u/domain/entities/category_entity_id.dart';
 import 'package:dartz/dartz.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/exceptions.dart';

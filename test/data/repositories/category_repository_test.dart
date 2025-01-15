@@ -1,6 +1,5 @@
 import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/domain/entities/category_entity.dart';
-import 'package:all_4_u/domain/entities/category_entity_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
@@ -18,20 +17,16 @@ void main() {
 
   group('#createCategory- su', () {
     setUp(() {
-
       when(database.insertCategory(
         {'id': null, 'name': 'testName'},
       )).thenAnswer(
-        (_) async => {
-          'id': testId,
-          'name': testName},
+        (_) async => {'id': testId, 'name': testName},
       );
     });
 
     test('should return CategoryEntity', () async {
-      final CategoryEntityId testCategoryEntityId = CategoryEntityId(id: 7);
-      final CategoryEntity testCategoryEntity = CategoryEntity(id: testCategoryEntityId, name: testName);
-
+      final CategoryEntity testCategoryEntity =
+          CategoryEntity(id: testId, name: testName);
 
       final result = await repository.insertCategory('testName');
 
@@ -39,7 +34,7 @@ void main() {
         {'id': null, 'name': testName},
       )).called(1);
 
-     expect(result, equals( Right(testCategoryEntity)));
+      expect(result, equals(Right(testCategoryEntity)));
     });
   });
 }
