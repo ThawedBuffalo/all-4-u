@@ -1,3 +1,5 @@
+import 'package:all_4_u/core/error/error_messages.dart';
+import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/domain/entities/category_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,31 +15,47 @@ void main() {
 
   // test data
   final int testId = 7;
-  final String testName = 'testName';
+  final String successTestName = 'successTestName';
+  final String failTestName = 'failedTestName';
 
-  group('#createCategory- su', () {
+  group('#insertCategory', () {
     setUp(() {
       when(database.insertCategory(
-        {'id': null, 'name': 'testName'},
+        {'id': null, 'name': successTestName},
       )).thenAnswer(
-        (_) async => {'id': testId, 'name': testName},
+        (_) async => {'id': testId, 'name': successTestName},
+      );
+
+      when(database.insertCategory(
+        {'id': null, 'name': failTestName},
+      )).thenAnswer(
+        (_) async => {'id': null, 'name': null},
       );
     });
 
     test('should return CategoryEntity', () async {
-      final CategoryEntity testCategoryEntity =
-          CategoryEntity(id: testId, name: testName);
+      final CategoryEntity successTestCategoryEntity =
+          CategoryEntity(id: testId, name: successTestName);
 
-      final result = await repository.insertCategory('testName');
+      final result = await repository.insertCategory(successTestName);
 
       verify(database.insertCategory(
-        {'id': null, 'name': testName},
+        {'id': null, 'name': successTestName},
       )).called(1);
+      expect(result, equals(Right(successTestCategoryEntity)));
+    });
 
-      expect(result, equals(Right(testCategoryEntity)));
+    test('should return DB Failure', () async {
+      final result = await repository.insertCategory(failTestName);
+
+      verify(database.insertCategory(
+        {'id': null, 'name': failTestName},
+      )).called(1);
+      expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
     });
   });
 }
+
 //
 //   group('#updateTodo', () {
 //     setUp(() {

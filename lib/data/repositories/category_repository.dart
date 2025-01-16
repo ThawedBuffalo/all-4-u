@@ -1,11 +1,11 @@
 import 'package:all_4_u/data/mapper/category_entity_mapper.dart';
 import 'package:dartz/dartz.dart';
 import '../../core/error/error_messages.dart';
-import '../../core/error/exceptions.dart';
 import '../../core/error/failure.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/category_repository_intf.dart';
 import '../datasources/database/all4u_database.dart';
+import '../models/category_model.dart';
 
 class CategoryRepository implements CategoryRepositoryInterface {
   final All4UDatabase database;
@@ -15,13 +15,19 @@ class CategoryRepository implements CategoryRepositoryInterface {
   @override
   Future<Either<Failure, CategoryEntity>> insertCategory(
       final String name) async {
-    try {
-      final categoryModel = await database
-          .insertCategory(CategoryEntityMapper.transformToNewModelMap(name));
-      return (Right(CategoryEntityMapper.transformToEntity(categoryModel)));
-    } on DBException {
+    final CategoryModel categoryModel = await database
+        .insertCategory(CategoryEntityMapper.transformToNewModelMap(name));
+    if (categoryModel['id'] == null) {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return (Right(CategoryEntityMapper.transformToEntity(categoryModel)));
     }
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> getCategoryById(int id) {
+    // TODO: implement getCategoryById
+    throw UnimplementedError();
   }
 
   // @override

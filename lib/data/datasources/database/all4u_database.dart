@@ -51,4 +51,10 @@ class All4UDatabase implements All4UDatabaseInterface {
     });
     return categoryModel;
   }
+
+  @override
+  Future<CategoryModel> getCategoryById(int id) {
+    // TODO: implement getCategoryById
+    throw UnimplementedError();
+  }
 }

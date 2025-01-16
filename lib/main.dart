@@ -1,10 +1,6 @@
-import 'package:all_4_u/domain/entities/category_entity.dart';
-import 'package:all_4_u/domain/entities/item.dart';
-import 'package:all_4_u/domain/entities/person.dart';
 import 'package:all_4_u/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
-import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'injection_container.dart' as di;
 
