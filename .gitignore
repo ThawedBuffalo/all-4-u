@@ -37,10 +37,13 @@ migrate_working_dir/
 /build/
 pubspec.lock
 coverage/
+android/
+
 
 # generated files
 *.g.dart
 *.freezed.dart
+*mocks.dart
 
 #
 #
