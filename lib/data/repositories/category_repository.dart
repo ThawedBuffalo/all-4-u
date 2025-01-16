@@ -25,9 +25,13 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, CategoryEntity>> getCategoryById(int id) {
-    // TODO: implement getCategoryById
-    throw UnimplementedError();
+  Future<Either<Failure, CategoryEntity>> getCategoryById(int id) async {
+    final CategoryModel categoryModel = await database.getCategoryById(id);
+    if (categoryModel['id'] == null) {
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return (Right(CategoryEntityMapper.transformToEntity(categoryModel)));
+    }
   }
 
   // @override

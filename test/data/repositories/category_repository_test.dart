@@ -54,6 +54,46 @@ void main() {
       expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
     });
   });
+
+
+
+  group('#get 1 Category', () {
+
+    final int successCategoryId = 1;
+    final String successCategoryName = 'successCategoryName';
+    final int failCategoryId = 9;
+
+    setUp(() {
+      when(database.getCategoryById(successCategoryId)).thenAnswer(
+            (_) async => {'id': successCategoryId, 'name': successCategoryName},
+      );
+
+      when(database.getCategoryById(failCategoryId)).thenAnswer(
+            (_) async => {'id': null, 'name': null},
+      );
+    });
+
+    test('should return CategoryEntity', () async {
+      final CategoryEntity successTestCategoryEntity =
+      CategoryEntity(id: successCategoryId, name: successCategoryName);
+
+      final result = await repository.getCategoryById(successCategoryId);
+
+      verify(database.getCategoryById(successCategoryId)).called(1);
+      expect(result, equals(Right(successTestCategoryEntity)));
+    });
+
+    test('should return DB Failure', () async {
+
+      final result = await repository.getCategoryById(failCategoryId);
+
+      verify(database.getCategoryById(failCategoryId)).called(1);
+      expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
+    });
+
+  });
+
+
 }
 
 //

@@ -53,8 +53,15 @@ class All4UDatabase implements All4UDatabaseInterface {
   }
 
   @override
-  Future<CategoryModel> getCategoryById(int id) {
-    // TODO: implement getCategoryById
-    throw UnimplementedError();
+  Future<CategoryModel> getCategoryById(final int id) async {
+    final db = await database;
+    late final CategoryModel categoryModel;
+    await db.transaction((txn) async {
+      final results = await txn.query(_categoryTableName,
+          where: '$_categoryIdColumn = ?', whereArgs: [id]);
+      categoryModel = results.first as CategoryModel;
+    });
+    return categoryModel;
   }
+
 }
