@@ -38,6 +38,10 @@ migrate_working_dir/
 pubspec.lock
 coverage/
 android/
+linux/
+ios/
+macros/
+macos/
 
 
 # generated files
