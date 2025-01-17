@@ -34,15 +34,15 @@ class CategoryRepository implements CategoryRepositoryInterface {
     }
   }
 
-  // @override
-  // Either<Failure, Category>> getCategory(String categoryName) {
-  //   try {
-  //     final localCategory = dataSource.getCategory(categoryName);
-  //     return (Right(localCategory));
-  //   } on LocalStoreException {
-  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-  //   }
-  // }
+  @override
+  Either<Failure, Category>> getAllCategories() {
+    try {
+      final localCategory = dataSource.getCategory(categoryName);
+      return (Right(localCategory));
+    } on LocalStoreException {
+      return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
+    }
+  }
 
   // Either<Failure, Category> getSettingsData() {
   //   try {

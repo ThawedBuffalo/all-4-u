@@ -64,4 +64,16 @@ class All4UDatabase implements All4UDatabaseInterface {
     return categoryModel;
   }
 
+  @override
+  Future<CategoryModel> getAllCategories() {
+    // TODO: implement getAllCategories
+    throw UnimplementedError();
+  }
+
+  // @override
+  // Future<TodoListEntity> allTodos() async {
+  //   final db = await database;
+  //   return db.query(_tableName);
+  // }
+
 }
