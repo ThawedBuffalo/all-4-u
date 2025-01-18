@@ -1,4 +1,5 @@
 import 'package:all_4_u/data/mapper/category_entity_mapper.dart';
+import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:dartz/dartz.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
@@ -20,7 +21,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
     if (categoryModel['id'] == null) {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
     } else {
-      return (Right(CategoryEntityMapper.transformToEntity(categoryModel)));
+      return (Right(
+          CategoryEntityMapper.transformModelToEntity(categoryModel)));
     }
   }
 
@@ -30,8 +32,15 @@ class CategoryRepository implements CategoryRepositoryInterface {
     if (categoryModel['id'] == null) {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
     } else {
-      return (Right(CategoryEntityMapper.transformToEntity(categoryModel)));
+      return (Right(
+          CategoryEntityMapper.transformModelToEntity(categoryModel)));
     }
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntityList>> getAllCategories() {
+    // TODO: implement getAllCategories
+    throw UnimplementedError();
   }
 
   // @override

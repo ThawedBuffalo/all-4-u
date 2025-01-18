@@ -64,4 +64,9 @@ class All4UDatabase implements All4UDatabaseInterface {
     return categoryModel;
   }
 
+  @override
+  Future<CategoryModelList> getAllCategories() async {
+    final db = await database;
+    return db.query(_categoryTableName);
+  }
 }
