@@ -1,3 +1,4 @@
+import 'package:all_4_u/data/mapper/category_entity_list_mapper.dart';
 import 'package:all_4_u/data/mapper/category_entity_mapper.dart';
 import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:dartz/dartz.dart';
@@ -29,61 +30,12 @@ class CategoryRepository implements CategoryRepositoryInterface {
   @override
   Future<Either<Failure, CategoryEntity>> getCategoryById(int id) async {
     final CategoryModel categoryModel = await database.getCategoryById(id);
-    if (categoryModel['id'] == null) {
-      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
-    } else {
-      return (Right(
-          CategoryEntityMapper.transformModelToEntity(categoryModel)));
-    }
+    return (Right(CategoryEntityMapper.transformModelToEntity(categoryModel)));
   }
 
   @override
-  Future<Either<Failure, CategoryEntityList>> getAllCategories() {
-    // TODO: implement getAllCategories
-    throw UnimplementedError();
+  Future<Either<Failure, CategoryEntityList>> getAllCategories() async {
+    final CategoryModelList modelList = await database.getAllCategories();
+    return (Right(CategoryEntityListMapper.transformModelToEntity(modelList)));
   }
-
-  // @override
-  // Either<Failure, Category>> getCategory(String categoryName) {
-  //   try {
-  //     final localCategory = dataSource.getCategory(categoryName);
-  //     return (Right(localCategory));
-  //   } on LocalStoreException {
-  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-  //   }
-  // }
-
-  // Either<Failure, Category> getSettingsData() {
-  //   try {
-  //     final localSettings = dataSource.getSettingsData();
-  //     return (Right(localSettings));
-  //   } on LocalStoreException {
-  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-  //   }
-  // }
-
-  // @override
-  // Future<Either<Failure, Category>> saveCategory(Category categoryToSave) {
-  //   try {
-  //     final localCategory = dataSource.getCategory(categoryToSave);
-  //     return (Right(localCategory));
-  //   } on LocalStoreException {
-  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-  //   }
-  // }
-  //
-  // @override
-  // Future<Either<Failure, Category>> getCategory(String categoryName) {
-  //   // TODO: implement getCategory
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // Future<Either<Failure, void>> saveCategory(Category userCategory) async {
-  //   try {
-  //     return Right(await dataSource.saveCategory(userCategory));
-  //   } on LocalStoreException {
-  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-  //   }
-  // }
 }

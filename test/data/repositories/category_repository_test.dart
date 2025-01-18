@@ -2,6 +2,7 @@ import 'package:all_4_u/core/error/error_messages.dart';
 import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/domain/entities/category_entity.dart';
+import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
@@ -55,83 +56,72 @@ void main() {
     });
   });
 
-
-
   group('#get 1 Category', () {
-
     final int successCategoryId = 1;
     final String successCategoryName = 'successCategoryName';
-    final int failCategoryId = 9;
 
     setUp(() {
       when(database.getCategoryById(successCategoryId)).thenAnswer(
-            (_) async => {'id': successCategoryId, 'name': successCategoryName},
-      );
-
-      when(database.getCategoryById(failCategoryId)).thenAnswer(
-            (_) async => {'id': null, 'name': null},
+        (_) async => {'id': successCategoryId, 'name': successCategoryName},
       );
     });
 
     test('should return CategoryEntity', () async {
       final CategoryEntity successTestCategoryEntity =
-      CategoryEntity(id: successCategoryId, name: successCategoryName);
+          CategoryEntity(id: successCategoryId, name: successCategoryName);
 
       final result = await repository.getCategoryById(successCategoryId);
 
       verify(database.getCategoryById(successCategoryId)).called(1);
       expect(result, equals(Right(successTestCategoryEntity)));
     });
-
-    test('should return DB Failure', () async {
-
-      final result = await repository.getCategoryById(failCategoryId);
-
-      verify(database.getCategoryById(failCategoryId)).called(1);
-      expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
-    });
-
   });
 
+  group('#get all Categories', () {
+    test('should return CategoryEntityList', () async {
+      final int entity1Id = 1;
+      final String entity1Name = 'testEntity1';
+      final Map<String, dynamic> entity1Map = {
+        'id': entity1Id,
+        'name': entity1Name
+      };
+      final CategoryEntity entity1 =
+          CategoryEntity(id: entity1Id, name: entity1Name);
 
+      final int entity2Id = 2;
+      final String entity2Name = 'testEntity2';
+      final Map<String, dynamic> entity2Map = {
+        'id': entity2Id,
+        'name': entity2Name
+      };
+      final CategoryEntity entity2 =
+          CategoryEntity(id: entity2Id, name: entity2Name);
+
+      final int entity3Id = 3;
+      final String entity3Name = 'testEntity3';
+      final Map<String, dynamic> entity3Map = {
+        'id': entity3Id,
+        'name': entity3Name
+      };
+      final CategoryEntity entity3 =
+          CategoryEntity(id: entity3Id, name: entity3Name);
+
+      List<Map<String, dynamic>> testMapListInput = [
+        entity1Map,
+        entity2Map,
+        entity3Map
+      ];
+      List<CategoryEntity> testEntityListInput = [entity1, entity2, entity3];
+      CategoryEntityList testCategoryEntityList =
+          CategoryEntityList(values: testEntityListInput);
+
+      when(database.getAllCategories())
+          .thenAnswer((_) async => testMapListInput);
+
+      final result = await repository.getAllCategories();
+
+      verify(database.getAllCategories()).called(1);
+      expect(result, equals(Right(testCategoryEntityList)));
+    });
+  });
 }
-
-//
-//   group('#updateTodo', () {
-//     setUp(() {
-//       when(database.updateTodo(
-//         {
-//           'id': 1,
-//           'title': 'new title',
-//           'description': 'new description',
-//           'is_completed': 1,
-//           'due_date': date.toIso8601String(),
-//         },
-//       )).thenAnswer((_) async => {});
-//     });
-//
-//     test('should return void', () async {
-//       await repository.updateTodo(const TodoId(value: 1), 'new title', 'new description', true, date);
-//       verify(database.updateTodo(
-//         {
-//           'id': 1,
-//           'title': 'new title',
-//           'description': 'new description',
-//           'is_completed': 1,
-//           'due_date': date.toIso8601String(),
-//         },
-//       )).called(1);
-//     });
-//   });
-//
-//   group('#deleteTodo', () {
-//     setUp(() {
-//       when(database.deleteTodo(1)).thenAnswer((_) async => {});
-//     });
-//
-//     test('should return void', () async {
-//       await repository.deleteTodo(const TodoId(value: 1));
-//       verify(database.deleteTodo(1)).called(1);
-//     });
-//   });
-// }
