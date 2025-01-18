@@ -7,17 +7,14 @@ import 'package:equatable/equatable.dart';
 import '../../core/error/error_messages.dart';
 import '../repositories/category_repository_intf.dart';
 
-class GetCategoryByIdUseCase implements UseCase {
+class GetCategoryByIdUseCase implements UseCase<void, Params> {
   final CategoryRepositoryInterface repository;
 
   const GetCategoryByIdUseCase(this.repository);
 
   @override
-  Future<Either<Failure, dynamic>> call(params) async {
+  Future<Either<Failure, dynamic>> call(Params params) async {
     final result = await repository.getCategoryById(params.categoryId);
-    if (result.isLeft()) {
-      return Future.value(Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
-    }
     return Future.value(result);
   }
 }
@@ -25,8 +22,7 @@ class GetCategoryByIdUseCase implements UseCase {
 class Params extends Equatable {
   final int categoryId;
 
-  const Params({required this.categoryId})
-      : super();
+  const Params({required this.categoryId}) : super();
 
   @override
   List<Object?> get props => [categoryId];
