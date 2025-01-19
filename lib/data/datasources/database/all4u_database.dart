@@ -79,4 +79,10 @@ class All4UDatabase implements All4UDatabaseInterface {
       whereArgs: [id],
     );
   }
+
+  @override
+  Future<void> deleteAllCategories() async {
+    final db = await database;
+    await db.rawDelete(_categoryTableName);
+  }
 }

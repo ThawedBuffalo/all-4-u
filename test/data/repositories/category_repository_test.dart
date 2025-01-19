@@ -141,4 +141,19 @@ void main() {
       verify(database.deleteCategoryById(testCategoryId)).called(1);
     });
   });
+
+  group('#deleteAllCategories', () {
+    setUp(() {
+      when(database.deleteAllCategories()).thenAnswer(
+        (_) async => {},
+      );
+    });
+
+    test('should return void', () async {
+      final int testCategoryId = 1;
+      final result = await repository.deleteAllCategories();
+
+      verify(database.deleteAllCategories()).called(1);
+    });
+  });
 }

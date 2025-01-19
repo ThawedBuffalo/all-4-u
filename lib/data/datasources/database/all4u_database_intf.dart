@@ -7,4 +7,5 @@ abstract class All4UDatabaseInterface {
   Future<CategoryModel> getCategoryById(final int id);
   //Future<CategoryModel> updateCategory(final CategoryModel categoryModel);
   Future<void> deleteCategoryById(final int id);
+  Future<void> deleteAllCategories();
 }

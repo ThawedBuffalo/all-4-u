@@ -42,4 +42,9 @@ class CategoryRepository implements CategoryRepositoryInterface {
   @override
   Future<void> deleteCategoryById(final int id) async =>
       await database.deleteCategoryById(id);
+
+  @override
+  Future<void> deleteAllCategories() async {
+    await database.deleteAllCategories();
+  }
 }
