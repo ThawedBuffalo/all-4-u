@@ -4,22 +4,22 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../repositories/category_repository_intf.dart';
 
-class GetCategoryByIdUseCase implements UseCase<void, Params> {
+class DeleteCategoryByIdUsecase implements UseCase<void, DelParams> {
   final CategoryRepositoryInterface repository;
 
-  const GetCategoryByIdUseCase(this.repository);
+  const DeleteCategoryByIdUsecase(this.repository);
 
   @override
-  Future<Either<Failure, dynamic>> call(Params params) async {
-    final result = await repository.getCategoryById(params.categoryId);
-    return Future.value(result);
+  Future<Either<Failure, void>> call(DelParams params) async {
+    await repository.deleteCategoryById(params.categoryId);
+    return const Right(null);
   }
 }
 
-class Params extends Equatable {
+class DelParams extends Equatable {
   final int categoryId;
 
-  const Params({required this.categoryId}) : super();
+  const DelParams({required this.categoryId}) : super();
 
   @override
   List<Object?> get props => [categoryId];

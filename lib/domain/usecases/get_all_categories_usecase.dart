@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../core/error/error_messages.dart';
 import '../repositories/category_repository_intf.dart';
+import 'create_category_usecase.dart';
 
 class GetAllCategoriesUsecase implements UseCase<void, NoParams> {
   final CategoryRepositoryInterface repository;

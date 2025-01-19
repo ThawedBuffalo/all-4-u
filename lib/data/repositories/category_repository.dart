@@ -38,4 +38,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
     final CategoryModelList modelList = await database.getAllCategories();
     return (Right(CategoryEntityListMapper.transformModelToEntity(modelList)));
   }
+
+  @override
+  Future<void> deleteCategoryById(final int id) async =>
+      await database.deleteCategoryById(id);
 }

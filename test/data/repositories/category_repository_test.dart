@@ -124,4 +124,21 @@ void main() {
       expect(result, equals(Right(testCategoryEntityList)));
     });
   });
+
+  group('#deleteCategoryById', () {
+    final int testCategoryId = 1;
+
+    setUp(() {
+      when(database.deleteCategoryById(testCategoryId)).thenAnswer(
+        (_) async => {},
+      );
+    });
+
+    test('should return void', () async {
+      final int testCategoryId = 1;
+      final result = await repository.deleteCategoryById(testCategoryId);
+
+      verify(database.deleteCategoryById(testCategoryId)).called(1);
+    });
+  });
 }
