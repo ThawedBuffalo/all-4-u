@@ -1,5 +1,5 @@
 // import 'package:freezed_annotation/freezed_annotation.dart';
-// import 'package:all_4_u/domain/entities/person.dart';
+// import 'package:all_4_u/domain/entities/person_entity.dart';
 //
 // part 'item.freezed.dart';
 // part 'item.g.dart';

@@ -10,7 +10,7 @@ class CategoryEntityMapper {
     return {'id': entity.id, 'name': entity.name};
   }
 
-  static CategoryModel transformToNewModelMap(final name) {
+  static CategoryModel transformToNewModelMap(final String name) {
     return {'id': null, 'name': name};
   }
 
