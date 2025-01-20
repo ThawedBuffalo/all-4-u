@@ -156,4 +156,46 @@ void main() {
       verify(database.deleteAllCategories()).called(1);
     });
   });
+
+  group('#updateCategory', () {
+    final int entity1Id = 1;
+    final String editEntity1Name = 'testEditedEntity1';
+    final String failedEntityName = 'failedEditedEntity1';
+    final CategoryEntity successEditEntity =
+        CategoryEntity(id: entity1Id, name: editEntity1Name);
+
+    setUp(() {
+      when(database.updateCategory(
+        {'id': entity1Id, 'name': editEntity1Name},
+      )).thenAnswer(
+        (_) async => {'id': entity1Id, 'name': editEntity1Name},
+      );
+
+      when(database.updateCategory(
+        {'id': entity1Id, 'name': failedEntityName},
+      )).thenAnswer(
+        (_) async => {'id': null, 'name': null},
+      );
+    });
+
+    test('should return CategoryEntity', () async {
+      final result =
+          await repository.updateCategory(entity1Id, editEntity1Name);
+
+      verify(database.updateCategory(
+        {'id': entity1Id, 'name': editEntity1Name},
+      )).called(1);
+      expect(result, equals(Right(successEditEntity)));
+    });
+
+    test('should return DB Failure', () async {
+      final result =
+          await repository.updateCategory(entity1Id, failedEntityName);
+
+      verify(database.updateCategory(
+        {'id': entity1Id, 'name': failedEntityName},
+      )).called(1);
+      expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
+    });
+  });
 }

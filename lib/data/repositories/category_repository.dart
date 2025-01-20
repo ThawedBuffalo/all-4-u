@@ -47,4 +47,17 @@ class CategoryRepository implements CategoryRepositoryInterface {
   Future<void> deleteAllCategories() async {
     await database.deleteAllCategories();
   }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> updateCategory(
+      int id, String categoryName) async {
+    final CategoryModel categoryModel = await database.updateCategory(
+        CategoryEntityMapper.transformToModelMap(id, categoryName));
+    if (categoryModel['id'] == null) {
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return (Right(
+          CategoryEntityMapper.transformModelToEntity(categoryModel)));
+    }
+  }
 }

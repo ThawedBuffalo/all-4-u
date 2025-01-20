@@ -85,4 +85,23 @@ class All4UDatabase implements All4UDatabaseInterface {
     final db = await database;
     await db.rawDelete(_categoryTableName);
   }
+
+  @override
+  Future<CategoryModel> updateCategory(
+      CategoryModel updatedCategoryModel) async {
+    final db = await database;
+    late final CategoryModel categoryModel;
+    await db.transaction((txn) async {
+      await txn.insert(
+        _categoryTableName,
+        updatedCategoryModel as Map<String, Object?>,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      final results = await txn.query(_categoryTableName,
+          where: '$_categoryIdColumn = ?',
+          whereArgs: [updatedCategoryModel['id']]);
+      categoryModel = results.first as CategoryModel;
+    });
+    return categoryModel;
+  }
 }
