@@ -6,7 +6,7 @@ class PersonEntityMapper {
     return PersonEntity(
         id: model['id'],
         firstName: model['firstName'],
-        lastName: model['LastName']);
+        lastName: model['lastName']);
   }
 
   static PersonModel transformEntityToModelMap(final PersonEntity entity) {

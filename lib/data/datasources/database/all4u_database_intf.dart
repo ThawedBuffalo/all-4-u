@@ -11,8 +11,8 @@ abstract class All4UDatabaseInterface {
 
   //Future<PersonModelList> getAllPeople();
   Future<PersonModel> insertPerson(final PersonModel personModel);
-  //Future<PersonModel> getPersonById(final int id);
-  //Future<PersonModel> updatePerson(final PersonModel personModel);
+  Future<PersonModel> getPersonById(final int id);
+  Future<PersonModel> updatePerson(final PersonModel personModel);
   //Future<void> deletePersonById(final int id);
   //Future<void> deleteAllPeople();
 }

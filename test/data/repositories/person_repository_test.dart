@@ -14,29 +14,29 @@ void main() {
   final PersonRepository repository = PersonRepository(database: database);
 
   // test data
-  final int successTestId = 17;
-  final String successTestFirstName = 'successFirstName';
-  final String failTestFirstName = 'failFirstName';
-  final String testLastName = 'successLastName';
+  final int successTestPersonId = 17;
+  final String successTestPersonFirstName = 'testFirstName';
+  final String failTestPersonFirstName = 'failedFirstName';
+  final String testPersonLastName = 'testLastName';
 
   group('#insertPerson', () {
     setUp(() {
       when(database.insertPerson(
         {
           'id': null,
-          'firstName': successTestFirstName,
-          'lastName': testLastName
+          'firstName': successTestPersonFirstName,
+          'lastName': testPersonLastName
         },
       )).thenAnswer(
         (_) async => {
-          'id': successTestId,
-          'firstName': successTestFirstName,
-          'lastName': testLastName
+          'id': successTestPersonId,
+          'firstName': successTestPersonFirstName,
+          'lastName': testPersonLastName
         },
       );
 
       when(database.insertPerson(
-        {'id': null, 'firstName': failTestFirstName, 'lastName': testLastName},
+        {'id': null, 'firstName': failTestPersonFirstName, 'lastName': testPersonLastName},
       )).thenAnswer(
         (_) async => {'id': null, 'firstName': null, 'lastName': null},
       );
@@ -44,177 +44,100 @@ void main() {
 
     test('should return PersonEntity', () async {
       final PersonEntity successTestPersonEntity = PersonEntity(
-          id: successTestId,
-          firstName: successTestFirstName,
-          lastName: testLastName);
+          id: successTestPersonId,
+          firstName: successTestPersonFirstName,
+          lastName: testPersonLastName);
 
       final result =
-          await repository.insertPerson(successTestFirstName, testLastName);
+          await repository.insertPerson(successTestPersonFirstName, testPersonLastName);
 
       verify(database.insertPerson(
-        {'id': null, 'firstName': failTestFirstName, 'lastName': testLastName},
+        {'id': null, 'firstName': successTestPersonFirstName, 'lastName': testPersonLastName},
       )).called(1);
       expect(result, equals(Right(successTestPersonEntity)));
     });
 
     test('should return DB Failure', () async {
       final result =
-          await repository.insertPerson(failTestFirstName, testLastName);
+          await repository.insertPerson(failTestPersonFirstName, testPersonLastName);
 
-      verify(database.insertCategory(
-        {'id': null, 'firstName': failTestFirstName, 'lastName': testLastName},
+      verify(database.insertPerson(
+        {'id': null, 'firstName': failTestPersonFirstName, 'lastName': testPersonLastName},
       )).called(1);
       expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
     });
   });
-  //
+
   group('#get 1 Person', () {
-    final int successPersonId = 1;
-    final String successPersonFirstName = 'successPersonFirstName';
-    final String successPersonLastName = 'successPersonLastName';
 
     setUp(() {
-      when(database.getPersonById(successPersonId)).thenAnswer(
+      when(database.getPersonById(successTestPersonId)).thenAnswer(
         (_) async => {
-          'id': successPersonId,
-          'firstName': successPersonFirstName,
-          'lastName': successPersonLastName
+          'id': successTestPersonId,
+          'firstName': successTestPersonFirstName,
+          'lastName': testPersonLastName
         },
       );
     });
 
     test('should return PersonEntity', () async {
       final PersonEntity successTestPersonEntity = PersonEntity(
-          id: successPersonId,
-          firstName: successPersonFirstName,
-          lastName: successPersonLastName);
+          id: successTestPersonId,
+          firstName: successTestPersonFirstName,
+          lastName: testPersonLastName);
+      final result = await repository.getPersonById(successTestPersonId);
 
-      final result = await repository.getPersonById(successPersonId);
-
-      verify(database.getPersonById(successPersonId)).called(1);
+      verify(database.getPersonById(successTestPersonId)).called(1);
       expect(result, equals(Right(successTestPersonEntity)));
     });
+
   });
-  //
-  // group('#get all Categories', () {
-  //   test('should return CategoryEntityList', () async {
-  //     final int entity1Id = 1;
-  //     final String entity1Name = 'testEntity1';
-  //     final Map<String, dynamic> entity1Map = {
-  //       'id': entity1Id,
-  //       'name': entity1Name
-  //     };
-  //     final CategoryEntity entity1 =
-  //         CategoryEntity(id: entity1Id, name: entity1Name);
-  //
-  //     final int entity2Id = 2;
-  //     final String entity2Name = 'testEntity2';
-  //     final Map<String, dynamic> entity2Map = {
-  //       'id': entity2Id,
-  //       'name': entity2Name
-  //     };
-  //     final CategoryEntity entity2 =
-  //         CategoryEntity(id: entity2Id, name: entity2Name);
-  //
-  //     final int entity3Id = 3;
-  //     final String entity3Name = 'testEntity3';
-  //     final Map<String, dynamic> entity3Map = {
-  //       'id': entity3Id,
-  //       'name': entity3Name
-  //     };
-  //     final CategoryEntity entity3 =
-  //         CategoryEntity(id: entity3Id, name: entity3Name);
-  //
-  //     List<Map<String, dynamic>> testMapListInput = [
-  //       entity1Map,
-  //       entity2Map,
-  //       entity3Map
-  //     ];
-  //     List<CategoryEntity> testEntityListInput = [entity1, entity2, entity3];
-  //     CategoryEntityList testCategoryEntityList =
-  //         CategoryEntityList(values: testEntityListInput);
-  //
-  //     when(database.getAllCategories())
-  //         .thenAnswer((_) async => testMapListInput);
-  //
-  //     final result = await repository.getAllCategories();
-  //
-  //     verify(database.getAllCategories()).called(1);
-  //     expect(result, equals(Right(testCategoryEntityList)));
-  //   });
-  // });
-  //
-  // group('#deleteCategoryById', () {
-  //   final int testCategoryId = 1;
-  //
-  //   setUp(() {
-  //     when(database.deleteCategoryById(testCategoryId)).thenAnswer(
-  //       (_) async => {},
-  //     );
-  //   });
-  //
-  //   test('should return void', () async {
-  //     final int testCategoryId = 1;
-  //     final result = await repository.deleteCategoryById(testCategoryId);
-  //
-  //     verify(database.deleteCategoryById(testCategoryId)).called(1);
-  //   });
-  // });
-  //
-  // group('#deleteAllCategories', () {
-  //   setUp(() {
-  //     when(database.deleteAllCategories()).thenAnswer(
-  //       (_) async => {},
-  //     );
-  //   });
-  //
-  //   test('should return void', () async {
-  //     final int testCategoryId = 1;
-  //     final result = await repository.deleteAllCategories();
-  //
-  //     verify(database.deleteAllCategories()).called(1);
-  //   });
-  // });
-  //
-  // group('#updateCategory', () {
-  //   final int entity1Id = 1;
-  //   final String editEntity1Name = 'testEditedEntity1';
-  //   final String failedEntityName = 'failedEditedEntity1';
-  //   final CategoryEntity successEditEntity =
-  //       CategoryEntity(id: entity1Id, name: editEntity1Name);
-  //
-  //   setUp(() {
-  //     when(database.updateCategory(
-  //       {'id': entity1Id, 'name': editEntity1Name},
-  //     )).thenAnswer(
-  //       (_) async => {'id': entity1Id, 'name': editEntity1Name},
-  //     );
-  //
-  //     when(database.updateCategory(
-  //       {'id': entity1Id, 'name': failedEntityName},
-  //     )).thenAnswer(
-  //       (_) async => {'id': null, 'name': null},
-  //     );
-  //   });
-  //
-  //   test('should return CategoryEntity', () async {
-  //     final result =
-  //         await repository.updateCategory(entity1Id, editEntity1Name);
-  //
-  //     verify(database.updateCategory(
-  //       {'id': entity1Id, 'name': editEntity1Name},
-  //     )).called(1);
-  //     expect(result, equals(Right(successEditEntity)));
-  //   });
-  //
-  //   test('should return DB Failure', () async {
-  //     final result =
-  //         await repository.updateCategory(entity1Id, failedEntityName);
-  //
-  //     verify(database.updateCategory(
-  //       {'id': entity1Id, 'name': failedEntityName},
-  //     )).called(1);
-  //     expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
-  //   });
-  //});
+
+  group('#updatePerson', () {
+    final int entity1Id = 1;
+    final String editEntity1Name = 'testEditedEntity1';
+    final String failedEntityName = 'failedEditedEntity1';
+    final String lastEntityName = 'testLastName';
+    final PersonEntity successEditEntity =
+    PersonEntity(id: entity1Id, firstName: editEntity1Name, lastName:lastEntityName);
+
+    setUp(() {
+      when(database.updatePerson(
+        {'id': entity1Id, 'firstName': editEntity1Name,
+        'lastName': lastEntityName},
+      )).thenAnswer(
+            (_) async =>
+            {'id': entity1Id, 'firstName': editEntity1Name, 'lastName': lastEntityName},
+      );
+
+      when(database.updatePerson(
+        {'id': entity1Id, 'firstName': failedEntityName,
+          'lastName': lastEntityName},
+      )).thenAnswer(
+            (_) async => {'id': null, 'name': null},
+      );
+    });
+
+    test('should return PersonEntity', () async {
+      final result =
+      await repository.updatePerson(entity1Id, editEntity1Name, lastEntityName);
+
+      verify(database.updatePerson(
+        {'id': entity1Id, 'firstName': editEntity1Name, 'lastName': lastEntityName },
+      )).called(1);
+      expect(result, equals(Right(successEditEntity)));
+    });
+
+    test('should return DB Failure', () async {
+      final result =
+      await repository.updatePerson(entity1Id, failedEntityName, lastEntityName);
+
+      verify(database.updateCategory(
+        {'id': entity1Id, 'firstName': failedEntityName, 'lastName': lastEntityName},
+      )).called(1);
+      expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
+    });
+  });
+
+
 }

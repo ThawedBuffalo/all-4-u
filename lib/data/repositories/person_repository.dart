@@ -1,11 +1,8 @@
 import 'package:dartz/dartz.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
-import '../../domain/entities/person_entity.dart';
-import '../../domain/entities/person_entity_list.dart';
-import '../../domain/repositories/person_repository_intf.dart';
+import '../../domain/entities/person_entity.dart';import '../../domain/repositories/person_repository_intf.dart';
 import '../datasources/database/all4u_database.dart';
-import '../mapper/person_entity_list_mapper.dart';
 import '../mapper/person_entity_mapper.dart';
 import '../models/person_model.dart';
 
@@ -29,6 +26,7 @@ class PersonRepository implements PersonRepositoryInterface {
   @override
   Future<Either<Failure, PersonEntity>> getPersonById(int id) async {
     final PersonModel personModel = await database.getPersonById(id);
+
     return (Right(PersonEntityMapper.transformModelToEntity(personModel)));
   }
 
@@ -46,17 +44,17 @@ class PersonRepository implements PersonRepositoryInterface {
   // Future<void> deleteAllPeople() async {
   //   await database.deleteAllPeople();
   // }
-  //
-  // @override
-  // Future<Either<Failure, PersonEntity>> updatePerson(
-  //     int id, String personFirstName, String personLastName) async {
-  //   final PersonModel personModel = await database.updatePerson(
-  //       PersonEntityMapper.transformToModelMap(
-  //           id, personFirstName, personLastName));
-  //   if (personModel['id'] == null) {
-  //     return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
-  //   } else {
-  //     return (Right(PersonEntityMapper.transformModelToEntity(personModel)));
-  //   }
-  // }
+
+  @override
+  Future<Either<Failure, PersonEntity>> updatePerson(
+      int id, String personFirstName, String personLastName) async {
+    final PersonModel personModel = await database.updatePerson(
+        PersonEntityMapper.transformToModelMap(
+            id, personFirstName, personLastName));
+    if (personModel['id'] == null) {
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return (Right(PersonEntityMapper.transformModelToEntity(personModel)));
+    }
+  }
 }

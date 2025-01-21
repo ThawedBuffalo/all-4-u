@@ -2,6 +2,7 @@ import 'package:all_4_u/data/datasources/database/all4u_database_intf.dart';
 import 'package:all_4_u/data/models/category_model.dart';
 import 'package:all_4_u/data/models/person_model.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class All4UDatabase implements All4UDatabaseInterface {
@@ -13,7 +14,7 @@ class All4UDatabase implements All4UDatabaseInterface {
   static const _categoryIdColumn = 'id';
   static const _categoryNameColumn = 'name';
 
-  static const _personTableName = 'categories_table';
+  static const _personTableName = 'person_table';
   static const _personIdColumn = 'id';
   static const _personFirstNameColumn = 'firstName';
   static const _personLastNameColumn = 'lastName';
@@ -24,26 +25,46 @@ class All4UDatabase implements All4UDatabaseInterface {
   }
 
   Future<Database> _initDatabase() async {
-    return openDatabase(
-      join(await getDatabasesPath(), _databaseName),
-      onCreate: (db, _) {
-        db.execute('''
-          CREATE TABLE $_categoryTableName(
-            $_categoryIdColumn INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            $_categoryNameColumn TEXT NOT NULL,
-          )
-        ''');
-        db.execute('''
-          CREATE TABLE $_personTableName(
-            $_personIdColumn INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-            $_personFirstNameColumn TEXT NOT NULL,
-            $_personLastNameColumn TEXT NOT NULL,
-          )
-        ''');
-      },
-      version: _databaseVersion,
-    );
+    // return openDatabase(
+    //   join(await getDatabasesPath(), _databaseName),
+    //   onCreate: (db, _) {
+    //     db.execute('''
+    //       CREATE TABLE $_categoryTableName(
+    //         $_categoryIdColumn INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    //         $_categoryNameColumn TEXT NOT NULL,
+    //       )''');
+    //
+    //     db.execute('''
+    //       CREATE TABLE $_personTableName(
+    //         $_personIdColumn INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    //         $_personFirstNameColumn TEXT NOT NULL,
+    //         $_personLastNameColumn TEXT NOT NULL,
+    //       )''');
+    //
+    //   },
+    //   version: _databaseVersion,
+    // );
+    var docDir = await getApplicationDocumentsDirectory();
+    String path = join(docDir.path, 'app.db');
+    var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    return db;
   }
+
+  Future _onCreate(Database db, int version) async {
+    await db.execute(
+        'CREATE TABLE $_categoryTableName '
+        '($_categoryIdColumn INTEGER PRIMARY KEY '
+        'AUTOINCREMENT,'
+        ' $_categoryNameColumn TEXT NOT NULL'
+        ')');
+
+    await db.execute('CREATE TABLE $_personTableName '
+        '($_personIdColumn INTEGER PRIMARY KEY,'
+        ' $_personFirstNameColumn TEXT NOT NULL,'
+        ' $_personLastNameColumn TEXT NOT NULL,'
+        ')');
+  }
+
 
   @override
   Future<CategoryModel> insertCategory(
@@ -168,20 +189,20 @@ class All4UDatabase implements All4UDatabaseInterface {
     return personModel;
   }
 
-  // @override
-  // Future<PersonModel> updatePerson(PersonModel personModel) async {
-  //   final db = await database;
-  //   late final PersonModel updatedersonModel;
-  //   await db.transaction((txn) async {
-  //     await txn.insert(
-  //       _personTableName,
-  //       personModel as Map<String, Object?>,
-  //       conflictAlgorithm: ConflictAlgorithm.replace,
-  //     );
-  //     final results = await txn.query(_personTableName,
-  //         where: '$_personIdColumn = ?', whereArgs: [personModel['id']]);
-  //     updatedersonModel = results.first as PersonModel;
-  //   });
-  //   return updatedersonModel;
-  // }
+  @override
+  Future<PersonModel> updatePerson(PersonModel personModel) async {
+    final db = await database;
+    late final PersonModel updatedPersonModel;
+    await db.transaction((txn) async {
+      await txn.insert(
+        _personTableName,
+        personModel as Map<String, Object?>,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      final results = await txn.query(_personTableName,
+          where: '$_personIdColumn = ?', whereArgs: [personModel['id']]);
+      updatedPersonModel = results.first as PersonModel;
+    });
+    return updatedPersonModel;
+  }
 }
