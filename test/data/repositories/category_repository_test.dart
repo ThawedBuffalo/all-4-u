@@ -135,9 +135,7 @@ void main() {
     });
 
     test('should return void', () async {
-      final int testCategoryId = 1;
       final result = await repository.deleteCategoryById(testCategoryId);
-
       verify(database.deleteCategoryById(testCategoryId)).called(1);
     });
   });

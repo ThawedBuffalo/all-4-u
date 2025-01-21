@@ -51,8 +51,7 @@ class All4UDatabase implements All4UDatabaseInterface {
   }
 
   Future _onCreate(Database db, int version) async {
-    await db.execute(
-        'CREATE TABLE $_categoryTableName '
+    await db.execute('CREATE TABLE $_categoryTableName '
         '($_categoryIdColumn INTEGER PRIMARY KEY '
         'AUTOINCREMENT,'
         ' $_categoryNameColumn TEXT NOT NULL'
@@ -64,7 +63,6 @@ class All4UDatabase implements All4UDatabaseInterface {
         ' $_personLastNameColumn TEXT NOT NULL,'
         ')');
   }
-
 
   @override
   Future<CategoryModel> insertCategory(
@@ -137,27 +135,27 @@ class All4UDatabase implements All4UDatabaseInterface {
     return categoryModel;
   }
 
-  // @override
-  // Future<void> deleteAllPeople() async {
-  //   final db = await database;
-  //   await db.rawDelete(_personTableName);
-  // }
+  @override
+  Future<void> deleteAllPeople() async {
+    final db = await database;
+    await db.rawDelete(_personTableName);
+  }
 
-  // @override
-  // Future<void> deletePersonById(int id) async {
-  //   final db = await database;
-  //   await db.delete(
-  //     _personTableName,
-  //     where: '$_personIdColumn = ?',
-  //     whereArgs: [id],
-  //   );
-  // }
+  @override
+  Future<void> deletePersonById(int id) async {
+    final db = await database;
+    await db.delete(
+      _personTableName,
+      where: '$_personIdColumn = ?',
+      whereArgs: [id],
+    );
+  }
 
-  // @override
-  // Future<PersonModelList> getAllPeople() async {
-  //   final db = await database;
-  //   return db.query(_personTableName);
-  // }
+  @override
+  Future<PersonModelList> getAllPeople() async {
+    final db = await database;
+    return db.query(_personTableName);
+  }
 
   @override
   Future<PersonModel> getPersonById(int id) async {

@@ -1,8 +1,11 @@
 import 'package:dartz/dartz.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
-import '../../domain/entities/person_entity.dart';import '../../domain/repositories/person_repository_intf.dart';
+import '../../domain/entities/person_entity.dart';
+import '../../domain/entities/person_entity_list.dart';
+import '../../domain/repositories/person_repository_intf.dart';
 import '../datasources/database/all4u_database.dart';
+import '../mapper/person_entity_list_mapper.dart';
 import '../mapper/person_entity_mapper.dart';
 import '../models/person_model.dart';
 
@@ -30,20 +33,20 @@ class PersonRepository implements PersonRepositoryInterface {
     return (Right(PersonEntityMapper.transformModelToEntity(personModel)));
   }
 
-  // @override
-  // Future<Either<Failure, PersonEntityList>> getAllPeople() async {
-  //   final PersonModelList modelList = await database.getAllPeople();
-  //   return (Right(PersonEntityListMapper.transformModelToEntity(modelList)));
-  // }
-  //
-  // @override
-  // Future<void> deletePersonById(final int id) async =>
-  //     await database.deletePersonById(id);
-  //
-  // @override
-  // Future<void> deleteAllPeople() async {
-  //   await database.deleteAllPeople();
-  // }
+  @override
+  Future<Either<Failure, PersonEntityList>> getAllPeople() async {
+    final PersonModelList modelList = await database.getAllPeople();
+    return (Right(PersonEntityListMapper.transformModelToEntity(modelList)));
+  }
+
+  @override
+  Future<void> deletePersonById(final int id) async =>
+      await database.deletePersonById(id);
+
+  @override
+  Future<void> deleteAllPeople() async {
+    await database.deleteAllPeople();
+  }
 
   @override
   Future<Either<Failure, PersonEntity>> updatePerson(
