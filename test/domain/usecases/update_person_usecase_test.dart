@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 
-import '../../mock/domain/repository/category_repository_mock.mocks.dart';
 import '../../mock/domain/repository/person_repository_mock.mocks.dart';
 
 void main() {
@@ -18,30 +17,41 @@ void main() {
   final String failTestFirstName = 'failedUseCaseTestFirstName';
   final String testLastName = 'useCaseTestLastName';
   final int testPersonId = 71114;
-  final PersonEntity testPersonEntity =
-      PersonEntity(id: testPersonId, firstName: successTestFirstName,
+  final PersonEntity testPersonEntity = PersonEntity(
+      id: testPersonId,
+      firstName: successTestFirstName,
       lastName: testLastName);
 
   setUp(() {
-    when(repository.updatePerson(testPersonId, successTestFirstName,
-        testLastName)).thenAnswer((_) async => Right(testPersonEntity));
-    when(repository.updatePerson(testPersonId, failTestFirstName,
-        testLastName)).thenAnswer(
+    when(repository.updatePerson(
+            testPersonId, successTestFirstName, testLastName))
+        .thenAnswer((_) async => Right(testPersonEntity));
+    when(repository.updatePerson(testPersonId, failTestFirstName, testLastName))
+        .thenAnswer(
             (_) async => Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
   });
 
   test('should return PersonEntity', () async {
     final result = await usecase.call(UpdatePersonParams(
-        iscategoryName: successTestName));
+        personId: testPersonId,
+        personFirstName: successTestFirstName,
+        personLastName: testLastName));
 
-    verify(repository.insertCategory(successTestName)).called(1);
-    expect(result, equals(Right(testCategoryEntity)));
+    verify(repository.updatePerson(
+            testPersonId, successTestFirstName, testLastName))
+        .called(1);
+    expect(result, equals(Right(testPersonEntity)));
   });
 
   test('should return DB Failure', () async {
-    final result = await usecase.call(Params(categoryName: failTestName));
+    final result = await usecase.call(UpdatePersonParams(
+        personId: testPersonId,
+        personFirstName: failTestFirstName,
+        personLastName: testLastName));
 
-    verify(repository.insertCategory(failTestName)).called(1);
+    verify(repository.updatePerson(
+            testPersonId, failTestFirstName, testLastName))
+        .called(1);
     expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
   });
 }
