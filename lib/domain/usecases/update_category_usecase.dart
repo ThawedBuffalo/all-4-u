@@ -6,14 +6,14 @@ import 'package:equatable/equatable.dart';
 import '../../core/error/error_messages.dart';
 import '../repositories/category_repository_intf.dart';
 
-class UpdateCategoryUseCase implements UseCase<void, UpdateParams> {
+class UpdateCategoryUseCase implements UseCase<void, UpdateCategoryParams> {
   final CategoryRepositoryInterface repository;
 
   const UpdateCategoryUseCase(this.repository);
 
   @override
-  Future<Either<Failure, dynamic>> call(UpdateParams params) async {
-    final result = await repository.insertCategory(params.categoryName);
+  Future<Either<Failure, dynamic>> call(UpdateCategoryParams params) async {
+    final result = await repository.updateCategory(params.categoryId, params.categoryName);
     if (result.isLeft()) {
       return Future.value(Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
     }
@@ -21,11 +21,11 @@ class UpdateCategoryUseCase implements UseCase<void, UpdateParams> {
   }
 }
 
-class UpdateParams extends Equatable {
+class UpdateCategoryParams extends Equatable {
   final int categoryId;
   final String categoryName;
 
-  const UpdateParams({required this.categoryId, required this.categoryName})
+  const UpdateCategoryParams({required this.categoryId, required this.categoryName})
       : super();
 
   @override
