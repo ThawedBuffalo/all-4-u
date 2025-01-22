@@ -5,7 +5,7 @@ import '../entities/person_entity_list.dart';
 
 abstract class PersonRepositoryInterface {
   Future<Either<Failure, PersonEntity>> insertPerson(
-      final String firstName, String personLastName);
+      final String firstName, String lastName);
   Future<Either<Failure, PersonEntity>> getPersonById(final int id);
   Future<Either<Failure, PersonEntityList>> getAllPeople();
   Future<Either<Failure, PersonEntity>> updatePerson(
