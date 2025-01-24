@@ -1,4 +1,5 @@
 import '../../models/category_model.dart';
+import '../../models/item_model.dart';
 import '../../models/person_model.dart';
 
 abstract class All4UDatabaseInterface {
@@ -17,4 +18,11 @@ abstract class All4UDatabaseInterface {
   Future<PersonModel> updatePerson(final PersonModel personModel);
   Future<void> deletePersonById(final int id);
   Future<void> deleteAllPeople();
+
+  // // item section
+  // Future<ItemModel> insertItem(final ItemModel itemModel);
+  // Future<ItemModel> getItemById(final int id);
+  // Future<ItemModel> updateItem(final ItemModel itemModel);
+  // Future<void> deleteItemById(final int id);
+  // Future<void> deleteAllItems();
 }
