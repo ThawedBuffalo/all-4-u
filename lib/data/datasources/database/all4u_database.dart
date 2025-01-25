@@ -10,14 +10,24 @@ class All4UDatabase implements All4UDatabaseInterface {
   static const _databaseVersion = 1;
   static Database? _database;
 
+  // Category section
   static const _categoryTableName = 'categories_table';
   static const _categoryIdColumn = 'id';
   static const _categoryNameColumn = 'name';
 
+  // Person section
   static const _personTableName = 'person_table';
   static const _personIdColumn = 'id';
   static const _personFirstNameColumn = 'firstName';
   static const _personLastNameColumn = 'lastName';
+
+  // Item section
+  static const _itemTableName = 'item_table';
+  static const _itemIdColumn = 'id';
+  static const _itemNameColumn = 'name';
+  static const _itemDescription = 'description';
+  // TODO- add the category/person columns
+  // static const _itemCategoryList = 'lastName';
 
   Future<Database> get database async {
     _database ??= await _initDatabase();
@@ -61,6 +71,12 @@ class All4UDatabase implements All4UDatabaseInterface {
         '($_personIdColumn INTEGER PRIMARY KEY,'
         ' $_personFirstNameColumn TEXT NOT NULL,'
         ' $_personLastNameColumn TEXT NOT NULL,'
+        ')');
+
+    await db.execute('CREATE TABLE $_itemTableName '
+        '($_itemIdColumn INTEGER PRIMARY KEY,'
+        '($_itemNameColumn TEXT NOT NULL,'
+        ' $_itemDescription TEXT NOT NULL,'
         ')');
   }
 
