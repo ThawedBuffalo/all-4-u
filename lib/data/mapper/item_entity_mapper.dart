@@ -2,37 +2,37 @@ import '../../domain/entities/item_entity.dart';
 import '../models/item_model.dart';
 
 class ItemEntityMapper {
-  // https://www.oreilly.com/library/view/flutter-and-dart/9781098119508/ch04.html
+  static ItemEntity transformModelToEntity(final ItemModel item) {
+    List<int>? categoryIds;
+    if (item['categoryIds'] != null && item['categoryIds'].isNotEmpty) {
+      categoryIds = List.from(item['categoryIds']);
+    }
 
+    List<int>? personIds;
+    if (item['personIds'] != null && item['personIds'].isNotEmpty) {
+      personIds = List.from(item['personIds']);
+    }
 
-  // static ItemEntity transformModelToEntity(final ItemModel model) {
-  //   // map the Category list
-  //   final categoryListModels = model.categoryEntityList;
-  //   final values = models
-  //       .map((model) => ItemEntityMapper.transformModelToEntity(model))
-  //       .toList();
-  //
-  //   return ItemEntity(
-  //       id: model['id'],
-  //       name: model['name'],
-  //       description: model['description'],
-  //       categoryEntityList: [],
-  //       personEntityList: []);
-  //
-  //   // required List<CategoryEntity> categoryEntityList,
-  //   // required List<PersonEntity> personEntityList,
-  // }
-
-  static ItemModel transformEntityToModelMap(final ItemEntity entity) {
-    return {'id': entity.id, 'name': entity.name};
+    return ItemEntity(
+      id: item['id'],
+      name: item['name'],
+      description: item['description'],
+      categoryIdList: categoryIds,
+      personIdList: personIds,
+    );
   }
 
-  static ItemModel transformToNewModelMap(final String name) {
-    return {'id': null, 'name': name};
-  }
-
-  static ItemModel transformToModelMap(
-      final int id, final String categoryName) {
-    return {'id': id, 'name': categoryName};
+  static ItemModel transformToNewModelMap(
+      final String name,
+      final String description,
+      final List<int> categoryIds,
+      final List<int> personIds) {
+    return {
+      'id': null,
+      'name': name,
+      'description': description,
+      'categoryIds': categoryIds,
+      'personIds': personIds
+    };
   }
 }

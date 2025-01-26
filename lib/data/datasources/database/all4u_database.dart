@@ -1,5 +1,6 @@
 import 'package:all_4_u/data/datasources/database/all4u_database_intf.dart';
 import 'package:all_4_u/data/models/category_model.dart';
+import 'package:all_4_u/data/models/item_model.dart';
 import 'package:all_4_u/data/models/person_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,25 +36,6 @@ class All4UDatabase implements All4UDatabaseInterface {
   }
 
   Future<Database> _initDatabase() async {
-    // return openDatabase(
-    //   join(await getDatabasesPath(), _databaseName),
-    //   onCreate: (db, _) {
-    //     db.execute('''
-    //       CREATE TABLE $_categoryTableName(
-    //         $_categoryIdColumn INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    //         $_categoryNameColumn TEXT NOT NULL,
-    //       )''');
-    //
-    //     db.execute('''
-    //       CREATE TABLE $_personTableName(
-    //         $_personIdColumn INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    //         $_personFirstNameColumn TEXT NOT NULL,
-    //         $_personLastNameColumn TEXT NOT NULL,
-    //       )''');
-    //
-    //   },
-    //   version: _databaseVersion,
-    // );
     var docDir = await getApplicationDocumentsDirectory();
     String path = join(docDir.path, 'app.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
@@ -80,6 +62,9 @@ class All4UDatabase implements All4UDatabaseInterface {
         ')');
   }
 
+  //
+  // Category CRUD section
+  //
   @override
   Future<CategoryModel> insertCategory(
       final CategoryModel categoryModel) async {
@@ -151,6 +136,9 @@ class All4UDatabase implements All4UDatabaseInterface {
     return categoryModel;
   }
 
+  //
+  // People CRUD section
+  //
   @override
   Future<void> deleteAllPeople() async {
     final db = await database;
@@ -218,5 +206,26 @@ class All4UDatabase implements All4UDatabaseInterface {
       updatedPersonModel = results.first as PersonModel;
     });
     return updatedPersonModel;
+  }
+
+  //
+  // Item CRUD section
+  //
+  @override
+  Future<ItemModel> insertItem(ItemModel itemModel) async {
+    final db = await database;
+    late final ItemModel itemModel;
+    await db.transaction((txn) async {
+      final id = await txn.insert(
+        _itemTableName,
+        itemModel as Map<String, Object?>,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+
+      final results = await txn
+          .query(_itemTableName, where: '$_itemIdColumn = ?', whereArgs: [id]);
+      itemModel = results.first as ItemModel;
+    });
+    return itemModel;
   }
 }

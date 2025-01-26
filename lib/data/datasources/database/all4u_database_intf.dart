@@ -20,7 +20,7 @@ abstract class All4UDatabaseInterface {
   Future<void> deleteAllPeople();
 
   // // item section
-  // Future<ItemModel> insertItem(final ItemModel itemModel);
+  Future<ItemModel> insertItem(final ItemModel itemModel);
   // Future<ItemModel> getItemById(final int id);
   // Future<ItemModel> updateItem(final ItemModel itemModel);
   // Future<void> deleteItemById(final int id);
