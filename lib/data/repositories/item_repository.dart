@@ -14,7 +14,7 @@ class ItemRepository implements ItemRepositoryInterface {
 
   @override
   Future<Either<Failure, ItemEntity>> insertItem(final String name,
-      String description, List<int> categoryIds, List<int> personIds) async {
+      String? description, List<int>? categoryIds, List<int>? personIds) async {
     final ItemModel itemModel = await database.insertItem(
         ItemEntityMapper.transformToNewModelMap(
             name, description, categoryIds, personIds));

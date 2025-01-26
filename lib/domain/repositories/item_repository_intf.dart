@@ -4,7 +4,7 @@ import '../entities/item_entity.dart';
 
 abstract class ItemRepositoryInterface {
   Future<Either<Failure, ItemEntity>> insertItem(final String name,
-      String description, List<int> categoryIds, List<int> personIds);
+      String? description, List<int>? categoryIds, List<int>? personIds);
   // Future<Either<Failure, PersonEntity>> getPersonById(final int id);
   // Future<Either<Failure, PersonEntityList>> getAllPeople();
   // Future<Either<Failure, PersonEntity>> updatePerson(

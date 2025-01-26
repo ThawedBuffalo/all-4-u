@@ -24,9 +24,9 @@ class ItemEntityMapper {
 
   static ItemModel transformToNewModelMap(
       final String name,
-      final String description,
-      final List<int> categoryIds,
-      final List<int> personIds) {
+      final String? description,
+      final List<int>? categoryIds,
+      final List<int>? personIds) {
     return {
       'id': null,
       'name': name,
