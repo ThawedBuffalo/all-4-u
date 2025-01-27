@@ -6,14 +6,14 @@ import 'package:equatable/equatable.dart';
 import '../../core/error/error_messages.dart';
 import '../repositories/item_repository_intf.dart';
 
-class CreateItemUseCase implements UseCase<void, CreateItemParams> {
+class CreateFullItemUseCase implements UseCase<void, CreateFullItemParams> {
   final ItemRepositoryInterface repository;
 
-  const CreateItemUseCase(this.repository);
+  const CreateFullItemUseCase(this.repository);
 
   @override
-  Future<Either<Failure, dynamic>> call(CreateItemParams params) async {
-    final result = await repository.insertItem(
+  Future<Either<Failure, dynamic>> call(CreateFullItemParams params) async {
+    final result = await repository.insertFullItem(
         params.name, params.description, params.categoryIds, params.personIds);
     if (result.isLeft()) {
       return Future.value(Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
@@ -22,13 +22,13 @@ class CreateItemUseCase implements UseCase<void, CreateItemParams> {
   }
 }
 
-class CreateItemParams extends Equatable {
+class CreateFullItemParams extends Equatable {
   final String name;
   final String description;
   final List<int> categoryIds;
   final List<int> personIds;
 
-  const CreateItemParams(
+  const CreateFullItemParams(
       {required this.name,
       required this.description,
       required this.categoryIds,

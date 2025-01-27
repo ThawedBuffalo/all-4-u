@@ -6,15 +6,16 @@ import 'package:equatable/equatable.dart';
 import '../../core/error/error_messages.dart';
 import '../repositories/item_repository_intf.dart';
 
-class CreateUnassignedItemUseCase implements UseCase<void, CreateUnCatItemParams> {
+class CreateUncategorizedItemUseCase
+    implements UseCase<void, CreateUnCatItemParams> {
   final ItemRepositoryInterface repository;
 
-  const CreateUnassignedItemUseCase(this.repository);
+  const CreateUncategorizedItemUseCase(this.repository);
 
   @override
   Future<Either<Failure, dynamic>> call(CreateUnCatItemParams params) async {
-    final result = await repository.insertItem(params.name,
-        params.description, null, params.personIds);
+    final result = await repository.insertUncategorizedItem(
+        params.name, params.description, params.personIds);
     if (result.isLeft()) {
       return Future.value(Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
     }

@@ -13,11 +13,52 @@ class ItemRepository implements ItemRepositoryInterface {
   const ItemRepository({required this.database});
 
   @override
-  Future<Either<Failure, ItemEntity>> insertItem(final String name,
+  Future<Either<Failure, ItemEntity>> insertFullItem(final String name,
       String? description, List<int>? categoryIds, List<int>? personIds) async {
     final ItemModel itemModel = await database.insertItem(
         ItemEntityMapper.transformToNewModelMap(
             name, description, categoryIds, personIds));
+
+    if (itemModel['id'] == null) {
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return (Right(ItemEntityMapper.transformModelToEntity(itemModel)));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ItemEntity>> insertNamedItem(String name) async {
+    final ItemModel itemModel = await database.insertItem(
+        ItemEntityMapper.transformToNewModelMap(
+            name, null, null, null));
+
+    if (itemModel['id'] == null) {
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return (Right(ItemEntityMapper.transformModelToEntity(itemModel)));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ItemEntity>> insertUnassignedItem(String name,
+      String? description, List<int>? categoryIds) async {
+    final ItemModel itemModel = await database.insertItem(
+        ItemEntityMapper.transformToNewModelMap(
+            name, description, categoryIds, null));
+
+    if (itemModel['id'] == null) {
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return (Right(ItemEntityMapper.transformModelToEntity(itemModel)));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ItemEntity>> insertUncategorizedItem(String name,
+      String? description, List<int>? personIds) async {
+    final ItemModel itemModel = await database.insertItem(
+        ItemEntityMapper.transformToNewModelMap(
+            name, description, null, personIds));
 
     if (itemModel['id'] == null) {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));

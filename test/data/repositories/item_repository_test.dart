@@ -23,6 +23,7 @@ void main() {
 
   group('#insertItem', () {
     setUp(() {
+      // insert full item
       when(database.insertItem(
         {
           'id': null,
@@ -41,6 +42,64 @@ void main() {
         },
       );
 
+      // insert named item
+      when(database.insertItem(
+        {
+          'id': null,
+          'name': successItemName,
+          'description': null,
+          'categoryIds': null,
+          'personIds': null,
+        },
+      )).thenAnswer(
+        (_) async => {
+          'id': testId,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': testCategoryIds,
+          'personIds': testPersonIds,
+        },
+      );
+
+      // insert unassigned item
+      when(database.insertItem(
+        {
+          'id': null,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': testCategoryIds,
+          'personIds': null,
+        },
+      )).thenAnswer(
+        (_) async => {
+          'id': testId,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': testCategoryIds,
+          'personIds': testPersonIds,
+        },
+      );
+
+      // insert uncategorized item
+      when(database.insertItem(
+        {
+          'id': null,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': null,
+          'personIds': testPersonIds,
+        },
+      )).thenAnswer(
+        (_) async => {
+          'id': testId,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': testCategoryIds,
+          'personIds': testPersonIds,
+        },
+      );
+
+      // common failure case
       when(database.insertItem(
         {
           'id': null,
@@ -60,7 +119,7 @@ void main() {
       );
     });
 
-    test('should return ItemEntity', () async {
+    test('insert full item: should return ItemEntity', () async {
       final ItemEntity successTestPersonEntity = ItemEntity(
           id: testId,
           name: successItemName,
@@ -68,7 +127,7 @@ void main() {
           categoryIdList: testCategoryIds,
           personIdList: testPersonIds);
 
-      final result = await repository.insertItem(
+      final result = await repository.insertFullItem(
           successItemName, testDescription, testCategoryIds, testPersonIds);
 
       verify(database.insertItem(
@@ -83,8 +142,76 @@ void main() {
       expect(result, equals(Right(successTestPersonEntity)));
     });
 
+    test('insert named item: should return ItemEntity', () async {
+      final ItemEntity successTestPersonEntity = ItemEntity(
+          id: testId,
+          name: successItemName,
+          description: testDescription,
+          categoryIdList: testCategoryIds,
+          personIdList: testPersonIds);
+
+      final result = await repository.insertNamedItem(successItemName);
+
+      verify(database.insertItem(
+        {
+          'id': null,
+          'name': successItemName,
+          'description': null,
+          'categoryIds': null,
+          'personIds': null,
+        },
+      )).called(1);
+      expect(result, equals(Right(successTestPersonEntity)));
+    });
+
+    test('insert uncategorized item: should return ItemEntity', () async {
+      final ItemEntity successTestPersonEntity = ItemEntity(
+          id: testId,
+          name: successItemName,
+          description: testDescription,
+          categoryIdList: testCategoryIds,
+          personIdList: testPersonIds);
+
+      final result = await repository.insertUncategorizedItem(
+          successItemName, testDescription, testPersonIds);
+
+      verify(database.insertItem(
+        {
+          'id': null,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': null,
+          'personIds': testPersonIds,
+        },
+      )).called(1);
+      expect(result, equals(Right(successTestPersonEntity)));
+    });
+
+    test('insert unassigned item: should return ItemEntity', () async {
+      final ItemEntity successTestPersonEntity = ItemEntity(
+          id: testId,
+          name: successItemName,
+          description: testDescription,
+          categoryIdList: testCategoryIds,
+          personIdList: testPersonIds);
+
+      final result = await repository.insertUnassignedItem(
+          successItemName, testDescription, testCategoryIds);
+
+      verify(database.insertItem(
+        {
+          'id': null,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': testCategoryIds,
+          'personIds': null,
+        },
+      )).called(1);
+      expect(result, equals(Right(successTestPersonEntity)));
+    });
+
     test('should return DB Failure', () async {
-      final result = await repository.insertItem(
+      final result = await repository.insertFullItem(
           failItemName, testDescription, testCategoryIds, testPersonIds);
 
       verify(database.insertItem(
