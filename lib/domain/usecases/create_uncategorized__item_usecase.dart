@@ -6,15 +6,15 @@ import 'package:equatable/equatable.dart';
 import '../../core/error/error_messages.dart';
 import '../repositories/item_repository_intf.dart';
 
-class CreateUnassignedItemUseCase implements UseCase<void, CreateItemParams> {
+class CreateUnassignedItemUseCase implements UseCase<void, CreateUnCatItemParams> {
   final ItemRepositoryInterface repository;
 
   const CreateUnassignedItemUseCase(this.repository);
 
   @override
-  Future<Either<Failure, dynamic>> call(CreateUnAssItemParams params) async {
-    final result = await repository.insertItem(
-        params.name, params.description, params.categoryIds, null);
+  Future<Either<Failure, dynamic>> call(CreateUnCatItemParams params) async {
+    final result = await repository.insertItem(params.name,
+        params.description, null, params.personIds);
     if (result.isLeft()) {
       return Future.value(Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
     }
@@ -22,15 +22,16 @@ class CreateUnassignedItemUseCase implements UseCase<void, CreateItemParams> {
   }
 }
 
-class CreateUnAssItemParams extends Equatable {
+class CreateUnCatItemParams extends Equatable {
   final String name;
   final String description;
-  final List<int> categoryIds;
 
-  const CreateUnAssItemParams(
-      {required this.name, required this.description, required this.categoryIds})
+  final List<int> personIds;
+
+  const CreateUnCatItemParams(
+      {required this.name, required this.description, required this.personIds})
       : super();
 
   @override
-  List<Object?> get props => [name, description, categoryIds];
+  List<Object?> get props => [name, description, personIds];
 }
