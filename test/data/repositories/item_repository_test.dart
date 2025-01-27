@@ -120,7 +120,7 @@ void main() {
     });
 
     test('insert full item: should return ItemEntity', () async {
-      final ItemEntity successTestPersonEntity = ItemEntity(
+      final ItemEntity successTestItemEntity = ItemEntity(
           id: testId,
           name: successItemName,
           description: testDescription,
@@ -139,11 +139,11 @@ void main() {
           'personIds': testPersonIds,
         },
       )).called(1);
-      expect(result, equals(Right(successTestPersonEntity)));
+      expect(result, equals(Right(successTestItemEntity)));
     });
 
     test('insert named item: should return ItemEntity', () async {
-      final ItemEntity successTestPersonEntity = ItemEntity(
+      final ItemEntity successTestItemEntity = ItemEntity(
           id: testId,
           name: successItemName,
           description: testDescription,
@@ -161,11 +161,11 @@ void main() {
           'personIds': null,
         },
       )).called(1);
-      expect(result, equals(Right(successTestPersonEntity)));
+      expect(result, equals(Right(successTestItemEntity)));
     });
 
     test('insert uncategorized item: should return ItemEntity', () async {
-      final ItemEntity successTestPersonEntity = ItemEntity(
+      final ItemEntity successTestItemEntity = ItemEntity(
           id: testId,
           name: successItemName,
           description: testDescription,
@@ -184,11 +184,11 @@ void main() {
           'personIds': testPersonIds,
         },
       )).called(1);
-      expect(result, equals(Right(successTestPersonEntity)));
+      expect(result, equals(Right(successTestItemEntity)));
     });
 
     test('insert unassigned item: should return ItemEntity', () async {
-      final ItemEntity successTestPersonEntity = ItemEntity(
+      final ItemEntity successTestItemEntity = ItemEntity(
           id: testId,
           name: successItemName,
           description: testDescription,
@@ -207,7 +207,7 @@ void main() {
           'personIds': null,
         },
       )).called(1);
-      expect(result, equals(Right(successTestPersonEntity)));
+      expect(result, equals(Right(successTestItemEntity)));
     });
 
     test('should return DB Failure', () async {
