@@ -10,7 +10,7 @@ abstract class ItemRepositoryInterface {
   Future<Either<Failure, ItemEntity>> insertUncategorizedItem(
       final String name, String? description, List<int>? personIds);
   Future<Either<Failure, ItemEntity>> insertNamedItem(final String name);
-  // Future<Either<Failure, PersonEntity>> getPersonById(final int id);
+  Future<Either<Failure, ItemEntity>> getItemById(final int id);
   // Future<Either<Failure, PersonEntityList>> getAllPeople();
   // Future<Either<Failure, PersonEntity>> updatePerson(
   //     final int id, final String firstName, String personLastName);

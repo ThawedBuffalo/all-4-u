@@ -18,6 +18,7 @@ void main() {
   final String failItemName = 'failItemName';
   final String testDescription = 'testDescription';
   final int testId = 17;
+  final int failTestId = 15;
   final List<int> testCategoryIds = [7, 11, 14];
   final List<int> testPersonIds = [2, 3, 13, 17, 86];
 
@@ -224,6 +225,34 @@ void main() {
         },
       )).called(1);
       expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
+    });
+  });
+
+  group('#get 1 Item', () {
+    setUp(() {
+      when(database.getItemById(testId)).thenAnswer(
+        (_) async => {
+          'id': testId,
+          'name': successItemName,
+          'description': testDescription,
+          'categoryIds': testCategoryIds,
+          'personIds': testPersonIds
+        },
+      );
+    });
+
+    test('should return ItemEntity', () async {
+      final ItemEntity successTestItemEntity = ItemEntity(
+          id: testId,
+          name: successItemName,
+          description: testDescription,
+          categoryIdList: testCategoryIds,
+          personIdList: testPersonIds);
+
+      final result = await repository.getItemById(testId);
+
+      verify(database.getItemById(testId)).called(1);
+      expect(result, equals(Right(successTestItemEntity)));
     });
   });
 }

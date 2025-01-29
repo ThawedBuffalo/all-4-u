@@ -228,4 +228,16 @@ class All4UDatabase implements All4UDatabaseInterface {
     });
     return itemModel;
   }
+
+  @override
+  Future<ItemModel> getItemById(int id) async {
+    final db = await database;
+    late final ItemModel itemModel;
+    await db.transaction((txn) async {
+      final results = await txn
+          .query(_itemTableName, where: '$_itemIdColumn = ?', whereArgs: [id]);
+      itemModel = results.first as ItemModel;
+    });
+    return itemModel;
+  }
 }

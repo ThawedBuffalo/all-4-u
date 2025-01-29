@@ -30,13 +30,25 @@ class CategoryRepository implements CategoryRepositoryInterface {
   @override
   Future<Either<Failure, CategoryEntity>> getCategoryById(int id) async {
     final CategoryModel categoryModel = await database.getCategoryById(id);
-    return (Right(CategoryEntityMapper.transformModelToEntity(categoryModel)));
+
+    if (categoryModel.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return (Right(
+          CategoryEntityMapper.transformModelToEntity(categoryModel)));
+    }
   }
 
   @override
   Future<Either<Failure, CategoryEntityList>> getAllCategories() async {
     final CategoryModelList modelList = await database.getAllCategories();
-    return (Right(CategoryEntityListMapper.transformModelToEntity(modelList)));
+
+    if (modelList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return (Right(
+          CategoryEntityListMapper.transformModelToEntity(modelList)));
+    }
   }
 
   @override

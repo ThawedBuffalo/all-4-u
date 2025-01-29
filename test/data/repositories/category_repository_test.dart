@@ -58,11 +58,16 @@ void main() {
 
   group('#get 1 Category', () {
     final int successCategoryId = 1;
+    final int emptyCategoryId = 7;
     final String successCategoryName = 'successCategoryName';
 
     setUp(() {
       when(database.getCategoryById(successCategoryId)).thenAnswer(
         (_) async => {'id': successCategoryId, 'name': successCategoryName},
+      );
+
+      when(database.getCategoryById(emptyCategoryId)).thenAnswer(
+        (_) async => {},
       );
     });
 
@@ -74,6 +79,14 @@ void main() {
 
       verify(database.getCategoryById(successCategoryId)).called(1);
       expect(result, equals(Right(successTestCategoryEntity)));
+    });
+
+    test('should return empty results failure', () async {
+      final result = await repository.getCategoryById(emptyCategoryId);
+
+      verify(database.getCategoryById(emptyCategoryId)).called(1);
+      expect(result,
+          equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
   });
 
@@ -122,6 +135,18 @@ void main() {
 
       verify(database.getAllCategories()).called(1);
       expect(result, equals(Right(testCategoryEntityList)));
+    });
+
+    test('should return empty results failure', () async {
+      when(database.getAllCategories()).thenAnswer(
+        (_) async => {},
+      );
+
+      final result = await repository.getAllCategories();
+
+      verify(database.getAllCategories()).called(1);
+      expect(result,
+          equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
   });
 

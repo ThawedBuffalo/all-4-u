@@ -29,8 +29,7 @@ class ItemRepository implements ItemRepositoryInterface {
   @override
   Future<Either<Failure, ItemEntity>> insertNamedItem(String name) async {
     final ItemModel itemModel = await database.insertItem(
-        ItemEntityMapper.transformToNewModelMap(
-            name, null, null, null));
+        ItemEntityMapper.transformToNewModelMap(name, null, null, null));
 
     if (itemModel['id'] == null) {
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
@@ -40,8 +39,8 @@ class ItemRepository implements ItemRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, ItemEntity>> insertUnassignedItem(String name,
-      String? description, List<int>? categoryIds) async {
+  Future<Either<Failure, ItemEntity>> insertUnassignedItem(
+      String name, String? description, List<int>? categoryIds) async {
     final ItemModel itemModel = await database.insertItem(
         ItemEntityMapper.transformToNewModelMap(
             name, description, categoryIds, null));
@@ -54,8 +53,8 @@ class ItemRepository implements ItemRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, ItemEntity>> insertUncategorizedItem(String name,
-      String? description, List<int>? personIds) async {
+  Future<Either<Failure, ItemEntity>> insertUncategorizedItem(
+      String name, String? description, List<int>? personIds) async {
     final ItemModel itemModel = await database.insertItem(
         ItemEntityMapper.transformToNewModelMap(
             name, description, null, personIds));
@@ -65,5 +64,11 @@ class ItemRepository implements ItemRepositoryInterface {
     } else {
       return (Right(ItemEntityMapper.transformModelToEntity(itemModel)));
     }
+  }
+
+  @override
+  Future<Either<Failure, ItemEntity>> getItemById(int id) async {
+    final ItemModel itemModel = await database.getItemById(id);
+    return (Right(ItemEntityMapper.transformModelToEntity(itemModel)));
   }
 }
