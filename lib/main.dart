@@ -5,6 +5,9 @@ import 'package:path_provider/path_provider.dart';
 import 'data/datasources/database/all4u_db.dart';
 import 'injection_container.dart' as di;
 
+// ref: https://github.com/devmuaz/flutter-clean-architecture
+// https://devmuaz.medium.com/flutter-clean-architecture-series-part-1-d2d4c2e75c47
+
 void main() async {
   init();
 }
@@ -28,8 +31,7 @@ init() async {
 
   final dir = await getApplicationDocumentsDirectory();
 
-  final database = await $FloorAll4UDb.databaseBuilder('all4u_db.db')
-      .build();
+  final database = await $FloorAll4UDb.databaseBuilder('all4u_db.db').build();
 
   CustomLogger.loggerNoStack.i('application starting...');
   runApp(App());
