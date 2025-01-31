@@ -4,7 +4,8 @@ import '../../models/person_model.dart';
 
 abstract class All4UDatabaseInterface {
   // category section
-  Future<CategoryModelList> getAllCategories();
+  Future<CategoryModelList?> getAllCategories();
+  Future<int> getCategoryCount();
   Future<CategoryModel> insertCategory(final CategoryModel categoryModel);
   Future<CategoryModel> getCategoryById(final int id);
   Future<CategoryModel> updateCategory(final CategoryModel categoryModel);

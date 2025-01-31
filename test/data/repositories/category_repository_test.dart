@@ -139,7 +139,7 @@ void main() {
 
     test('should return empty results failure', () async {
       when(database.getAllCategories()).thenAnswer(
-        (_) async => {},
+        (_) async => {null},
       );
 
       final result = await repository.getAllCategories();

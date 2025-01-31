@@ -96,6 +96,13 @@ class All4UDatabase implements All4UDatabaseInterface {
   }
 
   @override
+  Future<int> getCategoryCount() async {
+    final db = await database;
+    return Sqflite.firstIntValue(db.rawQuery('SELECT COUNT(*) FROM $_categoryTableName'));
+
+  }
+
+  @override
   Future<CategoryModelList> getAllCategories() async {
     final db = await database;
     return db.query(_categoryTableName);
