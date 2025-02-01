@@ -6,9 +6,9 @@ import 'package:floor/floor.dart';
 @Entity(tableName: 'category', indices: [
   Index(value: ['name'])
 ])
-class CategoryDTO with _$CategoryDTO {
+class CategoryDTO {
   @PrimaryKey(autoGenerate: true)
-  final int id;
+  final int? id;
 
   @ColumnInfo(name: 'name')
   final String name;

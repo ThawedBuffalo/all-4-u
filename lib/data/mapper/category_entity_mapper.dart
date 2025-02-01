@@ -1,21 +1,20 @@
 import '../../domain/entities/category_entity.dart';
-import '../models/category_model.dart';
+import '../dtos/category_dto.dart';
 
 class CategoryEntityMapper {
-  static CategoryEntity transformModelToEntity(final CategoryModel model) {
-    return CategoryEntity(id: model['id'], name: model['name']);
+  static CategoryEntity transformDTOToEntity(final CategoryDTO dto) {
+    return CategoryEntity(id: dto.id, name: dto.name);
   }
 
-  static CategoryModel transformEntityToModelMap(final CategoryEntity entity) {
-    return {'id': entity.id, 'name': entity.name};
+  static CategoryDTO transformEntityToDTO(final CategoryEntity entity) {
+    return CategoryDTO(id: entity.id, name: entity.name);
   }
 
-  static CategoryModel transformToNewModelMap(final String name) {
-    return {'id': null, 'name': name};
+  static CategoryDTO transformToNewDTO(final String name) {
+    return CategoryDTO(id: null, name: name);
   }
 
-  static CategoryModel transformToModelMap(
-      final int id, final String categoryName) {
-    return {'id': id, 'name': categoryName};
+  static CategoryDTO transformToDTO(final int id, final String categoryName) {
+    return CategoryDTO(id: id, name: categoryName);
   }
 }

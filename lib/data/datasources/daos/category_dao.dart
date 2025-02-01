@@ -1,3 +1,4 @@
+import 'package:all_4_u/domain/usecases/delete_all_categories_usecase.dart';
 import 'package:floor/floor.dart';
 
 import '../../dtos/category_dto.dart';
@@ -5,8 +6,20 @@ import '../../dtos/category_dto.dart';
 @dao
 abstract class CategoryDAO {
   @Query('SELECT * FROM category')
-  Future<List<CategoryDTO>> findAllStudents();
+  Future<List<CategoryDTO?>> findAllCategories();
 
-  @Insert(onConflict: OnConflictStrategy.replace)
-  Future<void> insertStudent(CategoryDTO categoryDTO);
+  @Query('SELECT * FROM category WHERE id = :id')
+  Future<CategoryDTO?> findCategoryByID(int id);
+
+  @insert
+  Future<int?> insertCategory(CategoryDTO categoryDTO);
+
+  @update
+  Future<void> updateCategory(CategoryDTO categoryDTO);
+
+  @delete
+  Future<void> deleteCategory(CategoryDTO categoryDTO);
+
+  @Query('DELETE from category')
+  Future<void> deleteAllCategories();
 }

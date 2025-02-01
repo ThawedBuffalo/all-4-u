@@ -1,3 +1,4 @@
+import 'package:all_4_u/data/datasources/database/all4u_db.dart';
 import 'package:all_4_u/data/mapper/category_entity_list_mapper.dart';
 import 'package:all_4_u/data/mapper/category_entity_mapper.dart';
 import 'package:all_4_u/domain/entities/category_entity_list.dart';
@@ -7,69 +8,48 @@ import '../../core/error/failure.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/category_repository_intf.dart';
 import '../datasources/database/all4u_database.dart';
+import '../dtos/category_dto.dart';
 import '../models/category_model.dart';
 
 class CategoryRepository implements CategoryRepositoryInterface {
-  final All4UDatabase database;
+  final All4UDb database;
 
   const CategoryRepository({required this.database});
 
   @override
-  Future<Either<Failure, CategoryEntity>> insertCategory(
-      final String name) async {
-    final CategoryModel categoryModel = await database
-        .insertCategory(CategoryEntityMapper.transformToNewModelMap(name));
-    if (categoryModel['id'] == null) {
+  Future<Either<Failure, CategoryEntity>> createCategory(String name) async {
+    CategoryDTO categoryDTO = CategoryDTO(id: null, name: name);
+    int? response = await database.categoryDAO.insertCategory(categoryDTO);
+    if (response == 0) {
+      // error
       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
     } else {
-      return (Right(
-          CategoryEntityMapper.transformModelToEntity(categoryModel)));
+      return Right(CategoryEntity(id: response, name: name));
     }
   }
 
   @override
-  Future<Either<Failure, CategoryEntity>> getCategoryById(int id) async {
-    final CategoryModel categoryModel = await database.getCategoryById(id);
-
-    if (categoryModel.isEmpty) {
-      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
-    } else {
-      return (Right(
-          CategoryEntityMapper.transformModelToEntity(categoryModel)));
-    }
+  Future<void> deleteCategory(CategoryEntity category) {
+    // TODO: implement deleteCategory
+    throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, CategoryEntityList>> getAllCategories() async {
-    final CategoryModelList modelList = await database.getAllCategories();
-
-    if (modelList.isEmpty) {
-      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
-    } else {
-      return (Right(
-          CategoryEntityListMapper.transformModelToEntity(modelList)));
-    }
+  Future<Either<Failure, CategoryEntityList>> getAllCategories() {
+    // TODO: implement getAllCategories
+    throw UnimplementedError();
   }
 
   @override
-  Future<void> deleteCategoryById(final int id) async =>
-      await database.deleteCategoryById(id);
-
-  @override
-  Future<void> deleteAllCategories() async {
-    await database.deleteAllCategories();
+  Future<Either<Failure, CategoryEntity>> getCategoryById(int id) {
+    // TODO: implement getCategoryById
+    throw UnimplementedError();
   }
 
   @override
   Future<Either<Failure, CategoryEntity>> updateCategory(
-      int id, String categoryName) async {
-    final CategoryModel categoryModel = await database.updateCategory(
-        CategoryEntityMapper.transformToModelMap(id, categoryName));
-    if (categoryModel['id'] == null) {
-      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
-    } else {
-      return (Right(
-          CategoryEntityMapper.transformModelToEntity(categoryModel)));
-    }
+      CategoryEntity category) {
+    // TODO: implement updateCategory
+    throw UnimplementedError();
   }
 }
