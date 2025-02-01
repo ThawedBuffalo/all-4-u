@@ -6,16 +6,16 @@ import '../../dtos/category_dto.dart';
 @dao
 abstract class CategoryDAO {
   @Query('SELECT * FROM category')
-  Future<List<CategoryDTO?>> findAllCategories();
+  Future<List<CategoryDTO?>> getAllCategories();
 
   @Query('SELECT * FROM category WHERE id = :id')
-  Future<CategoryDTO?> findCategoryByID(int id);
+  Future<CategoryDTO?> getCategoryByID(int id);
 
   @insert
   Future<int?> insertCategory(CategoryDTO categoryDTO);
 
   @update
-  Future<void> updateCategory(CategoryDTO categoryDTO);
+  Future<CategoryDTO?> updateCategory(CategoryDTO categoryDTO);
 
   @delete
   Future<int?> deleteCategory(CategoryDTO categoryDTO);
