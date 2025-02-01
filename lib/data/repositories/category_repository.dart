@@ -29,9 +29,17 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<void> deleteCategory(CategoryEntity category) {
-    // TODO: implement deleteCategory
-    throw UnimplementedError();
+  Future<Either<Failure, int>> deleteCategory(CategoryEntity category) async {
+    // map entity to dto
+    CategoryDTO categoryDTO =
+        CategoryEntityMapper.transformEntityToDTO(category);
+    int? response = await database.categoryDAO.deleteCategory(categoryDTO);
+    if (response == null) {
+      // error
+      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+    } else {
+      return Right(response);
+    }
   }
 
   @override

@@ -18,7 +18,7 @@ abstract class CategoryDAO {
   Future<void> updateCategory(CategoryDTO categoryDTO);
 
   @delete
-  Future<void> deleteCategory(CategoryDTO categoryDTO);
+  Future<int?> deleteCategory(CategoryDTO categoryDTO);
 
   @Query('DELETE from category')
   Future<void> deleteAllCategories();
