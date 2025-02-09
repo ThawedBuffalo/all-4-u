@@ -1,25 +1,33 @@
-import 'package:all_4_u/domain/usecases/delete_all_categories_usecase.dart';
-import 'package:floor/floor.dart';
+import 'package:all_4_u/domain/entities/category_entity.dart';
 
-import '../../dtos/category_dto.dart';
+class CategoryDAO {
+  Future<CategoryEntity?> deleteAll() {
+    // TODO: implement deleteAll
+    throw UnimplementedError();
+  }
 
-@dao
-abstract class CategoryDAO {
-  @Query('SELECT * FROM category')
-  Future<List<CategoryDTO?>> getAllCategories();
+  Future<CategoryEntity?> deleteOne(CategoryEntity category) {
+    // TODO: implement deleteOne
+    throw UnimplementedError();
+  }
 
-  @Query('SELECT * FROM category WHERE id = :id')
-  Future<CategoryDTO?> getCategoryByID(int id);
+  Future<List<CategoryEntity?>> findAll() {
+    // TODO: implement findAll
+    throw UnimplementedError();
+  }
 
-  @insert
-  Future<int?> insertCategory(CategoryDTO categoryDTO);
+  Future<CategoryEntity?> findOne(int id) {
+    // TODO: implement findOne
+    throw UnimplementedError();
+  }
 
-  @update
-  Future<CategoryDTO?> updateCategory(CategoryDTO categoryDTO);
+  Future<CategoryEntity?> update(CategoryEntity category) {
+    // TODO: implement update
+    throw UnimplementedError();
+  }
 
-  @delete
-  Future<int?> deleteCategory(CategoryDTO categoryDTO);
-
-  @Query('DELETE from category')
-  Future<void> deleteAllCategories();
+  Future<CategoryEntity?> insert(CategoryEntity entity) {
+    // TODO: implement insert
+    throw UnimplementedError();
+  }
 }

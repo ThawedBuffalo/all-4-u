@@ -1,14 +1,10 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
+import 'package:objectbox/objectbox.dart';
 
-part 'category_entity.freezed.dart';
-part 'category_entity.g.dart';
+@Entity()
+class CategoryEntity {
+  @Id()
+  int? id = 0;
+  String name;
 
-@freezed
-class CategoryEntity with _$CategoryEntity {
-  const factory CategoryEntity({required int? id, required String name}) =
-      _CategoryEntity;
-
-  factory CategoryEntity.fromJson(Map<String, Object?> json) =>
-      _$CategoryEntityFromJson(json);
+  CategoryEntity({required this.id, required this.name});
 }
