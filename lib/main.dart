@@ -1,14 +1,12 @@
-import 'package:all_4_u/data/datasources/database/objectbox.dart';
 import 'package:all_4_u/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'data/repositories/store_repository.dart';
 import 'injection_container.dart' as di;
 
 // ref: https://github.com/devmuaz/flutter-clean-architecture
 // https://devmuaz.medium.com/flutter-clean-architecture-series-part-1-d2d4c2e75c47
-
-late ObjectBox objectBox;
 
 void main() async {
   init();
@@ -30,8 +28,6 @@ init() async {
   //     message: 'application initializing...');
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
-
-  objectBox = await ObjectBox.create();
 
   CustomLogger.loggerNoStack.i('application starting...');
   runApp(App());

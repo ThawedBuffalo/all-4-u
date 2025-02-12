@@ -1,10 +1,11 @@
-// ref: https://quashbugs.com/blog/exploring-flutters-floor-library-for-efficient-data-persistence
-// https://medium.com/@arunshaik432/floor-package-notes-app-example-f6c00f2c0bac
+import 'package:objectbox/objectbox.dart';
 
+@Entity()
 class CategoryDTO {
-  final int? id;
-
-  final String name;
+  @Id()
+  int? id = 0;
+  @Unique()
+  String name;
 
   CategoryDTO({required this.id, required this.name});
 }

@@ -1,4 +1,4 @@
-// import 'package:all_4_u/domain/entities/category_entity.dart';
+// import 'package:all_4_u/domain/entities/category.dart';
 // import 'package:freezed_annotation/freezed_annotation.dart';
 // import 'package:flutter/foundation.dart';
 //

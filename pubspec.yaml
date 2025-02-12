@@ -51,6 +51,8 @@ dependencies:
   json_annotation: ^4.9.0
   objectbox: ^4.1.0
   objectbox_flutter_libs: ^4.1.0
+  injectable: ^2.5.0
+  retrofit: ^4.4.2
 
 
 dev_dependencies:
@@ -65,8 +67,13 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   mockito: ^5.4.5
   objectbox_generator: ^4.1.0
+  integration_test:
+    sdk: flutter
+  freezed: ^2.5.7
 
-
+# config objectbox
+objectbox:
+  output_dir: data/database
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

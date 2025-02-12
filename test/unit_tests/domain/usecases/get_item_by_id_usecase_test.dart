@@ -2,7 +2,7 @@
 // import 'package:all_4_u/core/error/failure.dart';
 // import 'package:all_4_u/data/repositories/category_repository.dart';
 // import 'package:all_4_u/data/repositories/item_repository.dart';
-// import 'package:all_4_u/domain/entities/category_entity.dart';
+// import 'package:all_4_u/domain/entities/category.dart';
 // import 'package:all_4_u/domain/entities/item_entity.dart';
 // import 'package:all_4_u/domain/usecases/get_category_by_id_usecase.dart';
 // import 'package:all_4_u/domain/usecases/get_item_by_id_usecase.dart';

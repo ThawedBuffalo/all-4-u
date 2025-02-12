@@ -1,7 +1,7 @@
 // import 'package:all_4_u/core/error/error_messages.dart';
 // import 'package:all_4_u/core/error/failure.dart';
 // import 'package:all_4_u/data/repositories/category_repository.dart';
-// import 'package:all_4_u/domain/entities/category_entity.dart';
+// import 'package:all_4_u/domain/entities/category.dart';
 // import 'package:all_4_u/domain/usecases/create_category_usecase.dart';
 // import 'package:flutter_test/flutter_test.dart';
 // import 'package:mockito/mockito.dart';

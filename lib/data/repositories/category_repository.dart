@@ -1,29 +1,22 @@
+import 'package:all_4_u/data/daos/category_dao_intf.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
-import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/category_repository_intf.dart';
 
-import 'package:all_4_u/objectbox.g.dart';
-
+@Injectable(as: CategoryRepository)
 class CategoryRepository implements CategoryRepositoryInterface {
-  final Store categoryStore;
-  late final Box<CategoryEntity> categoryBox;
-
-  CategoryRepository({required this.categoryStore}) {
-    categoryBox = Box<CategoryEntity>(categoryStore);
-  }
+  final CategoryDAOInterface _categoryDAO;
+  CategoryRepository(this._categoryDAO);
 
   @override
-  Future<Either<Failure, CategoryEntity>> createCategory(String name) async {
-    CategoryEntity category = CategoryEntity(id: null, name: name);
-    late int response;
-    try {
-      response = categoryBox.put(category);
-      return Right(CategoryEntity(id: response, name: name));
-    } on Exception catch (_, e) {
-      //return Left(DBFailure(errorMessage: e.toString()));
-      return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
+  Future<Either<Failure, int>> countCategories() async {
+    final numberOfCategories = await _categoryDAO.count();
+    if (numberOfCategories == 0) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return Right(numberOfCategories);
     }
   }
 

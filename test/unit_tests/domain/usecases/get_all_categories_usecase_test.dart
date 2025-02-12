@@ -1,6 +1,6 @@
 // import 'package:all_4_u/core/usecases/usecase.dart';
 // import 'package:all_4_u/data/repositories/category_repository.dart';
-// import 'package:all_4_u/domain/entities/category_entity.dart';
+// import 'package:all_4_u/domain/entities/category.dart';
 // import 'package:all_4_u/domain/entities/category_entity_list.dart';
 // import 'package:all_4_u/domain/usecases/get_all_categories_usecase.dart';
 // import 'package:flutter_test/flutter_test.dart';
