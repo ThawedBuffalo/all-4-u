@@ -1,9 +1,8 @@
+import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
-import 'package:path_provider/path_provider.dart';
-import 'data/repositories/store_repository.dart';
-import 'injection_container.dart' as di;
+import 'package:all_4_u/core/di/injectable.dart';
 
 // ref: https://github.com/devmuaz/flutter-clean-architecture
 // https://devmuaz.medium.com/flutter-clean-architecture-series-part-1-d2d4c2e75c47
@@ -27,9 +26,12 @@ init() async {
   //     type: MessageTypes.info,
   //     message: 'application initializing...');
   WidgetsFlutterBinding.ensureInitialized();
-  await di.init();
-
+  configureDependencies(Env.prod);
   CustomLogger.loggerNoStack.i('application starting...');
+
+  CategoryRepository repo = getIt<CategoryRepository>();
+  final count = repo.countCategories();
+  CustomLogger.loggerNoStack.i('count is-> $count <-');
   runApp(App());
 }
 

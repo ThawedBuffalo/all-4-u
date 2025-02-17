@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/presentation/pages/widgets/text-form-widget.dart';
-
-import '../../../data/repositories/category_repository.dart';
-import '../../../data/repositories/store_repository.dart';
 import '../page-2/page-2.dart';
 
 class Page1 extends StatefulWidget {
@@ -51,10 +48,6 @@ class _Page1State extends State<Page1> {
                     if (_formKey.currentState!.validate()) {
                       String categoryName = _categoryController.text;
                       CustomLogger.loggerNoStack.i("INFO: ->$categoryName<-");
-
-                      // CategoryRepository repo =
-                      //     CategoryRepository(store: storeRepo.store);
-                      // repo.createCategory(categoryName);
 
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {

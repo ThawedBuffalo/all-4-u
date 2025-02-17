@@ -5,14 +5,15 @@ import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
 import '../../domain/repositories/category_repository_intf.dart';
 
-@Injectable(as: CategoryRepository)
+@Injectable()
 class CategoryRepository implements CategoryRepositoryInterface {
-  final CategoryDAOInterface _categoryDAO;
-  CategoryRepository(this._categoryDAO);
+  final CategoryDAOInterface categoryDAO;
+
+  CategoryRepository({required this.categoryDAO});
 
   @override
   Future<Either<Failure, int>> countCategories() async {
-    final numberOfCategories = await _categoryDAO.count();
+    final numberOfCategories = await categoryDAO.countAll();
     if (numberOfCategories == 0) {
       return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
     } else {
