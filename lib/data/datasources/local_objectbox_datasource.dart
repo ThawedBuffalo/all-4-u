@@ -7,7 +7,7 @@ import 'package:path/path.dart' show join;
 
 import '../database/objectbox.g.dart';
 
-@Injectable()
+@lazySingleton
 class LocalObjectBoxDataSource {
   late final objectbox.Store _store;
   final LocalDirectoryInterface directory;
@@ -15,8 +15,10 @@ class LocalObjectBoxDataSource {
 
   LocalObjectBoxDataSource({required this.directory});
   Future<void> initStore() async {
-    _store = Store(getObjectBoxModel(),
-        directory: join(await directory.getDirectory(), 'all4u_db_$_version'));
+    var dir = await directory.getDirectory();
+
+    _store =
+        Store(getObjectBoxModel(), directory: join(dir, 'all4u_db_$_version'));
     return;
   }
 

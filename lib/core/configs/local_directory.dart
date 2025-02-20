@@ -9,6 +9,7 @@ class LocalDirectory implements LocalDirectoryInterface {
   @override
   Future<String> getDirectory() async {
     final Directory appSupDir = await getApplicationSupportDirectory();
-    return appSupDir.path;
+    var storeLocation = appSupDir.path;
+    return storeLocation;
   }
 }

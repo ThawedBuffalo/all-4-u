@@ -7,7 +7,7 @@ import '../database/objectbox.g.dart';
 import '../datasources/local_objectbox_datasource.dart';
 import 'package:objectbox/objectbox.dart' as objectbox;
 
-@Injectable(as: CategoryDAOInterface)
+@injectable
 class CategoryDAO implements CategoryDAOInterface {
   late final objectbox.Store _store;
   final LocalObjectBoxDataSource dataSource;
@@ -17,7 +17,7 @@ class CategoryDAO implements CategoryDAOInterface {
     _store = dataSource.store;
 
     // open box
-    _categoryBox = Box<CategoryDTO>(_store);
+    _categoryBox = objectbox.Box<CategoryDTO>(_store);
   }
 
   @override
