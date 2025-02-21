@@ -5,7 +5,7 @@ import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
 import '../../domain/repositories/category_repository_intf.dart';
 
-@injectable
+@Injectable(as: CategoryRepositoryInterface)
 class CategoryRepository implements CategoryRepositoryInterface {
   final CategoryDAOInterface categoryDAO;
 

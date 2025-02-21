@@ -1,15 +1,11 @@
 import 'package:all_4_u/data/daos/category_dao_intf.dart';
 import 'package:all_4_u/data/datasources/local_objectbox_datasource.dart';
-import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/core/di/injectable.dart';
-import 'package:get_it/get_it.dart';
 
 import 'core/configs/local_directory_intf.dart';
-import 'data/daos/category_dao.dart';
-import 'package:all_4_u/core/di/injectable.dart';
 
 import 'domain/repositories/category_repository_intf.dart';
 
@@ -35,16 +31,18 @@ Future<void> init() async {
   //     type: MessageTypes.info,
   //     message: 'application initializing...');
   WidgetsFlutterBinding.ensureInitialized();
-  await configureDependencies(Env.prod);
+  await configureDependencies();
   CustomLogger.loggerNoStack.i('application starting...');
   LocalDirectoryInterface intf = getIt<LocalDirectoryInterface>();
   LocalObjectBoxDataSource dataSource = getIt<LocalObjectBoxDataSource>();
   await dataSource.initStore();
-  CategoryDAO dao = getIt<CategoryDAO>();
-  CategoryRepository repo = getIt<CategoryRepository>();
-  final count = repo.countCategories();
+  // begin testing di
+  //CategoryDAOInterface dao = getIt<CategoryDAOInterface>();
+  //CategoryRepositoryInterface repo = getIt<CategoryRepositoryInterface>();
+  //final count = await repo.countCategories();
   //final int count = 1;
-  CustomLogger.loggerNoStack.i('count is-> $count <-');
+  //CustomLogger.loggerNoStack.i('count is-> $count <-');
+  // end testing di
   runApp(App());
 }
 

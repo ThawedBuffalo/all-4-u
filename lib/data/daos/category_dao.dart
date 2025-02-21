@@ -7,7 +7,7 @@ import '../database/objectbox.g.dart';
 import '../datasources/local_objectbox_datasource.dart';
 import 'package:objectbox/objectbox.dart' as objectbox;
 
-@injectable
+@Injectable(as: CategoryDAOInterface)
 class CategoryDAO implements CategoryDAOInterface {
   late final objectbox.Store _store;
   final LocalObjectBoxDataSource dataSource;

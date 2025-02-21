@@ -2,7 +2,6 @@ import 'package:injectable/injectable.dart';
 
 import '../../domain/entities/category.dart';
 
-@factoryMethod
 abstract class CategoryDAOInterface {
   // Future<Category?> findOne(int categoryId);
   // Future<List<Category>> findAll();
