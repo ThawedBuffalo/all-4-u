@@ -37,9 +37,9 @@ Future<void> init() async {
   LocalObjectBoxDataSource dataSource = getIt<LocalObjectBoxDataSource>();
   await dataSource.initStore();
   // begin testing di
-  //CategoryDAOInterface dao = getIt<CategoryDAOInterface>();
-  //CategoryRepositoryInterface repo = getIt<CategoryRepositoryInterface>();
-  //final count = await repo.countCategories();
+  CategoryDAOInterface dao = getIt<CategoryDAOInterface>();
+  CategoryRepositoryInterface repo = getIt<CategoryRepositoryInterface>();
+  final count = await repo.countCategories();
   //final int count = 1;
   //CustomLogger.loggerNoStack.i('count is-> $count <-');
   // end testing di

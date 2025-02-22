@@ -1,5 +1,6 @@
 import 'package:all_4_u/data/daos/category_dao_intf.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
+import 'package:all_4_u/domain/entities/category.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../core/logging/custom_logger.dart';
@@ -21,7 +22,14 @@ class CategoryDAO implements CategoryDAOInterface {
   }
 
   @override
-  Future<int> countAll() async {
-    return _categoryBox.count();
+  int countAll() {
+    int catCount = _categoryBox.count();
+    //return _categoryBox.count();
+    return catCount;
+  }
+
+  @override
+  void insert(CategoryDTO category) {
+    _categoryBox.put(category);
   }
 }

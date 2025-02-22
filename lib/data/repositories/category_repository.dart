@@ -1,6 +1,8 @@
 import 'package:all_4_u/data/daos/category_dao_intf.dart';
+import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import '../../core/di/injectable.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
 import '../../domain/repositories/category_repository_intf.dart';
@@ -13,12 +15,18 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<Either<Failure, int>> countCategories() async {
-    final numberOfCategories = await categoryDAO.countAll();
+    final numberOfCategories = categoryDAO.countAll();
     if (numberOfCategories == 0) {
       return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
     } else {
       return Right(numberOfCategories);
     }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> createCategory(String name) {
+    CategoryDTO category = getIt<CategoryDTO>();
+    CategoryDTO category = getIt<CategoryDTO>();
   }
 
   // @override

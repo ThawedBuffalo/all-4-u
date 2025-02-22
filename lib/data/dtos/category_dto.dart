@@ -7,5 +7,5 @@ class CategoryDTO {
   @Unique()
   String name;
 
-  CategoryDTO({required this.id, required this.name});
+  CategoryDTO({required this.name});
 }
