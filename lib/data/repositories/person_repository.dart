@@ -1,63 +1,64 @@
-// import 'package:dartz/dartz.dart';
-// import '../../core/error/error_messages.dart';
-// import '../../core/error/failure.dart';
-// import '../../domain/entities/person_entity.dart';
-// import '../../domain/entities/person_entity_list.dart';
-// import '../../domain/repositories/person_repository_intf.dart';
-// import '../datasources/database/all4u_database.dart';
-// import '../mapper/person_entity_list_mapper.dart';
-// import '../mapper/person_entity_mapper.dart';
-// import '../models/person_model.dart';
-//
-// class PersonRepository implements PersonRepositoryInterface {
-//   final All4UDatabase database;
-//
-//   const PersonRepository({required this.database});
-//
-//   @override
-//   Future<Either<Failure, PersonEntity>> insertPerson(
-//       final String firstName, final String lastName) async {
-//     final PersonModel personModel = await database.insertPerson(
-//         PersonEntityMapper.transformToNewModelMap(firstName, lastName));
-//     if (personModel['id'] == null) {
-//       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
-//     } else {
-//       return (Right(PersonEntityMapper.transformModelToEntity(personModel)));
-//     }
-//   }
-//
-//   @override
-//   Future<Either<Failure, PersonEntity>> getPersonById(int id) async {
-//     final PersonModel personModel = await database.getPersonById(id);
-//
-//     return (Right(PersonEntityMapper.transformModelToEntity(personModel)));
-//   }
-//
-//   @override
-//   Future<Either<Failure, PersonEntityList>> getAllPeople() async {
-//     final PersonModelList modelList = await database.getAllPeople();
-//     return (Right(PersonEntityListMapper.transformModelToEntity(modelList)));
-//   }
-//
-//   @override
-//   Future<void> deletePersonById(final int id) async =>
-//       await database.deletePersonById(id);
-//
-//   @override
-//   Future<void> deleteAllPeople() async {
-//     await database.deleteAllPeople();
-//   }
-//
-//   @override
-//   Future<Either<Failure, PersonEntity>> updatePerson(
-//       int id, String personFirstName, String personLastName) async {
-//     final PersonModel personModel = await database.updatePerson(
-//         PersonEntityMapper.transformToModelMap(
-//             id, personFirstName, personLastName));
-//     if (personModel['id'] == null) {
-//       return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
-//     } else {
-//       return (Right(PersonEntityMapper.transformModelToEntity(personModel)));
-//     }
-//   }
-// }
+import 'package:all_4_u/core/error/failure.dart';
+
+import 'package:all_4_u/domain/entities/person_entity.dart';
+
+import 'package:all_4_u/domain/entities/person_entity_list.dart';
+
+import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
+
+import '../../core/error/error_messages.dart';
+import '../../domain/repositories/person_repository_intf.dart';
+import '../daos/person_dao_intf.dart';
+
+@Injectable(as: PersonRepositoryInterface)
+class PersonRepository implements PersonRepositoryInterface {
+  final PersonDAOInterface personDAO;
+  PersonRepository({required this.personDAO});
+
+  @override
+  Future<Either<Failure, int>> countPeople() async {
+    final numberOfPeople = await personDAO.countAll();
+    if (numberOfPeople == 0) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return Right(numberOfPeople);
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> createPerson({required final String firstName,
+    required final String lastName}) {
+    // TODO: implement createPerson
+    throw UnimplementedError();
+  }
+
+  @override
+  void deleteAllPeople() {
+    // TODO: implement deleteAllPeople
+  }
+
+  @override
+  void deletePerson(int id) {
+    // TODO: implement deletePerson
+  }
+
+  @override
+  Future<Either<Failure, PersonEntityList>> getAllPeople() {
+    // TODO: implement getAllPeople
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, PersonEntity>> getPersonById(int id) {
+    // TODO: implement getPersonById
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, PersonEntity>> updatePerson(
+      int id, String firstName, String personLastName) {
+    // TODO: implement updatePerson
+    throw UnimplementedError();
+  }
+}

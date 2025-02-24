@@ -14,7 +14,6 @@ import '../mapper/category_entity_mapper.dart';
 @Injectable(as: CategoryRepositoryInterface)
 class CategoryRepository implements CategoryRepositoryInterface {
   final CategoryDAOInterface categoryDAO;
-
   CategoryRepository({required this.categoryDAO});
 
   @override
@@ -28,7 +27,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, int>> createCategory(String name) async {
+  Future<Either<Failure, int>> createCategory(
+      {required final String name}) async {
     // must set ID to 0 for DB to autoincrement
     CategoryDTO category = CategoryDTO(id: 0, name: name);
     final result = await categoryDAO.insert(category);
@@ -40,8 +40,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<void> deleteCategory(int categoryId) async {
-    await categoryDAO.delete(categoryId);
+  void deleteCategory({required int categoryId}) {
+    categoryDAO.delete(categoryId);
   }
 
   @override
@@ -62,7 +62,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, CategoryEntity>> getCategoryById(int id) async {
+  Future<Either<Failure, CategoryEntity>> getCategoryById(
+      {required final int id}) async {
     final List<CategoryDTO> categoryDTOList = await categoryDAO.findOne(id);
 
     if (categoryDTOList.isEmpty) {
@@ -78,7 +79,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, int>> updateCategory(CategoryEntity category) async {
+  Future<Either<Failure, int>> updateCategory(
+      {required final CategoryEntity category}) async {
     final result = await categoryDAO
         .insert(CategoryEntityMapper.transformEntityToDTO(category));
     if (result.isLeft()) {
