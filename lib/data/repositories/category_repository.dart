@@ -1,11 +1,14 @@
+import 'package:all_4_u/core/helpers/EitherX.dart';
 import 'package:all_4_u/data/daos/category_dao_intf.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import '../../core/di/injectable.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
+import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/category_entity_list.dart';
 import '../../domain/repositories/category_repository_intf.dart';
+import '../mapper/category_entity_mapper.dart';
 
 @Injectable(as: CategoryRepositoryInterface)
 class CategoryRepository implements CategoryRepositoryInterface {
@@ -15,7 +18,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<Either<Failure, int>> countCategories() async {
-    final numberOfCategories = categoryDAO.countAll();
+    final numberOfCategories = await categoryDAO.countAll();
     if (numberOfCategories == 0) {
       return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
     } else {
@@ -24,67 +27,52 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, dynamic>> createCategory(String name) {
-    CategoryDTO category = getIt<CategoryDTO>();
-    CategoryDTO category = getIt<CategoryDTO>();
+  Future<Either<Failure, int>> createCategory(String name) async {
+    // must set ID to 0 for DB to autoincrement
+    CategoryDTO category = CategoryDTO(id: 0, name: name);
+    final result = await categoryDAO.insert(category);
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
   }
 
-  // @override
-  // Future<Either<Failure, int>> deleteCategory(CategoryEntity category) async {
-  //   // map entity to dto
-  //   CategoryDTO categoryDTO =
-  //       CategoryEntityMapper.transformEntityToDTO(category);
-  //   int? response = await database.categoryDAO.deleteCategory(categoryDTO);
-  //   if (response == null) {
-  //     // error
-  //     return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
-  //   } else {
-  //     return Right(response);
-  //   }
-  // }
-  //
-  // @override
-  // Future<Either<Failure, CategoryEntityList>> getAllCategories() async {
-  //   List<CategoryDTO?> categoryDTOList =
-  //       await database.categoryDAO.getAllCategories();
-  //   if (categoryDTOList.isEmpty) {
-  //     // error
-  //     return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
-  //   } else {
-  //     return Right(CategoryEntityListMapper.transformDTOListToEntityList(
-  //         categoryDTOList));
-  //   }
-  // }
-  //
-  // @override
-  // Future<Either<Failure, CategoryEntity>> getCategoryById(int id) async {
-  //   CategoryDTO? categoryDTO = await database.categoryDAO.getCategoryByID(id);
-  //   if (categoryDTO?.id == null) {
-  //     // error
-  //     return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
-  //   } else {
-  //     return Right(CategoryEntityMapper.transformDTOToEntity(categoryDTO!));
-  //   }
-  // }
-  //
-  // @override
-  // Future<Either<Failure, CategoryEntity>> updateCategory(
-  //     CategoryEntity category) async {
-  //   // map entity to dto
-  //   CategoryDTO categoryDTO =
-  //       CategoryEntityMapper.transformEntityToDTO(category);
-  //   int? numberUpdated = await database.categoryDAO.updateCategory(categoryDTO);
-  //   if (numberUpdated == null) {
-  //     // error
-  //     return Left(DBFailure(errorMessage: DB_INSERT_FAILURE));
-  //   } else {
-  //     return Right(CategoryEntityMapper.transformDTOToEntity(categoryDTO!));
-  //   }
-  // }
-  //
-  // @override
-  // Future<void> deleteAllCategories() {
-  //   // TODO: implement deleteAllCategories
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<void> deleteCategory(int categoryId) async {
+    await categoryDAO.delete(categoryId);
+  }
+
+  @override
+  void deleteAllCategories() {
+    categoryDAO.deleteAll();
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntityList>> getAllCategories() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> getCategoryById(int id) async {
+    final List<CategoryDTO> categoryDTOList = await categoryDAO.findOne(id);
+
+    if (categoryDTOList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      if (categoryDTOList.length > 1) {
+        return Left(DBEmptyResult(errorMessage: DB_RETURNED_MORE));
+      } else {
+        return Right(
+            CategoryEntityMapper.transformDTOToEntity(categoryDTOList[0]));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> updateCategory(
+      CategoryEntity category) {
+    // TODO: implement updateCategory
+    throw UnimplementedError();
+  }
 }

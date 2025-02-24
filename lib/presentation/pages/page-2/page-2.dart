@@ -1,4 +1,4 @@
-import 'package:all_4_u/domain/entities/category.dart';
+import 'package:all_4_u/domain/entities/category_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:all_4_u/presentation/pages/page-1/product-model.dart.dart';
 

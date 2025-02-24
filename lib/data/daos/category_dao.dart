@@ -1,9 +1,7 @@
 import 'package:all_4_u/data/daos/category_dao_intf.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
-import 'package:all_4_u/domain/entities/category.dart';
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../core/logging/custom_logger.dart';
 import '../database/objectbox.g.dart';
 import '../datasources/local_objectbox_datasource.dart';
 import 'package:objectbox/objectbox.dart' as objectbox;
@@ -22,14 +20,68 @@ class CategoryDAO implements CategoryDAOInterface {
   }
 
   @override
-  int countAll() {
-    int catCount = _categoryBox.count();
-    //return _categoryBox.count();
+  Future<int> countAll() async {
+    final int catCount = _categoryBox.count();
     return catCount;
   }
 
   @override
-  void insert(CategoryDTO category) {
-    _categoryBox.put(category);
+  Future<Either<String, int>> insert(CategoryDTO category) async {
+    late int result;
+    try {
+      result = await _categoryBox.putAsync(category);
+      return Right(result);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<void> delete(int categoryId) async {
+    Query<CategoryDTO> query = _store
+        .box<CategoryDTO>()
+        .query(CategoryDTO_.id.equals(categoryId))
+        .build();
+    await query.removeAsync();
+    query.close();
+  }
+
+  @override
+  Future<List<CategoryDTO>> findAll() async {
+    Query<CategoryDTO> query =
+        _store.box<CategoryDTO>().query().order(CategoryDTO_.id).build();
+    List<CategoryDTO> categories = await query.findAsync();
+    query.close();
+    return categories;
+  }
+
+  @override
+  Future<List<CategoryDTO>> findOne(int categoryId) async {
+    Query<CategoryDTO> query = _store
+        .box<CategoryDTO>()
+        .query(CategoryDTO_.id.equals(categoryId))
+        .build();
+    List<CategoryDTO> categories = await query.findAsync();
+    query.close();
+    return categories;
+  }
+
+  @override
+  void deleteAll() {
+    _store.box<CategoryDTO>().removeAllAsync();
+    // Query<CategoryDTO> query =
+    //     _store.box<CategoryDTO>().query().order(CategoryDTO_.id).build();
+    // List<CategoryDTO> categories = query.find();
+    // for (int i = 0; i < categories.length; i++) {
+    //   int? categoryId = categories[i].id;
+    //   Query<CategoryDTO> query = _store
+    //       .box<CategoryDTO>()
+    //       .query(CategoryDTO_.id.equals(categoryId!))
+    //       .build();
+    //   //await query.removeAsync();
+    //   _store.box<CategoryDTO>().removeAllAsync();
+    //   query.close();
+    // }
+    // query.close();
   }
 }
