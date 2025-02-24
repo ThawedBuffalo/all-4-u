@@ -7,7 +7,7 @@ class CategoryEntityMapper {
   }
 
   static CategoryDTO transformEntityToDTO(final CategoryEntity entity) {
-    return CategoryDTO(id: 0, name: entity.name);
+    return CategoryDTO(id: entity.id, name: entity.name);
   }
 
   static CategoryDTO transformToNewDTO(final String name) {

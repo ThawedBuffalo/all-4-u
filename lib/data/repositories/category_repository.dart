@@ -1,6 +1,7 @@
 import 'package:all_4_u/core/helpers/EitherX.dart';
 import 'package:all_4_u/data/daos/category_dao_intf.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
+import 'package:all_4_u/data/mapper/category_entity_list_mapper.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import '../../core/error/error_messages.dart';
@@ -50,7 +51,14 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<Either<Failure, CategoryEntityList>> getAllCategories() async {
-    throw UnimplementedError();
+    final List<CategoryDTO> categoryDTOList = await categoryDAO.findAll();
+
+    if (categoryDTOList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return Right(CategoryEntityListMapper.transformDTOListToEntityList(
+          categoryDTOList));
+    }
   }
 
   @override
@@ -70,9 +78,13 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, CategoryEntity>> updateCategory(
-      CategoryEntity category) {
-    // TODO: implement updateCategory
-    throw UnimplementedError();
+  Future<Either<Failure, int>> updateCategory(CategoryEntity category) async {
+    final result = await categoryDAO
+        .insert(CategoryEntityMapper.transformEntityToDTO(category));
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
   }
 }

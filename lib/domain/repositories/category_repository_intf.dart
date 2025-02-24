@@ -8,8 +8,7 @@ abstract class CategoryRepositoryInterface {
   Future<Either<Failure, int>> createCategory(final String name);
   Future<Either<Failure, CategoryEntity>> getCategoryById(final int id);
   Future<Either<Failure, CategoryEntityList>> getAllCategories();
-  Future<Either<Failure, CategoryEntity>> updateCategory(
-      CategoryEntity category);
+  Future<Either<Failure, int>> updateCategory(CategoryEntity category);
   Future<void> deleteCategory(int categoryId);
   void deleteAllCategories();
 }

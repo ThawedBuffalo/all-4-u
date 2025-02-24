@@ -2,10 +2,12 @@ import 'package:all_4_u/data/daos/category_dao_intf.dart';
 import 'package:all_4_u/data/datasources/local_objectbox_datasource.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/domain/entities/category_entity.dart';
+import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:all_4_u/presentation/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/core/di/injectable.dart';
+import 'package:all_4_u/core/helpers/EitherX.dart';
 
 import 'core/configs/local_directory_intf.dart';
 
@@ -41,17 +43,26 @@ Future<void> init() async {
   // begin testing di
   CategoryDAOInterface dao = getIt<CategoryDAOInterface>();
   CategoryRepositoryInterface repo = getIt<CategoryRepositoryInterface>();
-  final count = repo.countCategories();
+  final count = await repo.countCategories();
   //final int count = 1;
   //CustomLogger.loggerNoStack.i('count is-> $count <-');
   // end testing di
 
-  //final response = await repo.createCategory('jimmy');
-  //final response2 = await repo.createCategory('jim');
-  //final response3 = await repo.createCategory('jc');
-  final categoryEntity = await repo.getCategoryById(1);
+  final response = await repo.createCategory('jimmy');
+  final response2 = await repo.createCategory('jim');
+  final response3 = await repo.createCategory('jc');
+  //final categoryEntity = await repo.getCategoryById(1);
   //List<CategoryDTO> categories = dao.findOne(1);
-  // List<CategoryDTO> categoriesList = dao.findAll();
+  final results = await repo.getAllCategories();
+  late CategoryEntity entity2;
+  if (results.isRight()) {
+    CategoryEntityList list = results.asRight();
+    CategoryEntity entity = list[0];
+    entity2 = entity.copyWith(name: 'bozo');
+  }
+
+  await repo.updateCategory(entity2);
+
   // repo.deleteCategory(1);
   // repo.deleteCategory(2);
   // repo.deleteCategory(3);
