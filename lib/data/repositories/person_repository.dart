@@ -1,4 +1,5 @@
 import 'package:all_4_u/core/error/failure.dart';
+import 'package:all_4_u/core/helpers/EitherX.dart';
 
 import 'package:all_4_u/domain/entities/person_entity.dart';
 
@@ -10,6 +11,8 @@ import 'package:injectable/injectable.dart';
 import '../../core/error/error_messages.dart';
 import '../../domain/repositories/person_repository_intf.dart';
 import '../daos/person_dao_intf.dart';
+import '../dtos/person_dto.dart';
+import '../mapper/person_entity_mapper.dart';
 
 @Injectable(as: PersonRepositoryInterface)
 class PersonRepository implements PersonRepositoryInterface {
@@ -27,10 +30,17 @@ class PersonRepository implements PersonRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, int>> createPerson({required final String firstName,
-    required final String lastName}) {
-    // TODO: implement createPerson
-    throw UnimplementedError();
+  Future<Either<Failure, int>> createPerson(
+      {required final String firstName, required final String lastName}) async {
+    // must set ID to 0 for DB to autoincrement
+    PersonDTO person =
+        PersonDTO(id: 0, firstName: firstName, lastName: lastName);
+    final result = await personDAO.insert(person);
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
   }
 
   @override
@@ -50,9 +60,19 @@ class PersonRepository implements PersonRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, PersonEntity>> getPersonById(int id) {
-    // TODO: implement getPersonById
-    throw UnimplementedError();
+  Future<Either<Failure, PersonEntity>> getPersonById(
+      {required final int id}) async {
+    final List<PersonDTO> personDTOList = await personDAO.findOne(id);
+
+    if (personDTOList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      if (personDTOList.length > 1) {
+        return Left(DBEmptyResult(errorMessage: DB_RETURNED_MORE));
+      } else {
+        return Right(PersonEntityMapper.transformDTOToEntity(personDTOList[0]));
+      }
+    }
   }
 
   @override

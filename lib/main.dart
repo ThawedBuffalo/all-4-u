@@ -57,7 +57,7 @@ Future<void> init() async {
   ccount = await crepo.countCategories();
 
   final categoryEntity = await crepo.getCategoryById(id: 1);
-  List<CategoryDTO> categories = await cdao.findOne(1);
+  //List<CategoryDTO> categories = await cdao.findOne(1);
   final results = await crepo.getAllCategories();
   late CategoryEntity categoryEntityMod;
   if (results.isRight()) {
@@ -66,18 +66,23 @@ Future<void> init() async {
     categoryEntityMod = entity.copyWith(name: 'bozo');
   }
   await crepo.updateCategory(category: categoryEntityMod);
+  var catResult = await crepo.getAllCategories();
 
   crepo.deleteCategory(categoryId: 1);
   crepo.deleteCategory(categoryId: 2);
   crepo.deleteCategory(categoryId: 3);
-
+  ccount = await crepo.countCategories();
   PersonDAOInterface pdao = getIt<PersonDAOInterface>();
   PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
-  final pcount = await prepo.countPeople();
+  var pcount = await prepo.countPeople();
 
-  // final presponse = await prepo.createPerson();
-  // final categoryEntity = await repo.getCategoryById(1);
-  // List<CategoryDTO> categories = dao.findOne(1);
+  await prepo.createPerson(firstName: 'Jim', lastName: 'Reid');
+  await prepo.createPerson(firstName: 'Ana', lastName: 'Reid');
+  await prepo.createPerson(firstName: 'Jordan', lastName: 'Reid');
+  pcount = await prepo.countPeople();
+
+  final personEntity = await prepo.getPersonById(id: 1);
+  // List<PersonDTO> person = await prepo.getPersonById(id: 1);
   // final results = await repo.getAllCategories();
   // late CategoryEntity entity2;
   // if (results.isRight()) {

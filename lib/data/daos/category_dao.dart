@@ -22,12 +22,14 @@ class CategoryDAO implements CategoryDAOInterface {
   @override
   Future<int> countAll() async {
     final int catCount = _categoryBox.count();
+    //final int catCount = _store.box<CategoryDTO>().count();
     return catCount;
   }
 
   @override
   Future<Either<String, int>> insert(CategoryDTO category) async {
     late int result;
+
     try {
       result = await _categoryBox.putAsync(category);
       return Right(result);
