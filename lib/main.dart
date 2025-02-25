@@ -14,6 +14,8 @@ import 'package:all_4_u/core/helpers/EitherX.dart';
 
 import 'core/configs/local_directory_intf.dart';
 
+import 'domain/entities/person_entity.dart';
+import 'domain/entities/person_entity_list.dart';
 import 'domain/repositories/category_repository_intf.dart';
 
 // ref: https://github.com/devmuaz/flutter-clean-architecture
@@ -47,56 +49,57 @@ Future<void> init() async {
   // begin testing di
 
   // category test
-  CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
-  CategoryRepositoryInterface crepo = getIt<CategoryRepositoryInterface>();
-  var ccount = await crepo.countCategories();
-
-  final response = await crepo.createCategory(name: 'date');
-  final response2 = await crepo.createCategory(name: 'gift');
-  final response3 = await crepo.createCategory(name: 'favorites');
-  ccount = await crepo.countCategories();
-
-  final categoryEntity = await crepo.getCategoryById(id: 1);
-  //List<CategoryDTO> categories = await cdao.findOne(1);
-  final results = await crepo.getAllCategories();
-  late CategoryEntity categoryEntityMod;
-  if (results.isRight()) {
-    CategoryEntityList list = results.asRight();
-    CategoryEntity entity = list[0];
-    categoryEntityMod = entity.copyWith(name: 'bozo');
-  }
-  await crepo.updateCategory(category: categoryEntityMod);
-  var catResult = await crepo.getAllCategories();
-
-  crepo.deleteCategory(categoryId: 1);
-  crepo.deleteCategory(categoryId: 2);
-  crepo.deleteCategory(categoryId: 3);
-  ccount = await crepo.countCategories();
-  PersonDAOInterface pdao = getIt<PersonDAOInterface>();
-  PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
-  var pcount = await prepo.countPeople();
-
-  await prepo.createPerson(firstName: 'Jim', lastName: 'Reid');
-  await prepo.createPerson(firstName: 'Ana', lastName: 'Reid');
-  await prepo.createPerson(firstName: 'Jordan', lastName: 'Reid');
-  pcount = await prepo.countPeople();
-
-  final personEntity = await prepo.getPersonById(id: 1);
-  // List<PersonDTO> person = await prepo.getPersonById(id: 1);
-  // final results = await repo.getAllCategories();
-  // late CategoryEntity entity2;
+  // CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
+  // CategoryRepositoryInterface crepo = getIt<CategoryRepositoryInterface>();
+  // var ccount = await crepo.countCategories();
+  //
+  // final response = await crepo.createCategory(name: 'date');
+  // final response2 = await crepo.createCategory(name: 'gift');
+  // final response3 = await crepo.createCategory(name: 'favorites');
+  // ccount = await crepo.countCategories();
+  //
+  // final categoryEntity = await crepo.getCategoryById(id: 1);
+  // //List<CategoryDTO> categories = await cdao.findOne(1);
+  // final results = await crepo.getAllCategories();
+  // late CategoryEntity categoryEntityMod;
   // if (results.isRight()) {
   //   CategoryEntityList list = results.asRight();
   //   CategoryEntity entity = list[0];
-  //   entity2 = entity.copyWith(name: 'bozo');
+  //   categoryEntityMod = entity.copyWith(name: 'bozo');
   // }
+  // await crepo.updateCategory(category: categoryEntityMod);
+  // var catResult = await crepo.getAllCategories();
   //
-  // await repo.updateCategory(entity2);
+  // crepo.deleteCategory(categoryId: 1);
+  // crepo.deleteCategory(categoryId: 2);
+  // crepo.deleteCategory(categoryId: 3);
+  // ccount = await crepo.countCategories();
 
-  // repo.deleteCategory(1);
-  // repo.deleteCategory(2);
-  // repo.deleteCategory(3);
-  // repo.deleteAllCategories();
+  // end category test
+
+  // begin person test
+  // PersonDAOInterface pdao = getIt<PersonDAOInterface>();
+  // PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
+  // var pcount = await prepo.countPeople();
+  //
+  // await prepo.createPerson(firstName: 'Jim', lastName: 'Reid');
+  // await prepo.createPerson(firstName: 'Ana', lastName: 'Reid');
+  // await prepo.createPerson(firstName: 'Jordan', lastName: 'Reid');
+  // pcount = await prepo.countPeople();
+  //
+  // final results = await prepo.getPersonById(id: 1);
+  // late PersonEntity person2;
+  // if (results.isRight()) {
+  //   PersonEntity person = results.asRight();
+  //   person2 = person.copyWith(firstName: 'Mia');
+  // }
+  // await prepo.updatePerson(person: person2);
+  // final response = await prepo.getAllPeople();
+  // prepo.deletePerson(id: 1);
+  // pcount = await prepo.countPeople();
+  // prepo.deleteAllPeople();
+  // pcount = await prepo.countPeople();
+  // end person test
 
   // end testing di
 

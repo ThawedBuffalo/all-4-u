@@ -9,8 +9,8 @@ abstract class PersonRepositoryInterface {
       {required final String firstName, required final String lastName});
   Future<Either<Failure, PersonEntity>> getPersonById({required final int id});
   Future<Either<Failure, PersonEntityList>> getAllPeople();
-  Future<Either<Failure, PersonEntity>> updatePerson(
-      final int id, final String firstName, String personLastName);
-  void deletePerson(final int id);
+  Future<Either<Failure, int>> updatePerson(
+      {required final PersonEntity person});
+  void deletePerson({required int id});
   void deleteAllPeople();
 }

@@ -12,6 +12,7 @@ import '../../core/error/error_messages.dart';
 import '../../domain/repositories/person_repository_intf.dart';
 import '../daos/person_dao_intf.dart';
 import '../dtos/person_dto.dart';
+import '../mapper/person_entity_list_mapper.dart';
 import '../mapper/person_entity_mapper.dart';
 
 @Injectable(as: PersonRepositoryInterface)
@@ -45,18 +46,24 @@ class PersonRepository implements PersonRepositoryInterface {
 
   @override
   void deleteAllPeople() {
-    // TODO: implement deleteAllPeople
+    personDAO.deleteAll();
   }
 
   @override
-  void deletePerson(int id) {
-    // TODO: implement deletePerson
+  void deletePerson({required int id}) {
+    personDAO.delete(id);
   }
 
   @override
-  Future<Either<Failure, PersonEntityList>> getAllPeople() {
-    // TODO: implement getAllPeople
-    throw UnimplementedError();
+  Future<Either<Failure, PersonEntityList>> getAllPeople() async {
+    final List<PersonDTO> personDTOList = await personDAO.findAll();
+
+    if (personDTOList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return Right(
+          PersonEntityListMapper.transformDTOListToEntityList(personDTOList));
+    }
   }
 
   @override
@@ -76,9 +83,14 @@ class PersonRepository implements PersonRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, PersonEntity>> updatePerson(
-      int id, String firstName, String personLastName) {
-    // TODO: implement updatePerson
-    throw UnimplementedError();
+  Future<Either<Failure, int>> updatePerson(
+      {required final PersonEntity person}) async {
+    final result =
+        await personDAO.insert(PersonEntityMapper.transformEntityToDTO(person));
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
   }
 }
