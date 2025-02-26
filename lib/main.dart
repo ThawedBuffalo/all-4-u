@@ -49,14 +49,14 @@ Future<void> init() async {
   // begin testing di
 
   // category test
-  // CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
-  // CategoryRepositoryInterface crepo = getIt<CategoryRepositoryInterface>();
-  // var ccount = await crepo.countCategories();
-  //
-  // final response = await crepo.createCategory(name: 'date');
-  // final response2 = await crepo.createCategory(name: 'gift');
-  // final response3 = await crepo.createCategory(name: 'favorites');
-  // ccount = await crepo.countCategories();
+  CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
+  CategoryRepositoryInterface crepo = getIt<CategoryRepositoryInterface>();
+  var ccount = await crepo.countCategories();
+
+  final response = await crepo.createCategory(name: 'date');
+  final response2 = await crepo.createCategory(name: 'gift');
+  final response3 = await crepo.createCategory(name: 'favorites');
+  ccount = await crepo.countCategories();
   //
   // final categoryEntity = await crepo.getCategoryById(id: 1);
   // //List<CategoryDTO> categories = await cdao.findOne(1);
