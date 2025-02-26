@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../dtos/item_dto.dart';
 import '../dtos/person_dto.dart';
 
 abstract class ItemDAOInterface {

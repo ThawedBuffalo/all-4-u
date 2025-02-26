@@ -22,7 +22,13 @@
           "indexId": "1:3436800543022578969"
         }
       ],
-      "relations": []
+      "relations": [
+        {
+          "id": "1:4947459203554611738",
+          "name": "items",
+          "targetId": "3:7570823959286080746"
+        }
+      ]
     },
     {
       "id": "2:2183213797831599667",
@@ -46,12 +52,55 @@
           "type": 9
         }
       ],
-      "relations": []
+      "relations": [
+        {
+          "id": "4:7903794049804821189",
+          "name": "items",
+          "targetId": "3:7570823959286080746"
+        }
+      ]
+    },
+    {
+      "id": "3:7570823959286080746",
+      "lastPropertyId": "3:565068634179794843",
+      "name": "ItemDTO",
+      "properties": [
+        {
+          "id": "1:2648376245506776930",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7518814496472568400",
+          "name": "name",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "2:6850024562905432282"
+        },
+        {
+          "id": "3:565068634179794843",
+          "name": "description",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:6926519702539702686",
+          "name": "categories",
+          "targetId": "1:4764728673161039166"
+        },
+        {
+          "id": "3:6076823655990794205",
+          "name": "people",
+          "targetId": "2:2183213797831599667"
+        }
+      ]
     }
   ],
-  "lastEntityId": "2:2183213797831599667",
-  "lastIndexId": "1:3436800543022578969",
-  "lastRelationId": "0:0",
+  "lastEntityId": "3:7570823959286080746",
+  "lastIndexId": "2:6850024562905432282",
+  "lastRelationId": "4:7903794049804821189",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,

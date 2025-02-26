@@ -14,6 +14,8 @@ import 'package:all_4_u/core/helpers/EitherX.dart';
 
 import 'core/configs/local_directory_intf.dart';
 
+import 'data/daos/item_dao_intf.dart';
+import 'data/dtos/item_dto.dart';
 import 'domain/entities/person_entity.dart';
 import 'domain/entities/person_entity_list.dart';
 import 'domain/repositories/category_repository_intf.dart';
@@ -58,7 +60,7 @@ Future<void> init() async {
   final response3 = await crepo.createCategory(name: 'favorites');
   ccount = await crepo.countCategories();
   //
-  // final categoryEntity = await crepo.getCategoryById(id: 1);
+  //final categoryEntity = await crepo.getCategoryById(id: 1);
   // //List<CategoryDTO> categories = await cdao.findOne(1);
   // final results = await crepo.getAllCategories();
   // late CategoryEntity categoryEntityMod;
@@ -78,14 +80,14 @@ Future<void> init() async {
   // end category test
 
   // begin person test
-  // PersonDAOInterface pdao = getIt<PersonDAOInterface>();
-  // PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
-  // var pcount = await prepo.countPeople();
+  PersonDAOInterface pdao = getIt<PersonDAOInterface>();
+  PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
+  var pcount = await prepo.countPeople();
   //
-  // await prepo.createPerson(firstName: 'Jim', lastName: 'Reid');
-  // await prepo.createPerson(firstName: 'Ana', lastName: 'Reid');
+  await prepo.createPerson(firstName: 'Jim', lastName: 'Reid');
+  await prepo.createPerson(firstName: 'Ana', lastName: 'Reid');
   // await prepo.createPerson(firstName: 'Jordan', lastName: 'Reid');
-  // pcount = await prepo.countPeople();
+  pcount = await prepo.countPeople();
   //
   // final results = await prepo.getPersonById(id: 1);
   // late PersonEntity person2;
@@ -100,6 +102,14 @@ Future<void> init() async {
   // prepo.deleteAllPeople();
   // pcount = await prepo.countPeople();
   // end person test
+
+  // begin item testing
+  ItemDAOInterface idao = getIt<ItemDAOInterface>();
+  ItemDTO item = ItemDTO(
+      id: 0, name: 'hatchet throwing', description: 'something cool to do');
+  await idao.insert(item: item);
+
+  // end item testing
 
   // end testing di
 
