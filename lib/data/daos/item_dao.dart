@@ -1,5 +1,3 @@
-import 'package:all_4_u/data/daos/category_dao_intf.dart';
-import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/data/dtos/item_dto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -23,32 +21,40 @@ class ItemDAO implements ItemDAOInterface {
   }
 
   @override
-  Future<int> countAll() {
-    // TODO: implement countAll
-    throw UnimplementedError();
+  Future<int> countAll() async {
+    final int itemCount = _itemBox.count();
+    return itemCount;
   }
 
   @override
-  Future<void> delete({required int personId}) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete({required int itemId}) async {
+    Query<ItemDTO> query =
+        _store.box<ItemDTO>().query(ItemDTO_.id.equals(itemId)).build();
+    await query.removeAsync();
+    query.close();
   }
 
   @override
-  void deleteAll() {
-    // TODO: implement deleteAll
+  Future<void> deleteAll() async {
+    await _store.box<ItemDTO>().removeAllAsync();
   }
 
   @override
-  Future<List<ItemDTO>> findAll() {
-    // TODO: implement findAll
-    throw UnimplementedError();
+  Future<List<ItemDTO>> findAll() async {
+    Query<ItemDTO> query =
+        _store.box<ItemDTO>().query().order(ItemDTO_.id).build();
+    List<ItemDTO> items = await query.findAsync();
+    query.close();
+    return items;
   }
 
   @override
-  Future<List<ItemDTO>> findOne({required int personId}) {
-    // TODO: implement findOne
-    throw UnimplementedError();
+  Future<List<ItemDTO>> findOne({required int itemId}) async {
+    Query<ItemDTO> query =
+        _store.box<ItemDTO>().query(ItemDTO_.id.equals(itemId)).build();
+    List<ItemDTO> items = await query.findAsync();
+    query.close();
+    return items;
   }
 
   @override

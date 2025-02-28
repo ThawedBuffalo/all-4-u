@@ -13,14 +13,8 @@ class ItemDTO {
   @Unique()
   String name;
   String? description;
-  // CategoryEntityList? categoryList;
-  // PersonEntityList? personList;
-  //public List<Teacher> teachers = new ToMany<>(this, Student_.teachers);
-
   final categories = ToMany<CategoryDTO>();
   final people = ToMany<PersonDTO>();
 
-  // ItemDTO({required this.id, required this.name,
-  //   this.description, this.categoryList, this.personList});
   ItemDTO({required this.id, required this.name, this.description});
 }

@@ -14,6 +14,7 @@ import 'package:all_4_u/core/helpers/EitherX.dart';
 
 import 'core/configs/local_directory_intf.dart';
 
+import 'core/constants/enums.dart';
 import 'data/daos/item_dao_intf.dart';
 import 'data/dtos/item_dto.dart';
 import 'domain/entities/person_entity.dart';
@@ -43,24 +44,23 @@ Future<void> init() async {
   //     message: 'application initializing...');
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
-  CustomLogger.loggerNoStack.i('application starting...');
+  CustomLogger.loggerNoStack.i('CategoryDAO test starting...');
   LocalDirectoryInterface intf = getIt<LocalDirectoryInterface>();
   LocalObjectBoxDataSource dataSource = getIt<LocalObjectBoxDataSource>();
-  await dataSource.initStore();
+  await dataSource.initStore(env: Environments.PROD);
 
   // begin testing di
 
   // category test
-  CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
-  CategoryRepositoryInterface crepo = getIt<CategoryRepositoryInterface>();
-  var ccount = await crepo.countCategories();
+  // CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
 
-  final response = await crepo.createCategory(name: 'date');
-  final response2 = await crepo.createCategory(name: 'gift');
-  final response3 = await crepo.createCategory(name: 'favorites');
-  ccount = await crepo.countCategories();
+  // final response = await crepo.createCategory(name: 'date');
+  // final response2 = await crepo.createCategory(name: 'gift');
+  // final response3 = await crepo.createCategory(name: 'favorites');
+  // ccount = await crepo.countCategories();
+  // crepo.deleteAllCategories();
   //
-  //final categoryEntity = await crepo.getCategoryById(id: 1);
+  // final categoryEntity = await crepo.getCategoryById(id: 1);
   // //List<CategoryDTO> categories = await cdao.findOne(1);
   // final results = await crepo.getAllCategories();
   // late CategoryEntity categoryEntityMod;
@@ -80,14 +80,15 @@ Future<void> init() async {
   // end category test
 
   // begin person test
-  PersonDAOInterface pdao = getIt<PersonDAOInterface>();
-  PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
-  var pcount = await prepo.countPeople();
+  // PersonDAOInterface pdao = getIt<PersonDAOInterface>();
+  // PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
+  // var pcount = await prepo.countPeople();
   //
-  await prepo.createPerson(firstName: 'Jim', lastName: 'Reid');
-  await prepo.createPerson(firstName: 'Ana', lastName: 'Reid');
+  // await prepo.createPerson(firstName: 'Jim', lastName: 'Reid');
+  // await prepo.createPerson(firstName: 'Ana', lastName: 'Reid');
   // await prepo.createPerson(firstName: 'Jordan', lastName: 'Reid');
-  pcount = await prepo.countPeople();
+  // pcount = await prepo.countPeople();
+  // prepo.deleteAllPeople();
   //
   // final results = await prepo.getPersonById(id: 1);
   // late PersonEntity person2;
@@ -104,11 +105,17 @@ Future<void> init() async {
   // end person test
 
   // begin item testing
-  ItemDAOInterface idao = getIt<ItemDAOInterface>();
-  ItemDTO item = ItemDTO(
-      id: 0, name: 'hatchet throwing', description: 'something cool to do');
-  await idao.insert(item: item);
 
+  // ItemDAOInterface idao = getIt<ItemDAOInterface>();
+  // var icount = await idao.countAll();
+  // ItemDTO item = ItemDTO(
+  //     id: 0, name: 'hatchet throwing', description: 'something cool to do');
+  // item.categories.add(CategoryDTO(id: 0, name: 'lunch'));
+  // item.categories.add(CategoryDTO(id: 0, name: 'dinner'));
+  // item.people.add(PersonDTO(id: 0, firstName: 'JC', lastName: 'Reid'));
+  // await idao.insert(item: item);
+  // icount = await idao.countAll();
+  // idao.deleteAll();
   // end item testing
 
   // end testing di

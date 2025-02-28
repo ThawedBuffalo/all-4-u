@@ -10,3 +10,4 @@ This project is written in Flutter using:
 -code generation for entities with freeze
 -dependency injection with GetIt
 -code generation for data transfer objects (DTOS) with injector
+-data creation with faker

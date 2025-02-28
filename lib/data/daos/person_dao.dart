@@ -66,7 +66,7 @@ class PersonDAO implements PersonDAOInterface {
   }
 
   @override
-  void deleteAll() {
+  Future<void> deleteAll() async {
     _store.box<PersonDTO>().removeAllAsync();
   }
 }

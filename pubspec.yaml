@@ -52,6 +52,7 @@ dependencies:
   objectbox_flutter_libs: ^4.1.0
   injectable: ^2.5.0
   retrofit: ^4.4.2
+  faker: ^2.2.0
 
 
 dev_dependencies:

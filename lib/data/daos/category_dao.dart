@@ -27,7 +27,7 @@ class CategoryDAO implements CategoryDAOInterface {
   }
 
   @override
-  Future<Either<String, int>> insert(CategoryDTO category) async {
+  Future<Either<String, int>> insert({required CategoryDTO category}) async {
     late int result;
 
     try {
@@ -69,21 +69,7 @@ class CategoryDAO implements CategoryDAOInterface {
   }
 
   @override
-  void deleteAll() {
+  Future<void> deleteAll() async {
     _store.box<CategoryDTO>().removeAllAsync();
-    // Query<CategoryDTO> query =
-    //     _store.box<CategoryDTO>().query().order(CategoryDTO_.id).build();
-    // List<CategoryDTO> categories = query.find();
-    // for (int i = 0; i < categories.length; i++) {
-    //   int? categoryId = categories[i].id;
-    //   Query<CategoryDTO> query = _store
-    //       .box<CategoryDTO>()
-    //       .query(CategoryDTO_.id.equals(categoryId!))
-    //       .build();
-    //   //await query.removeAsync();
-    //   _store.box<CategoryDTO>().removeAllAsync();
-    //   query.close();
-    // }
-    // query.close();
   }
 }

@@ -1,3 +1,5 @@
-//enum PlaceholderStatus { PLACEHOLDER, ANOTHER_PLACEHOLDER }
-
-//const String PLACEHOLDER_NAME = 'PlacehodlerName';
+enum Environments {
+  PROD(1, 'prod'),
+  DEV(2, 'dev'),
+  TEST(3, 'test');
+}

@@ -7,6 +7,6 @@ abstract class PersonDAOInterface {
   Future<List<PersonDTO>> findAll();
   Future<Either<String, int>> insert(PersonDTO person);
   Future<void> delete(int personId);
-  void deleteAll();
+  Future<void> deleteAll();
   Future<int> countAll();
 }

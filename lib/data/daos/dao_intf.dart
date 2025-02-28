@@ -6,6 +6,6 @@ abstract class DAOInterface<T> {
   Future<List<T>> findAll();
   Future<Either<String, int>> insert(Object dto);
   Future<void> delete(int id);
-  void deleteAll();
+  Future<void> deleteAll();
   Future<int> countAll();
 }
