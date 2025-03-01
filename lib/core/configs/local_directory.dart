@@ -8,6 +8,14 @@ import 'package:path_provider/path_provider.dart';
 class LocalDirectory implements LocalDirectoryInterface {
   @override
   Future<String> getDirectory() async {
+    // if (Platform.isAndroid) {
+    //   print("->>>>>>>android<<<<<<<-");
+    // } else if (Platform.isMacOS) {
+    //   print("->>>>>>>mac<<<<<<<-");
+    // } else if (Platform.isIOS) {
+    //   print("->>>>>>>ios<<<<<<<-");
+    // }
+
     final Directory appSupDir = await getApplicationSupportDirectory();
     var storeLocation = appSupDir.path;
     return storeLocation;
