@@ -51,12 +51,12 @@ Future<void> init() async {
    * IMPT: TODO- ensure env is set for proper distribution:
    *             dev, test, prod
    */
-  await dataSource.initStore(environment: Environments.test);
+  await dataSource.initStore(environment: Environments.dev);
 
   // begin testing di
 
   // category test
-  CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
+  // CategoryDAOInterface cdao = getIt<CategoryDAOInterface>();
 
   // final response = await crepo.createCategory(name: 'date');
   // final response2 = await crepo.createCategory(name: 'gift');
@@ -84,7 +84,7 @@ Future<void> init() async {
   // end category test
 
   // begin person test
-  PersonDAOInterface pdao = getIt<PersonDAOInterface>();
+  // PersonDAOInterface pdao = getIt<PersonDAOInterface>();
   // PersonRepositoryInterface prepo = getIt<PersonRepositoryInterface>();
   // var pcount = await prepo.countPeople();
   //
@@ -110,18 +110,18 @@ Future<void> init() async {
 
   // begin item testing
 
-  ItemDAOInterface idao = getIt<ItemDAOInterface>();
-  var icount = await idao.countAll();
-  ItemDTO item = ItemDTO(
-      id: 0, name: 'hatchet throwing', description: 'something cool to do');
-  item.categories.add(CategoryDTO(id: 0, name: 'lunch'));
-  item.categories.add(CategoryDTO(id: 0, name: 'dinner'));
-  item.people.add(PersonDTO(id: 0, firstName: 'JC', lastName: 'Reid'));
-  await idao.insert(item: item);
-  icount = await idao.countAll();
-  // idao.deleteAll();
-  var catCount = await cdao.countAll();
-  var peepCount = await pdao.countAll();
+  // ItemDAOInterface idao = getIt<ItemDAOInterface>();
+  // var icount = await idao.countAll();
+  // ItemDTO item = ItemDTO(
+  //     id: 0, name: 'hatchet throwing', description: 'something cool to do');
+  // item.categories.add(CategoryDTO(id: 0, name: 'lunch'));
+  // item.categories.add(CategoryDTO(id: 0, name: 'dinner'));
+  // item.people.add(PersonDTO(id: 0, firstName: 'JC', lastName: 'Reid'));
+  // await idao.insert(item: item);
+  // icount = await idao.countAll();
+  // // idao.deleteAll();
+  // var catCount = await cdao.countAll();
+  // var peepCount = await pdao.countAll();
 
   // check to see if category/people are deleted also
 

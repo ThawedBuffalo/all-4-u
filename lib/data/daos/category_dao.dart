@@ -22,7 +22,6 @@ class CategoryDAO implements CategoryDAOInterface {
   @override
   Future<int> countAll() async {
     final int catCount = _categoryBox.count();
-    //final int catCount = _store.box<CategoryDTO>().count();
     return catCount;
   }
 
@@ -58,7 +57,7 @@ class CategoryDAO implements CategoryDAOInterface {
   }
 
   @override
-  Future<List<CategoryDTO>> findOne(int categoryId) async {
+  Future<List<CategoryDTO>> findOne({required int categoryId}) async {
     Query<CategoryDTO> query = _store
         .box<CategoryDTO>()
         .query(CategoryDTO_.id.equals(categoryId))
