@@ -9,6 +9,7 @@
 //
 // import '../../mock/domain/repository/category_repository_mock.mocks.dart';
 //
+// @GenerateMocks([CategoryRepository])
 // void main() {
 //   final CategoryRepository repository = MockCategoryRepository();
 //   final CreateCategoryUseCase usecase = CreateCategoryUseCase(repository);

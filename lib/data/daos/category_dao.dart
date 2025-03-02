@@ -38,7 +38,7 @@ class CategoryDAO implements CategoryDAOInterface {
   }
 
   @override
-  Future<void> delete(int categoryId) async {
+  Future<void> delete({required int categoryId}) async {
     Query<CategoryDTO> query = _store
         .box<CategoryDTO>()
         .query(CategoryDTO_.id.equals(categoryId))

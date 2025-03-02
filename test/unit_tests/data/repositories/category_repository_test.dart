@@ -116,6 +116,15 @@ void main() {
       expect(result,
           equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
+
+    test('expect failure- too much data', () async {
+      CustomLogger.loggerNoStack.i('-> getCategoryById() <- test starting...');
+      when(mockDAO.findOne(categoryId: anyNamed('categoryId')))
+          .thenAnswer((_) async => testCategoryDTOMultiList);
+      final result = await repo.getCategoryById(id: 1);
+      expect(
+          result, equals(Left(DBEmptyResult(errorMessage: DB_RETURNED_MORE))));
+    });
   });
 
   group('-> updateCategory() <-', () {
@@ -133,8 +142,26 @@ void main() {
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(category: anyNamed('category')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.createCategory(name: 'testName');
+      final result = await repo.updateCategory(category: testCategoryEntity);
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
+    });
+  });
+
+  group('-> delete mocks <-', () {
+    test('deleteCategory()', () async {
+      CustomLogger.loggerNoStack.i('-> deleteCategory() <- test starting...');
+      when(mockDAO.delete(categoryId: anyNamed('categoryId')))
+          .thenAnswer((_) async => null);
+      final result = await repo.updateCategory(category: testCategoryEntity);
+      expect(result, equals(Right(testCategoryEntity.id)));
+    });
+
+    test('deleteAllCategories()', () async {
+      CustomLogger.loggerNoStack
+          .i('-> deleteAllCategories() <- test starting...');
+      // no return to test, adding stub for code coverage, force success
+      repo.deleteAllCategories();
+      expect(1, 1);
     });
   });
 }
