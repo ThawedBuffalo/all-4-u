@@ -5,7 +5,7 @@ import 'package:dartz/dartz_unsafe.dart';
 
 import 'fake_dto_creator_intf.dart';
 
-class FakeCategoryDTOFactory extends FakeDTOCreatorIntf<CategoryDTO> {
+class FakeCategoryDTOFactory extends FakeDataCreatorIntf<CategoryDTO> {
   @override
   generateFake() {
     return CategoryDTO(id: createFakeId(), name: faker.person.lastName());
@@ -23,5 +23,9 @@ class FakeCategoryDTOFactory extends FakeDTOCreatorIntf<CategoryDTO> {
         .map((dto) => CategoryEntity(id: dto.id, name: dto.name))
         .toList();
     return CategoryEntityList(values: values);
+  }
+
+  CategoryEntity generateFakeEntity(CategoryDTO dto) {
+    return CategoryEntity(id: dto.id, name: dto.name);
   }
 }

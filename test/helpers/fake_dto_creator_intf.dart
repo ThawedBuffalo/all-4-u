@@ -13,9 +13,7 @@ abstract class FakeDataCreatorIntf<T> {
 
   /// Generate a single fake model
   T generateFake();
-  T generateFakeFrom();
 
   /// Generate a fake list of models based on length
   List<T> generateFakeList({required int length});
-  List<T> generateFakeListFrom();
 }

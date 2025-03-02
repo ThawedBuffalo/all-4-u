@@ -64,7 +64,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
   @override
   Future<Either<Failure, CategoryEntity>> getCategoryById(
       {required final int id}) async {
-    final List<CategoryDTO> categoryDTOList = await categoryDAO.findOne(id);
+    final List<CategoryDTO> categoryDTOList =
+        await categoryDAO.findOne(categoryId: id);
 
     if (categoryDTOList.isEmpty) {
       return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));

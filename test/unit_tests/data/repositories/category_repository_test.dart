@@ -4,6 +4,7 @@ import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/data/daos/category_dao.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/data/repositories/category_repository.dart';
+import 'package:all_4_u/domain/entities/category_entity.dart';
 import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -19,8 +20,9 @@ void main() {
   var mockDAO = MockCategoryDAO();
   FakeCategoryDTOFactory categoryDTOFactory;
   CategoryDTO testCategoryDTO;
-  List<CategoryDTO> testCategoryDTOList;
-  CategoryEntityList testCategoryEntity;
+  List<CategoryDTO> testCategoryDTOSingleList;
+  List<CategoryDTO> testCategoryDTOMultiList;
+  CategoryEntity testCategoryEntity;
   CategoryEntityList testCategoryEntityList;
 
   CustomLogger.loggerNoStack.i('CategoryDAO test setting up...');
@@ -31,9 +33,11 @@ void main() {
   /// setup test categoryDTOs
   categoryDTOFactory = FakeCategoryDTOFactory();
   testCategoryDTO = categoryDTOFactory.generateFake();
-  testCategoryDTOList = categoryDTOFactory.generateFakeList(length: 3);
-  testCategoryEntityList =
-      categoryDTOFactory.generateFakeEntityList(dtoList: testCategoryDTOList);
+  testCategoryDTOMultiList = categoryDTOFactory.generateFakeList(length: 3);
+  testCategoryDTOSingleList = categoryDTOFactory.generateFakeList(length: 1);
+  testCategoryEntityList = categoryDTOFactory.generateFakeEntityList(
+      dtoList: testCategoryDTOMultiList);
+  testCategoryEntity = categoryDTOFactory.generateFakeEntity(testCategoryDTO);
 
   group('-> countCategories() <-', () {
     test('expect count', () async {
@@ -54,7 +58,7 @@ void main() {
     });
   });
 
-  group('-> getAllCategories() <-', () {
+  group('-> createCategory() <-', () {
     test('expect ID returned', () async {
       CustomLogger.loggerNoStack.i('-> createCategories() <- test starting...');
       when(mockDAO.insert(category: anyNamed('category')))
@@ -77,7 +81,7 @@ void main() {
   group('-> getAllCategories() <-', () {
     test('expect CategoryEntityList', () async {
       CustomLogger.loggerNoStack.i('-> getAllCategories() <- test starting...');
-      when(mockDAO.findAll()).thenAnswer((_) async => testCategoryDTOList);
+      when(mockDAO.findAll()).thenAnswer((_) async => testCategoryDTOMultiList);
       final result = await repo.getAllCategories();
       expect(result, equals(Right(testCategoryEntityList)));
     });
@@ -96,195 +100,41 @@ void main() {
     test('expect CategoryEntity', () async {
       CustomLogger.loggerNoStack.i('-> getCategoryById() <- test starting...');
       when(mockDAO.findOne(categoryId: anyNamed('categoryId')))
-      .thenAnswer((_) async => Right(testCategoryDTO));
-      final result = await repo.getAllCategories();
-      expect(result, equals(Right(testCategoryEntityList)));
+          .thenAnswer((_) async => testCategoryDTOSingleList);
+      final result = await repo.getCategoryById(id: 1);
+      CategoryEntity entity =
+          categoryDTOFactory.generateFakeEntity(testCategoryDTOSingleList[0]);
+      expect(result, equals(Right(entity)));
     });
 
     test('expect failure- no data', () async {
       CustomLogger.loggerNoStack.i('-> getCategoryById() <- test starting...');
       List<CategoryDTO> emptyList = <CategoryDTO>[];
-      when(mockDAO.findOne()).thenAnswer((_) async => emptyList);
-      final result = await repo.getAllCategories();
+      when(mockDAO.findOne(categoryId: anyNamed('categoryId')))
+          .thenAnswer((_) async => emptyList);
+      final result = await repo.getCategoryById(id: 1);
       expect(result,
           equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
   });
-}
 
-// group('Category', () {
-//   final int successCategoryId = 1;
-//   final int emptyCategoryId = 7;
-//   final String successCategoryName = 'successCategoryName';
-//
-//   setUp(() {
-//     when(database.categoryDAO.getCategoryById(successCategoryId)).thenAnswer(
-//       (_) async => {'id': successCategoryId, 'name': successCategoryName},
-//     );
-//
-//     when(database..categoryDAO.getCategoryById(emptyCategoryId)).thenAnswer(
-//       (_) async => {},
-//     );
-//   });
-//
-//   test('should return 1 CategoryEntity', () async {
-//     final CategoryEntity successTestCategoryEntity =
-//         CategoryEntity(id: successCategoryId, name: successCategoryName);
-//
-//     final result = await repository.getCategoryById(successCategoryId);
-//
-//     verify(database..categoryDAO.getCategoryById(successCategoryId))
-//         .called(1);
-//     expect(result, equals(Right(successTestCategoryEntity)));
-//   });
-//
-//   test('should return empty results failure', () async {
-//     final result = await repository.getCategoryById(emptyCategoryId);
-//
-//     verify(database.categoryDAO.getCategoryById(emptyCategoryId)).called(1);
-//     expect(result,
-//         equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
-//   });
-// });
-//
-// group('#get all Categories', () {
-//   test('should return CategoryEntityList', () async {
-//     final int entity1Id = 1;
-//     final String entity1Name = 'testEntity1';
-//     final Map<String, dynamic> entity1Map = {
-//       'id': entity1Id,
-//       'name': entity1Name
-//     };
-//     final CategoryEntity entity1 =
-//         CategoryEntity(id: entity1Id, name: entity1Name);
-//
-//     final int entity2Id = 2;
-//     final String entity2Name = 'testEntity2';
-//     final Map<String, dynamic> entity2Map = {
-//       'id': entity2Id,
-//       'name': entity2Name
-//     };
-//     final CategoryEntity entity2 =
-//         CategoryEntity(id: entity2Id, name: entity2Name);
-//
-//     final int entity3Id = 3;
-//     final String entity3Name = 'testEntity3';
-//     final Map<String, dynamic> entity3Map = {
-//       'id': entity3Id,
-//       'name': entity3Name
-//     };
-//     final CategoryEntity entity3 =
-//         CategoryEntity(id: entity3Id, name: entity3Name);
-//
-//     List<Map<String, dynamic>> testMapListInput = [
-//       entity1Map,
-//       entity2Map,
-//       entity3Map
-//     ];
-//     List<CategoryEntity> testEntityListInput = [entity1, entity2, entity3];
-//     CategoryEntityList testCategoryEntityList =
-//         CategoryEntityList(values: testEntityListInput);
-//
-//     when(database.categoryDAO.getAllCategories())
-//         .thenAnswer((_) async => testMapListInput);
-//
-//     final result = await repository.getAllCategories();
-//
-//     verify(database.categoryDAO.getAllCategories()).called(1);
-//     expect(result, equals(Right(testCategoryEntityList)));
-//   });
-//
-//   test('should return empty results failure', () async {
-//     when(database.categoryDAO.getAllCategories()).thenAnswer(
-//       (_) async => {null},
-//     );
-//
-//     final result = await repository.getAllCategories();
-//
-//     verify(database.categoryDAO.getAllCategories()).called(1);
-//     expect(result,
-//         equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
-//   });
-// });
-//
-// group('#delete Category', () {
-//   final int successCategoryId = 1;
-//   final String successCategoryName = 'successCategoryName';
-//   final int failedTestCategoryId = 7;
-//
-//   final CategoryEntity successTestCategoryEntity =
-//       CategoryEntity(id: successCategoryId, name: successCategoryName);
-//
-//   setUp(() {
-//     when(database.categoryDAO.deleteCategoryById(failedTestCategoryId))
-//         .thenAnswer(
-//       (_) async => {},
-//     );
-//     when(database.categoryDAO.deleteCategoryById(successCategoryId))
-//         .thenAnswer(
-//       (_) async => {},
-//     );
-//   });
-//
-//   test('should return void', () async {
-//     final result = await repository.deleteCategoryById(testCategoryId);
-//     verify(database.deleteCategoryById(testCategoryId)).called(1);
-//   });
-// });
-//
-// group('#deleteAllCategories', () {
-//   setUp(() {
-//     when(database.deleteAllCategories()).thenAnswer(
-//       (_) async => {},
-//     );
-//   });
-//
-//   test('should return void', () async {
-//     final int testCategoryId = 1;
-//     final result = await repository.deleteAllCategories();
-//
-//     verify(database.deleteAllCategories()).called(1);
-//   });
-// });
-//
-// group('#updateCategory', () {
-//   final int entity1Id = 1;
-//   final String editEntity1Name = 'testEditedEntity1';
-//   final String failedEntityName = 'failedEditedEntity1';
-//   final CategoryEntity successEditEntity =
-//       CategoryEntity(id: entity1Id, name: editEntity1Name);
-//
-//   setUp(() {
-//     when(database.updateCategory(
-//       {'id': entity1Id, 'name': editEntity1Name},
-//     )).thenAnswer(
-//       (_) async => {'id': entity1Id, 'name': editEntity1Name},
-//     );
-//
-//     when(database.updateCategory(
-//       {'id': entity1Id, 'name': failedEntityName},
-//     )).thenAnswer(
-//       (_) async => {'id': null, 'name': null},
-//     );
-//   });
-//
-//   test('should return CategoryEntity', () async {
-//     final result =
-//         await repository.updateCategory(entity1Id, editEntity1Name);
-//
-//     verify(database.updateCategory(
-//       {'id': entity1Id, 'name': editEntity1Name},
-//     )).called(1);
-//     expect(result, equals(Right(successEditEntity)));
-//   });
-//
-//   test('should return DB Failure', () async {
-//     final result =
-//         await repository.updateCategory(entity1Id, failedEntityName);
-//
-//     verify(database.updateCategory(
-//       {'id': entity1Id, 'name': failedEntityName},
-//     )).called(1);
-//     expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
-//   });
-// });
+  group('-> updateCategory() <-', () {
+    test('expect ID returned', () async {
+      CustomLogger.loggerNoStack.i('-> updateCategory() <- test starting...');
+      when(mockDAO.insert(category: anyNamed('category')))
+          .thenAnswer((_) async => Right(testCategoryDTO.id));
+      final result = await repo.updateCategory(category: testCategoryEntity);
+      expect(result, equals(Right(testCategoryEntity.id)));
+    });
+
+    test('expect db failure', () async {
+      CustomLogger.loggerNoStack.i('-> updateCategory() <- test starting...');
+      final int testCount = 0;
+      final String testErrMessage = 'insert failed for duplicate name';
+      when(mockDAO.insert(category: anyNamed('category')))
+          .thenAnswer((_) async => Left(testErrMessage));
+      final result = await repo.createCategory(name: 'testName');
+      expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
+    });
+  });
+}
