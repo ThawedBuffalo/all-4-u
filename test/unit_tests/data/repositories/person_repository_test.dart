@@ -35,8 +35,8 @@ void main() {
   testPersonDTO = personDTOFactory.generateFake();
   testPersonDTOMultiList = personDTOFactory.generateFakeList(length: 3);
   testPersonDTOSingleList = personDTOFactory.generateFakeList(length: 1);
-  testPersonEntityList = personDTOFactory.generateFakeEntityList(
-      dtoList: testPersonDTOMultiList);
+  testPersonEntityList =
+      personDTOFactory.generateFakeEntityList(dtoList: testPersonDTOMultiList);
   testPersonEntity = personDTOFactory.generateFakeEntity(testPersonDTO);
 
   group('-> countCategories() <-', () {
@@ -58,13 +58,13 @@ void main() {
     });
   });
 
-
   group('-> createPerson() <-', () {
     test('expect ID returned', () async {
       CustomLogger.loggerNoStack.i('-> createPeople() <- test starting...');
-      when(mockDAO.insert(person: anyName('person')) )
+      when(mockDAO.insert(person: anyNamed('person')))
           .thenAnswer((_) async => Right(testPersonDTO.id));
-      final result = await repo.createPerson(firstName: '', lastName: '');
+      final result = await repo.createPerson(
+          firstName: 'testFirstName', lastName: 'testLastName');
       expect(result, equals(Right(testPersonDTO.id)));
     });
 
