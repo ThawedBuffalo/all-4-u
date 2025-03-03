@@ -36,7 +36,7 @@ class PersonRepository implements PersonRepositoryInterface {
     // must set ID to 0 for DB to autoincrement
     PersonDTO person =
         PersonDTO(id: 0, firstName: firstName, lastName: lastName);
-    final result = await personDAO.insert(person);
+    final result = await personDAO.insert(person: person);
     if (result.isLeft()) {
       return Left(DBFailure(errorMessage: result.asLeft()));
     } else {
@@ -51,7 +51,7 @@ class PersonRepository implements PersonRepositoryInterface {
 
   @override
   void deletePerson({required int id}) {
-    personDAO.delete(id);
+    personDAO.delete(personId: id);
   }
 
   @override
@@ -69,7 +69,7 @@ class PersonRepository implements PersonRepositoryInterface {
   @override
   Future<Either<Failure, PersonEntity>> getPersonById(
       {required final int id}) async {
-    final List<PersonDTO> personDTOList = await personDAO.findOne(id);
+    final List<PersonDTO> personDTOList = await personDAO.findOne(personId: id);
 
     if (personDTOList.isEmpty) {
       return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
@@ -86,7 +86,7 @@ class PersonRepository implements PersonRepositoryInterface {
   Future<Either<Failure, int>> updatePerson(
       {required final PersonEntity person}) async {
     final result =
-        await personDAO.insert(PersonEntityMapper.transformEntityToDTO(person));
+        await personDAO.insert(person: PersonEntityMapper.transformEntityToDTO(person));
     if (result.isLeft()) {
       return Left(DBFailure(errorMessage: result.asLeft()));
     } else {

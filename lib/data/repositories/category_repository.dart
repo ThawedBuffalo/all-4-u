@@ -41,7 +41,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   void deleteCategory({required int categoryId}) {
-    categoryDAO.delete(categoryId);
+    categoryDAO.delete(categoryId: categoryId);
   }
 
   @override

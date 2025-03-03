@@ -25,7 +25,7 @@ void main() {
   CategoryEntity testCategoryEntity;
   CategoryEntityList testCategoryEntityList;
 
-  CustomLogger.loggerNoStack.i('CategoryDAO test setting up...');
+  CustomLogger.loggerNoStack.i('CategoryRepository test setting up...');
 
   /// set up repo with mock
   repo = CategoryRepository(categoryDAO: mockDAO);

@@ -29,7 +29,7 @@ class PersonDAO implements PersonDAOInterface {
   }
 
   @override
-  Future<Either<String, int>> insert(PersonDTO person) async {
+  Future<Either<String, int>> insert({required PersonDTO person}) async {
     late int result;
     try {
       result = await _personBox.putAsync(person);
@@ -40,7 +40,7 @@ class PersonDAO implements PersonDAOInterface {
   }
 
   @override
-  Future<void> delete(int personId) async {
+  Future<void> delete({required int personId}) async {
     Query<PersonDTO> query =
         _store.box<PersonDTO>().query(PersonDTO_.id.equals(personId)).build();
     await query.removeAsync();
@@ -57,7 +57,7 @@ class PersonDAO implements PersonDAOInterface {
   }
 
   @override
-  Future<List<PersonDTO>> findOne(int personId) async {
+  Future<List<PersonDTO>> findOne({required int personId}) async {
     Query<PersonDTO> query =
         _store.box<PersonDTO>().query(PersonDTO_.id.equals(personId)).build();
     List<PersonDTO> categories = await query.findAsync();
