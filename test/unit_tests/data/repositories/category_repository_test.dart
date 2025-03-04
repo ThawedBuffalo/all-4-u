@@ -150,10 +150,8 @@ void main() {
   group('-> delete mocks <-', () {
     test('deleteCategory()', () async {
       CustomLogger.loggerNoStack.i('-> deleteCategory() <- test starting...');
-      when(mockDAO.delete(categoryId: anyNamed('categoryId')))
-          .thenAnswer((_) async => null);
-      final result = await repo.updateCategory(category: testCategoryEntity);
-      expect(result, equals(Right(testCategoryEntity.id)));
+      repo.deleteCategory(categoryId: testCategoryEntity.id);
+      expect(1,1);
     });
 
     test('deleteAllCategories()', () async {

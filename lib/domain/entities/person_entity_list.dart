@@ -14,19 +14,19 @@ class PersonEntityList with _$PersonEntityList {
   factory PersonEntityList.fromJson(Map<String, Object?> json) =>
       _$PersonEntityListFromJson(json);
 
-  // operator [](final int index) => values[index];
-  // int get length => values.length;
-  //
-  // PersonEntityList addPersonEntity(final PersonEntity entity) =>
-  //     copyWith(values: [...values, entity]);
-  //
-  // PersonEntityList updatePersonEntity(final PersonEntity newEntity) {
-  //   return copyWith(
-  //       values: values
-  //           .map((entity) => newEntity.id == entity.id ? newEntity : entity)
-  //           .toList());
-  // }
-  //
-  // PersonEntityList removePersonEntityById(final int id) =>
-  //     copyWith(values: values.where((entity) => entity.id != id).toList());
+  operator [](final int index) => values[index];
+  int get length => values.length;
+
+  PersonEntityList addPersonEntity(final PersonEntity entity) =>
+      copyWith(values: [...values, entity]);
+
+  PersonEntityList updatePersonEntity(final PersonEntity newEntity) {
+    return copyWith(
+        values: values
+            .map((entity) => newEntity.id == entity.id ? newEntity : entity)
+            .toList());
+  }
+
+  PersonEntityList removePersonEntityById(final int id) =>
+      copyWith(values: values.where((entity) => entity.id != id).toList());
 }

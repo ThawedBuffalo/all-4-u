@@ -1,24 +1,22 @@
 import 'package:all_4_u/core/error/error_messages.dart';
 import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
-import 'package:all_4_u/data/daos/person_dao.dart';
-import 'package:all_4_u/data/dtos/person_dto.dart';
-import 'package:all_4_u/data/repositories/person_repository.dart';
-import 'package:all_4_u/domain/entities/person_entity.dart';
-import 'package:all_4_u/domain/entities/person_entity_list.dart';
+import 'package:all_4_u/data/daos/item_dao.dart';
+import 'package:all_4_u/data/repositories/item_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../helpers/Fake_person_dto_factory.dart';
-import 'person_repository_test.mocks.dart';
 
-@GenerateMocks([PersonDAO])
+import 'item_repository_test.mocks.dart';
+
+@GenerateMocks([ItemDAO])
 void main() {
-  late PersonRepository repo;
-  var mockDAO = MockPersonDAO();
-  FakePersonDTOFactory personDTOFactory;
+  late ItemRepository repo;
+  var mockDAO = MockItemDAO();
+  FakeItemDTOFactory itemDTOFactory;
   PersonDTO testPersonDTO;
   List<PersonDTO> testPersonDTOSingleList;
   List<PersonDTO> testPersonDTOMultiList;
