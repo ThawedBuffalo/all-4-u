@@ -2,12 +2,20 @@ import 'package:all_4_u/core/error/error_messages.dart';
 import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/data/daos/item_dao.dart';
+import 'package:all_4_u/data/dtos/item_dto.dart';
+import 'package:all_4_u/data/dtos/person_dto.dart';
 import 'package:all_4_u/data/repositories/item_repository.dart';
+import 'package:all_4_u/data/repositories/person_repository.dart';
+import 'package:all_4_u/domain/entities/item_entity.dart';
+import 'package:all_4_u/domain/entities/item_entity_list.dart';
+import 'package:all_4_u/domain/entities/person_entity.dart';
+import 'package:all_4_u/domain/entities/person_entity_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../helpers/Fake_item_dto_factory.dart';
 import '../../../helpers/Fake_person_dto_factory.dart';
 
 import 'item_repository_test.mocks.dart';
@@ -17,53 +25,53 @@ void main() {
   late ItemRepository repo;
   var mockDAO = MockItemDAO();
   FakeItemDTOFactory itemDTOFactory;
-  PersonDTO testPersonDTO;
-  List<PersonDTO> testPersonDTOSingleList;
-  List<PersonDTO> testPersonDTOMultiList;
-  PersonEntity testPersonEntity;
-  PersonEntityList testPersonEntityList;
+  ItemDTO testItemDTO;
+  List<ItemDTO> testItemDTOSingleList;
+  List<ItemDTO> testItemDTOMultiList;
+  ItemEntity testItemEntity;
+  ItemEntityList testItemEntityList;
 
-  CustomLogger.loggerNoStack.i('PersonRepository test setting up...');
+  CustomLogger.loggerNoStack.i('ItemRepository test setting up...');
 
   /// set up repo with mock
-  repo = PersonRepository(personDAO: mockDAO);
+  repo = ItemRepository(itemDAO: mockDAO);
 
-  /// setup test categoryDTOs
-  personDTOFactory = FakePersonDTOFactory();
-  testPersonDTO = personDTOFactory.generateFake();
-  testPersonDTOMultiList = personDTOFactory.generateFakeList(length: 3);
-  testPersonDTOSingleList = personDTOFactory.generateFakeList(length: 1);
-  testPersonEntityList =
-      personDTOFactory.generateFakeEntityList(dtoList: testPersonDTOMultiList);
-  testPersonEntity = personDTOFactory.generateFakeEntity(testPersonDTO);
+  /// setup test itemDTOs
+  itemDTOFactory = FakeItemDTOFactory();
+  testItemDTO = itemDTOFactory.generateFake();
+  testItemDTOMultiList = itemDTOFactory.generateFakeList(length: 3);
+  testItemDTOSingleList = itemDTOFactory.generateFakeList(length: 1);
+  testItemEntityList =
+      itemDTOFactory.generateFakeEntityList(dtoList: testItemDTOMultiList);
+  testItemEntity = itemDTOFactory.generateFakeEntity(testItemDTO);
 
-  group('-> countCategories() <-', () {
+  group('-> countItems() <-', () {
     test('expect count', () async {
-      CustomLogger.loggerNoStack.i('-> countPeople() <- test starting...');
+      CustomLogger.loggerNoStack.i('-> countItems() <- test starting...');
       final int testCount = 3;
       when(mockDAO.countAll()).thenAnswer((_) async => testCount);
-      final result = await repo.countPeople();
+      final result = await repo.countItems();
       expect(result, equals(Right(testCount)));
     });
 
     test('expect failure- no data', () async {
-      CustomLogger.loggerNoStack.i('-> countPeople() <- test starting...');
+      CustomLogger.loggerNoStack.i('-> countItems() <- test starting...');
       final int testCount = 0;
       when(mockDAO.countAll()).thenAnswer((_) async => testCount);
-      final result = await repo.countPeople();
+      final result = await repo.countItems();
       expect(result,
           equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
   });
 
-  group('-> createPerson() <-', () {
+  group('-> createItem() <-', () {
     test('expect ID returned', () async {
-      CustomLogger.loggerNoStack.i('-> createPeople() <- test starting...');
-      when(mockDAO.insert(person: anyNamed('person')))
-          .thenAnswer((_) async => Right(testPersonDTO.id));
-      final result = await repo.createPerson(
-          firstName: 'testFirstName', lastName: 'testLastName');
-      expect(result, equals(Right(testPersonDTO.id)));
+      CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
+      when(mockDAO.insert(item: testItemDTO))
+          .thenAnswer((_) async => Right(testItemDTO.id));
+      final result = await repo.createFullItem(name: testItemDTO.name, description: ,
+          categoryIds:  ,personIds: );
+      expect(result, equals(Right(testItemDTO.id)));
     });
 
     test('expect db failure', () async {
@@ -72,12 +80,12 @@ void main() {
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(person: anyNamed('person')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.createPerson(firstName: 'testFirstName',
-          lastName: 'testLastName');
+      final result = await repo.createPerson(
+          firstName: 'testFirstName', lastName: 'testLastName');
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
-
+/*
   group('-> getAllPeople() <-', () {
     test('expect PersonEntityList', () async {
       CustomLogger.loggerNoStack.i('-> getAllPeople() <- test starting...');
@@ -162,5 +170,5 @@ void main() {
       expect(1, 1);
     });
   });
-
+*/
 }

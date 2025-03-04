@@ -1,10 +1,13 @@
 import 'package:all_4_u/domain/entities/item_entity_list.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
 import '../../domain/entities/item_entity.dart';
 import '../../domain/repositories/item_repository_intf.dart';
 import '../daos/item_dao_intf.dart';
+import 'package:all_4_u/core/helpers/EitherX.dart';
+import 'package:dartz/dartz.dart';
 
 @Injectable(as: ItemRepositoryInterface)
 class ItemRepository implements ItemRepositoryInterface {
@@ -13,13 +16,17 @@ class ItemRepository implements ItemRepositoryInterface {
   const ItemRepository({required this.itemDAO});
 
   @override
-  Future<Either<Failure, int>> countItems() {
-    // TODO: implement countItems
-    throw UnimplementedError();
+  Future<Either<Failure, int>> countItems() async {
+    final numberOfItems = await itemDAO.countAll();
+    if (numberOfItems == 0) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return Right(numberOfItems);
+    }
   }
 
   @override
-  Future<Either<Failure, int>> createFullItem(String name, String? description,
+  Future<Either<Failure, int>> createFullItem({required String name, String? description,
       List<int>? categoryIds, List<int>? personIds) {
     // TODO: implement createFullItem
     throw UnimplementedError();
