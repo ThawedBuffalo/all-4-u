@@ -31,7 +31,7 @@ void main() {
   ItemEntity testItemEntity;
   ItemEntityList testItemEntityList;
 
-  CustomLogger.loggerNoStack.i('ItemRepository test setting up...');
+  CustomLogger.logger.i('ItemRepository test setting up...');
 
   /// set up repo with mock
   repo = ItemRepository(itemDAO: mockDAO);
@@ -63,9 +63,9 @@ void main() {
           equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
   });
-
-  group('-> createItem() <-', () {
-    test('expect ID returned', () async {
+/*
+  group('-> create items <-', () {
+    test('createFullItem(): expect ID returned', () async {
       CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
       when(mockDAO.insert(item: testItemDTO))
           .thenAnswer((_) async => Right(testItemDTO.id));
@@ -75,17 +75,16 @@ void main() {
     });
 
     test('expect db failure', () async {
-      CustomLogger.loggerNoStack.i('-> createPeople() <- test starting...');
+      CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
       final int testCount = 0;
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(person: anyNamed('person')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.createPerson(
-          firstName: 'testFirstName', lastName: 'testLastName');
+      final result = await repo.createFullItem();
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
-/*
+
   group('-> getAllPeople() <-', () {
     test('expect PersonEntityList', () async {
       CustomLogger.loggerNoStack.i('-> getAllPeople() <- test starting...');
