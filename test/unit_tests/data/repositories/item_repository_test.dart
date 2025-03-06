@@ -155,19 +155,18 @@ void main() {
   });
 
   group('-> delete mocks <-', () {
-    test('deletePerson()', () async {
-      CustomLogger.loggerNoStack.i('-> deletePerson() <- test starting...');
+    test('deleteItem()', () async {
+      CustomLogger.loggerNoStack.i('-> deleteItem() <- test starting...');
       repo.deletePerson(id: testPersonEntity.id);
-      expect(1,1);
+      expect(1, 1);
     });
 
     test('deleteAllPeople()', () async {
-      CustomLogger.loggerNoStack
-          .i('-> deleteAllPeople() <- test starting...');
+      CustomLogger.loggerNoStack.i('-> deleteAllItems() <- test starting...');
       // no return to test, adding stub for code coverage, force success
       repo.deleteAllPeople();
       expect(1, 1);
     });
   });
-*/
+  */
 }

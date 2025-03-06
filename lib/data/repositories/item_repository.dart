@@ -48,17 +48,17 @@ class ItemRepository implements ItemRepositoryInterface {
   //   throw UnimplementedError();
   // }
   //
-  // @override
-  // Future<void> deleteAllItems() {
-  //   // TODO: implement deleteAllItems
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future<void> deleteItemById(int id) {
-  //   // TODO: implement deleteItemById
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<void> deleteAllItems() {
+    // TODO: implement deleteAllItems
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteItemById(int id) {
+    // TODO: implement deleteItemById
+    throw UnimplementedError();
+  }
   //
   // @override
   // Future<Either<Failure, ItemEntityList>> getAllItems() {
