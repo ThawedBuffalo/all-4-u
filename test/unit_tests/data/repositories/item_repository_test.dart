@@ -3,20 +3,15 @@ import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/data/daos/item_dao.dart';
 import 'package:all_4_u/data/dtos/item_dto.dart';
-import 'package:all_4_u/data/dtos/person_dto.dart';
 import 'package:all_4_u/data/repositories/item_repository.dart';
-import 'package:all_4_u/data/repositories/person_repository.dart';
 import 'package:all_4_u/domain/entities/item_entity.dart';
 import 'package:all_4_u/domain/entities/item_entity_list.dart';
-import 'package:all_4_u/domain/entities/person_entity.dart';
-import 'package:all_4_u/domain/entities/person_entity_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../helpers/Fake_item_dto_factory.dart';
-import '../../../helpers/Fake_person_dto_factory.dart';
 
 import 'item_repository_test.mocks.dart';
 
@@ -63,28 +58,27 @@ void main() {
           equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
   });
-/*
-  group('-> create items <-', () {
-    test('createFullItem(): expect ID returned', () async {
-      CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
+
+  group('-> create named items <-', () {
+    test('createNamedItem(): expect ID returned', () async {
+      CustomLogger.loggerNoStack.i('-> createNamedItem() <- test starting...');
       when(mockDAO.insert(item: testItemDTO))
           .thenAnswer((_) async => Right(testItemDTO.id));
-      final result = await repo.createFullItem(name: testItemDTO.name, description: ,
-          categoryIds:  ,personIds: );
+      final result = await repo.createNamedItem(name: testItemDTO.name);
       expect(result, equals(Right(testItemDTO.id)));
     });
 
     test('expect db failure', () async {
-      CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
+      CustomLogger.loggerNoStack.i('-> createNamedItem() <- test starting...');
       final int testCount = 0;
       final String testErrMessage = 'insert failed for duplicate name';
-      when(mockDAO.insert(person: anyNamed('person')))
+      when(mockDAO.insert(item: anyNamed('item')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.createFullItem();
+      final result = await repo.createNamedItem(name: testItemDTO.name);
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
-
+/*
   group('-> getAllPeople() <-', () {
     test('expect PersonEntityList', () async {
       CustomLogger.loggerNoStack.i('-> getAllPeople() <- test starting...');
@@ -153,20 +147,20 @@ void main() {
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
-
+*/
   group('-> delete mocks <-', () {
     test('deleteItem()', () async {
       CustomLogger.loggerNoStack.i('-> deleteItem() <- test starting...');
-      repo.deletePerson(id: testPersonEntity.id);
+      repo.deleteItemById(id: testItemEntity.id);
       expect(1, 1);
     });
 
     test('deleteAllPeople()', () async {
       CustomLogger.loggerNoStack.i('-> deleteAllItems() <- test starting...');
       // no return to test, adding stub for code coverage, force success
-      repo.deleteAllPeople();
+      repo.deleteAllItems();
       expect(1, 1);
     });
   });
-  */
+
 }

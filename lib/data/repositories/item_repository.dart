@@ -1,9 +1,11 @@
+import 'package:all_4_u/core/helpers/EitherX.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import '../../core/error/error_messages.dart';
 import '../../core/error/failure.dart';
 import '../../domain/repositories/item_repository_intf.dart';
 import '../daos/item_dao_intf.dart';
+import '../dtos/item_dto.dart';
 
 @Injectable(as: ItemRepositoryInterface)
 class ItemRepository implements ItemRepositoryInterface {
@@ -27,13 +29,19 @@ class ItemRepository implements ItemRepositoryInterface {
   //   // TODO: implement createFullItem
   //   throw UnimplementedError();
   // }
-  //
-  // @override
-  // Future<Either<Failure, int>> createNamedItem(String name) {
-  //   // TODO: implement createNamedItem
-  //   throw UnimplementedError();
-  // }
-  //
+
+  @override
+  Future<Either<Failure, int>> createNamedItem({required String name}) async {
+    // must set ID to 0 for DB to autoincrement
+    ItemDTO itemDTO = ItemDTO(id: 0, name: name);
+    final result = await itemDAO.insert(item: itemDTO);
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
+  }
+
   // @override
   // Future<Either<Failure, int>> createUnassignedItem(
   //     String name, String? description, List<int>? categoryIds) {
@@ -49,17 +57,15 @@ class ItemRepository implements ItemRepositoryInterface {
   // }
   //
   @override
-  Future<void> deleteAllItems() {
-    // TODO: implement deleteAllItems
-    throw UnimplementedError();
+  Future<void> deleteAllItems() async {
+    itemDAO.deleteAll();
   }
 
   @override
-  Future<void> deleteItemById(int id) {
-    // TODO: implement deleteItemById
-    throw UnimplementedError();
+  Future<void> deleteItemById({required int id}) async {
+    itemDAO.delete(itemId: id);
   }
-  //
+
   // @override
   // Future<Either<Failure, ItemEntityList>> getAllItems() {
   //   // TODO: implement getAllItems

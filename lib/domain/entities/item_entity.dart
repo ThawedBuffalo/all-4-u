@@ -8,7 +8,7 @@ part 'item_entity.g.dart';
 @freezed
 class ItemEntity with _$ItemEntity {
   factory ItemEntity({
-    required int? id,
+    required int id,
     required String name,
     required String? description,
     required CategoryEntityList? categoryList,
