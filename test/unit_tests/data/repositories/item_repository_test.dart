@@ -97,38 +97,38 @@ void main() {
     });
   });
 
-/*
-  group('-> getPersonById() <-', () {
-    test('expect PersonEntity', () async {
-      CustomLogger.loggerNoStack.i('-> getPersonById() <- test starting...');
-      when(mockDAO.findOne(personId: anyNamed('personId')))
-          .thenAnswer((_) async => testPersonDTOSingleList);
-      final result = await repo.getPersonById(id: 1);
-      PersonEntity entity =
-          personDTOFactory.generateFakeEntity(testPersonDTOSingleList[0]);
+  group('-> getItemById() <-', () {
+    test('expect EntityItem', () async {
+      CustomLogger.loggerNoStack.i('-> getItemById() <- test starting...');
+      when(mockDAO.findOne(itemId: anyNamed('itemId')))
+          .thenAnswer((_) async => testItemDTOSingleList);
+      final result = await repo.getItemById(id: 1);
+      ItemEntity entity =
+          itemDTOFactory.generateFakeEntity(testItemDTOSingleList[0]);
       expect(result, equals(Right(entity)));
     });
 
     test('expect failure- no data', () async {
-      CustomLogger.loggerNoStack.i('-> getPersonById() <- test starting...');
-      List<PersonDTO> emptyList = <PersonDTO>[];
-      when(mockDAO.findOne(personId: anyNamed('personId')))
+      CustomLogger.loggerNoStack.i('-> getItemById() <- test starting...');
+      List<ItemDTO> emptyList = <ItemDTO>[];
+      when(mockDAO.findOne(itemId: anyNamed('itemId')))
           .thenAnswer((_) async => emptyList);
-      final result = await repo.getPersonById(id: 1);
+      final result = await repo.getItemById(id: 1);
       expect(result,
           equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
 
     test('expect failure- too much data', () async {
-      CustomLogger.loggerNoStack.i('-> getPersonById() <- test starting...');
-      when(mockDAO.findOne(personId: anyNamed('personId')))
-          .thenAnswer((_) async => testPersonDTOMultiList);
-      final result = await repo.getPersonById(id: 1);
+      CustomLogger.loggerNoStack.i('-> getItemById() <- test starting...');
+      when(mockDAO.findOne(itemId: anyNamed('itemId')))
+          .thenAnswer((_) async => testItemDTOMultiList);
+      final result = await repo.getItemById(id: 1);
       expect(
           result, equals(Left(DBEmptyResult(errorMessage: DB_RETURNED_MORE))));
     });
   });
 
+/*
   group('-> updatePerson() <-', () {
     test('expect ID returned', () async {
       CustomLogger.loggerNoStack.i('-> updatePerson() <- test starting...');

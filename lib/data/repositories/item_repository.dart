@@ -1,4 +1,5 @@
 import 'package:all_4_u/core/helpers/EitherX.dart';
+import 'package:all_4_u/domain/entities/item_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import '../../core/error/error_messages.dart';
@@ -8,6 +9,7 @@ import '../../domain/repositories/item_repository_intf.dart';
 import '../daos/item_dao_intf.dart';
 import '../dtos/item_dto.dart';
 import '../mapper/item_entity_list_mapper.dart';
+import '../mapper/item_entity_mapper.dart';
 
 @Injectable(as: ItemRepositoryInterface)
 class ItemRepository implements ItemRepositoryInterface {
@@ -25,13 +27,6 @@ class ItemRepository implements ItemRepositoryInterface {
     }
   }
 
-  // @override
-  // Future<Either<Failure, int>> createFullItem({required String name, String? description,
-  //     List<int>? categoryIds, List<int>? personIds) {
-  //   // TODO: implement createFullItem
-  //   throw UnimplementedError();
-  // }
-
   @override
   Future<Either<Failure, int>> createNamedItem({required String name}) async {
     // must set ID to 0 for DB to autoincrement
@@ -44,20 +39,6 @@ class ItemRepository implements ItemRepositoryInterface {
     }
   }
 
-  // @override
-  // Future<Either<Failure, int>> createUnassignedItem(
-  //     String name, String? description, List<int>? categoryIds) {
-  //   // TODO: implement createUnassignedItem
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future<Either<Failure, int>> createUncategorizedItem(
-  //     String name, String? description, List<int>? personIds) {
-  //   // TODO: implement createUncategorizedItem
-  //   throw UnimplementedError();
-  // }
-  //
   @override
   Future<void> deleteAllItems() async {
     itemDAO.deleteAll();
@@ -82,15 +63,20 @@ class ItemRepository implements ItemRepositoryInterface {
     }
   }
 
-  // @override
-  // Future<Either<Failure, ItemEntity>> getItemById({required int id}) {
-  //   // TODO: implement getItemById
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future<Either<Failure, int>> updateItem({required ItemEntity item}) {
-  //   // TODO: implement updateItem
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<Either<Failure, ItemEntity>> getItemById({required int id}) async {
+    final List<ItemDTO> itemDTOList =
+    await itemDAO.findOne(itemId: id);
+
+    if (itemDTOList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      if (itemDTOList.length > 1) {
+        return Left(DBEmptyResult(errorMessage: DB_RETURNED_MORE));
+      } else {
+        return Right(
+            ItemEntityMapper.transformDTOToEntity(itemDTOList[0]));
+      }
+    }
+  }
 }

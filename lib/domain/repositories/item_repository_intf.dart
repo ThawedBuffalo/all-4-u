@@ -12,7 +12,7 @@ abstract class ItemRepositoryInterface {
   //     final String name, String? description, List<int>? personIds);
   Future<Either<Failure, int>> createNamedItem({required final String name});
   Future<Either<Failure, int>> countItems();
-  // Future<Either<Failure, ItemEntity>> getItemById({required final int id});
+  Future<Either<Failure, ItemEntity>> getItemById({required final int id});
   Future<Either<Failure, ItemEntityList>> getAllItems();
   // Future<Either<Failure, int>> updateItem({required ItemEntity item});
   Future<void> deleteItemById({required final int id});
