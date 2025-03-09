@@ -14,4 +14,16 @@ class ItemEntityMapper {
         personList:
             PersonEntityListMapper.transformDTOListToEntityList(item.people));
   }
+
+  static ItemDTO transformEntityToDTO(final ItemEntity entity) {
+    ItemDTO itemDTO = ItemDTO(id: entity.id, name: entity.name,
+        description: entity.description);
+
+    if (entity.categoryList != null) {
+
+    }
+    //for (int i = 0; i < entity.categoryList.length; i++ )
+
+  }
+
 }

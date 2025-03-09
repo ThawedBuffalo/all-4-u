@@ -79,4 +79,17 @@ class ItemRepository implements ItemRepositoryInterface {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, int>> updateItem({required ItemEntity item}) async {
+    final result = await itemDAO.insert(
+        item: ItemEntityMapper.transformEntityToDTO(item));
+
+
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
+  }
 }
