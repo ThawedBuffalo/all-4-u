@@ -62,7 +62,7 @@ void main() {
   group('-> create named items <-', () {
     test('createNamedItem(): expect ID returned', () async {
       CustomLogger.loggerNoStack.i('-> createNamedItem() <- test starting...');
-      when(mockDAO.insert(item: testItemDTO))
+      when(mockDAO.insert(item: anyNamed('item')))
           .thenAnswer((_) async => Right(testItemDTO.id));
       final result = await repo.createNamedItem(name: testItemDTO.name);
       expect(result, equals(Right(testItemDTO.id)));
@@ -78,25 +78,26 @@ void main() {
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
-/*
-  group('-> getAllPeople() <-', () {
-    test('expect PersonEntityList', () async {
-      CustomLogger.loggerNoStack.i('-> getAllPeople() <- test starting...');
-      when(mockDAO.findAll()).thenAnswer((_) async => testPersonDTOMultiList);
-      final result = await repo.getAllPeople();
-      expect(result, equals(Right(testPersonEntityList)));
+
+  group('-> getAllItems() <-', () {
+    test('expect ItemEntityList', () async {
+      CustomLogger.loggerNoStack.i('-> getAllItems() <- test starting...');
+      when(mockDAO.findAll()).thenAnswer((_) async => testItemDTOMultiList);
+      final result = await repo.getAllItems();
+      expect(result, equals(Right(testItemEntityList)));
     });
 
     test('expect failure- no data', () async {
-      CustomLogger.loggerNoStack.i('-> getAllPeople() <- test starting...');
-      List<PersonDTO> emptyList = <PersonDTO>[];
+      CustomLogger.loggerNoStack.i('-> getAllItems() <- test starting...');
+      List<ItemDTO> emptyList = <ItemDTO>[];
       when(mockDAO.findAll()).thenAnswer((_) async => emptyList);
-      final result = await repo.getAllPeople();
+      final result = await repo.getAllItems();
       expect(result,
           equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
     });
   });
 
+/*
   group('-> getPersonById() <-', () {
     test('expect PersonEntity', () async {
       CustomLogger.loggerNoStack.i('-> getPersonById() <- test starting...');
@@ -162,5 +163,4 @@ void main() {
       expect(1, 1);
     });
   });
-
 }

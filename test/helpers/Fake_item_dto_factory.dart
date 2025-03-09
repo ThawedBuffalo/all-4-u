@@ -1,77 +1,105 @@
+import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/data/dtos/item_dto.dart';
+import 'package:all_4_u/data/dtos/person_dto.dart';
+import 'package:all_4_u/data/mapper/category_entity_list_mapper.dart';
+import 'package:all_4_u/data/mapper/item_entity_list_mapper.dart';
+import 'package:all_4_u/data/mapper/item_entity_mapper.dart';
+import 'package:all_4_u/data/mapper/person_entity_list_mapper.dart';
 import 'package:all_4_u/domain/entities/category_entity.dart';
+import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:all_4_u/domain/entities/item_entity.dart';
 import 'package:all_4_u/domain/entities/item_entity_list.dart';
 import 'package:all_4_u/domain/entities/person_entity.dart';
+import 'package:all_4_u/domain/entities/person_entity_list.dart';
+import 'Fake_category_dto_factory.dart';
+import 'Fake_person_dto_factory.dart';
 import 'fake_dto_creator_intf.dart';
 
 class FakeItemDTOFactory extends FakeDataCreatorIntf<ItemDTO> {
+  FakeCategoryDTOFactory categoryDTOFactory = FakeCategoryDTOFactory();
+  FakePersonDTOFactory personDTOFactory = FakePersonDTOFactory();
+
   /// generate full item test instance
   @override
   generateFake() {
+    List<CategoryDTO> categoryList = [];
+    List<PersonDTO> personList = [];
+
+    for (int i = 0; i < 1; i++) {
+      categoryList.add(categoryDTOFactory.generateFake());
+    }
+
+    for (int i = 0; i < 3; i++) {
+      personList.add(personDTOFactory.generateFake());
+    }
+
+    ItemDTO itemDTO = ItemDTO(
+        id: createFakeId(),
+        name: faker.person.name(),
+        description: faker.person.name());
+
+    itemDTO.categories.addAll(categoryList);
+    itemDTO.people.addAll(personList);
+    return itemDTO;
+  }
+
+  generateFakeWithNoCategoriesNoPeople() {
     return ItemDTO(
         id: createFakeId(),
         name: faker.person.name(),
         description: faker.person.name());
   }
 
+  generateFakeWithNoCategories() {
+    List<PersonDTO> personList = [];
+
+    for (int i = 0; i < 3; i++) {
+      personList.add(personDTOFactory.generateFake());
+    }
+
+    ItemDTO itemDTO = ItemDTO(
+        id: createFakeId(),
+        name: faker.person.name(),
+        description: faker.person.name());
+
+    itemDTO.people.addAll(personList);
+    return itemDTO;
+  }
+
+  generateFakeWithNoPeople() {
+    List<CategoryDTO> categoryList = [];
+
+    for (int i = 0; i < 1; i++) {
+      categoryList.add(categoryDTOFactory.generateFake());
+    }
+
+    ItemDTO itemDTO = ItemDTO(
+        id: createFakeId(),
+        name: faker.person.name(),
+        description: faker.person.name());
+
+    itemDTO.categories.addAll(categoryList);
+    return itemDTO;
+  }
+
   @override
   List<ItemDTO> generateFakeList({required int length}) {
-    return List.generate(length, (index) => generateFake());
+    List<ItemDTO> itemDTOList = [];
+
+    for (int i = 0; i < length; i++) {
+      ItemDTO itemDTO = generateFake();
+      itemDTOList.add(itemDTO);
+    }
+
+    return itemDTOList;
   }
 
   ItemEntityList generateFakeEntityList({required List<ItemDTO> dtoList}) {
-    // loop through dto list and create entities for each
-    final values = dtoList
-        .map((dto) => ItemEntity(
-            id: dto.id,
-            name: dto.name,
-            description: dto.description,
-            personList: null,
-            categoryList: null))
-        .toList();
-
-    // add categories
-    //CategoryEntityList catList = CategoryEntityList();
-    for (int i = 0; i < dtoList.length; i++) {
-      dtoList[0].categories.map((category) => values[i]
-          .categoryList!
-          .addCategoryEntity(
-              CategoryEntity(id: category.id, name: category.name)));
-    }
-
-    // add persons
-    for (int i = 0; i < dtoList.length; i++) {
-      dtoList[0].people.map((person) => values[i].personList!.addPersonEntity(
-          PersonEntity(
-              id: person.id,
-              firstName: person.firstName,
-              lastName: person.lastName)));
-    }
-
-    return ItemEntityList(values: values);
+    return ItemEntityListMapper.transformDTOListToEntityList(dtoList);
   }
 
   ItemEntity generateFakeEntity(ItemDTO dto) {
-    ItemEntity entity = ItemEntity(
-        id: dto.id,
-        name: dto.name,
-        description: dto.description,
-        categoryList: null,
-        personList: null);
-
-    for (int i = 0; i < dto.categories.length; i++) {
-      entity.categoryList!.addCategoryEntity(CategoryEntity(
-          id: dto.categories[i].id, name: dto.categories[i].name));
-    }
-
-    for (int i = 0; i < dto.people.length; i++) {
-      entity.personList!.addPersonEntity(PersonEntity(
-          id: dto.people[i].id,
-          firstName: dto.people[i].firstName,
-          lastName: dto.people[i].lastName));
-    }
-
-    return entity;
+    //
+    return ItemEntityMapper.transformDTOToEntity(dto);
   }
 }
