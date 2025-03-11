@@ -11,10 +11,10 @@ abstract class ItemRepositoryInterface {
       String? description,
       CategoryEntityList? categoryEntityList,
       PersonEntityList? personEntityList});
-  Future<Either<Failure, int>> createUnassignedItem(final String name,
-      String? description, CategoryEntityList? categoryEntityList);
-  Future<Either<Failure, int>> createUncategorizedItem(
-      final String name, String? description, List<int>? personIds);
+  Future<Either<Failure, int>> createUnassignedItem({required final String name,
+      String? description, CategoryEntityList? categoryEntityList});
+  Future<Either<Failure, int>> createUncategorizedItem({
+    required final String name, String? description, PersonEntityList? personEntityList});
   Future<Either<Failure, int>> createNamedItem({required final String name});
   Future<Either<Failure, int>> countItems();
   Future<Either<Failure, ItemEntity>> getItemById({required final int id});

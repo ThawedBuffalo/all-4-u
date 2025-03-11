@@ -3,6 +3,8 @@ import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/data/daos/item_dao.dart';
 import 'package:all_4_u/data/dtos/item_dto.dart';
+import 'package:all_4_u/data/mapper/category_entity_list_mapper.dart';
+import 'package:all_4_u/data/mapper/person_entity_list_mapper.dart';
 import 'package:all_4_u/data/repositories/item_repository.dart';
 import 'package:all_4_u/domain/entities/item_entity.dart';
 import 'package:all_4_u/domain/entities/item_entity_list.dart';
@@ -152,7 +154,12 @@ void main() {
       CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
       when(mockDAO.insert(item: anyNamed('item')))
           .thenAnswer((_) async => Right(testItemDTO.id));
-      final result = await repo.createFullItem(name: '');
+      final result = await repo.createFullItem(name: testItemDTO.name,
+          description: testItemDTO.description,
+          categoryEntityList: CategoryEntityListMapper.
+            transformDTOListToEntityList(testItemDTO.categories),
+          personEntityList: PersonEntityListMapper.
+          transformDTOListToEntityList(testItemDTO.people));
       expect(result, equals(Right(testItemEntity.id)));
     });
 
@@ -161,7 +168,62 @@ void main() {
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(item: anyNamed('item')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.updateItem(item: testItemEntity);
+      final result = await repo.createFullItem(name: testItemDTO.name,
+          description: testItemDTO.description,
+          categoryEntityList: CategoryEntityListMapper.
+          transformDTOListToEntityList(testItemDTO.categories),
+          personEntityList: PersonEntityListMapper.
+          transformDTOListToEntityList(testItemDTO.people));
+      expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
+    });
+  });
+
+  group('-> createUnassignedItem() <-', () {
+    test('expect ID returned', () async {
+      CustomLogger.loggerNoStack.i('-> createUnassignedItem() <- test starting...');
+      when(mockDAO.insert(item: anyNamed('item')))
+          .thenAnswer((_) async => Right(testItemDTO.id));
+      final result = await repo.createUnassignedItem(name: testItemDTO.name,
+          description: testItemDTO.description,
+          categoryEntityList: CategoryEntityListMapper.
+          transformDTOListToEntityList(testItemDTO.categories));
+      expect(result, equals(Right(testItemEntity.id)));
+    });
+
+    test('expect db failure', () async {
+      CustomLogger.loggerNoStack.i('-> createUnassignedItem() <- test starting...');
+      final String testErrMessage = 'insert failed for duplicate name';
+      when(mockDAO.insert(item: anyNamed('item')))
+          .thenAnswer((_) async => Left(testErrMessage));
+      final result = await repo.createUnassignedItem(name: testItemDTO.name,
+          description: testItemDTO.description,
+          categoryEntityList: CategoryEntityListMapper.
+          transformDTOListToEntityList(testItemDTO.categories));
+      expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
+    });
+  });
+
+  group('-> createUncategorizedItem() <-', () {
+    test('expect ID returned', () async {
+      CustomLogger.loggerNoStack.i('-> createUncategorizedItem() <- test starting...');
+      when(mockDAO.insert(item: anyNamed('item')))
+          .thenAnswer((_) async => Right(testItemDTO.id));
+      final result = await repo.createUncategorizedItem(name: testItemDTO.name,
+          description: testItemDTO.description,
+          personEntityList: PersonEntityListMapper.
+          transformDTOListToEntityList(testItemDTO.people));
+      expect(result, equals(Right(testItemEntity.id)));
+    });
+
+    test('expect db failure', () async {
+      CustomLogger.loggerNoStack.i('-> createUncategorizedItem() <- test starting...');
+      final String testErrMessage = 'insert failed for duplicate name';
+      when(mockDAO.insert(item: anyNamed('item')))
+          .thenAnswer((_) async => Left(testErrMessage));
+      final result = await repo.createUncategorizedItem(name: testItemDTO.name,
+          description: testItemDTO.description,
+          personEntityList: PersonEntityListMapper.
+          transformDTOListToEntityList(testItemDTO.people));
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });

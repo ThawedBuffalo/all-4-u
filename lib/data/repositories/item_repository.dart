@@ -9,9 +9,7 @@ import '../../domain/entities/item_entity_list.dart';
 import '../../domain/entities/person_entity_list.dart';
 import '../../domain/repositories/item_repository_intf.dart';
 import '../daos/item_dao_intf.dart';
-import '../dtos/category_dto.dart';
 import '../dtos/item_dto.dart';
-import '../dtos/person_dto.dart';
 import '../mapper/category_entity_mapper.dart';
 import '../mapper/item_entity_list_mapper.dart';
 import '../mapper/item_entity_mapper.dart';
@@ -106,16 +104,16 @@ class ItemRepository implements ItemRepositoryInterface {
     ItemDTO item = ItemDTO(id: 0, name: name, description: description);
 
     if (categoryEntityList != null) {
-      for (int i = 0; i < categoryEntityList!.length; i++) {
+      for (int i = 0; i < categoryEntityList.length; i++) {
         item.categories.add(
-            CategoryEntityMapper.transformEntityToDTO(categoryEntityList![i]));
+            CategoryEntityMapper.transformEntityToDTO(categoryEntityList[i]));
       }
     }
 
     if (personEntityList != null) {
-      for (int i = 0; i < personEntityList!.length; i++) {
+      for (int i = 0; i < personEntityList.length; i++) {
         item.people
-            .add(PersonEntityMapper.transformEntityToDTO(personEntityList![i]));
+            .add(PersonEntityMapper.transformEntityToDTO(personEntityList[i]));
       }
     }
 
@@ -128,15 +126,36 @@ class ItemRepository implements ItemRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, int>> createUnassignedItem(String name,
-      String? description, CategoryEntityList? categoryEntityList) async {
+  Future<Either<Failure, int>> createUnassignedItem({required String name,
+      String? description, CategoryEntityList? categoryEntityList}) async {
     // must set ID to 0 for DB to autoincrement
     ItemDTO item = ItemDTO(id: 0, name: name, description: description);
 
     if (categoryEntityList != null) {
-      for (int i = 0; i < categoryEntityList!.length; i++) {
+      for (int i = 0; i < categoryEntityList.length; i++) {
         item.categories.add(
-            CategoryEntityMapper.transformEntityToDTO(categoryEntityList![i]));
+            CategoryEntityMapper.transformEntityToDTO(categoryEntityList[i]));
+      }
+    }
+
+    final result = await itemDAO.insert(item: item);
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> createUncategorizedItem({
+    required String name, String? description, PersonEntityList? personEntityList}) async {
+    // must set ID to 0 for DB to autoincrement
+    ItemDTO item = ItemDTO(id: 0, name: name, description: description);
+
+    if (personEntityList != null) {
+      for (int i = 0; i < personEntityList.length; i++) {
+        item.people.add(
+            PersonEntityMapper.transformEntityToDTO(personEntityList[i]));
       }
     }
 
