@@ -128,27 +128,44 @@ void main() {
     });
   });
 
-/*
-  group('-> updatePerson() <-', () {
+  group('-> updateItem() <-', () {
     test('expect ID returned', () async {
-      CustomLogger.loggerNoStack.i('-> updatePerson() <- test starting...');
-      when(mockDAO.insert(person: anyNamed('person')))
-          .thenAnswer((_) async => Right(testPersonDTO.id));
-      final result = await repo.updatePerson(person: testPersonEntity);
-      expect(result, equals(Right(testPersonEntity.id)));
+      CustomLogger.loggerNoStack.i('-> updateItem() <- test starting...');
+      when(mockDAO.insert(item: anyNamed('item')))
+          .thenAnswer((_) async => Right(testItemDTO.id));
+      final result = await repo.updateItem(item: testItemEntity);
+      expect(result, equals(Right(testItemEntity.id)));
     });
 
     test('expect db failure', () async {
-      CustomLogger.loggerNoStack.i('-> updatePerson() <- test starting...');
-      final int testCount = 0;
+      CustomLogger.loggerNoStack.i('-> updateItem() <- test starting...');
       final String testErrMessage = 'insert failed for duplicate name';
-      when(mockDAO.insert(person: anyNamed('person')))
+      when(mockDAO.insert(item: anyNamed('item')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.updatePerson(person: testPersonEntity);
+      final result = await repo.updateItem(item: testItemEntity);
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
-*/
+
+  group('-> createFullItem() <-', () {
+    test('expect ID returned', () async {
+      CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
+      when(mockDAO.insert(item: anyNamed('item')))
+          .thenAnswer((_) async => Right(testItemDTO.id));
+      final result = await repo.createFullItem(name: '');
+      expect(result, equals(Right(testItemEntity.id)));
+    });
+
+    test('expect db failure', () async {
+      CustomLogger.loggerNoStack.i('-> createFullItem() <- test starting...');
+      final String testErrMessage = 'insert failed for duplicate name';
+      when(mockDAO.insert(item: anyNamed('item')))
+          .thenAnswer((_) async => Left(testErrMessage));
+      final result = await repo.updateItem(item: testItemEntity);
+      expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
+    });
+  });
+
   group('-> delete mocks <-', () {
     test('deleteItem()', () async {
       CustomLogger.loggerNoStack.i('-> deleteItem() <- test starting...');

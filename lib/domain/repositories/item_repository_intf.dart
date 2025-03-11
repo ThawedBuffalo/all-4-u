@@ -1,15 +1,20 @@
+import 'package:all_4_u/domain/entities/category_entity_list.dart';
+import 'package:all_4_u/domain/entities/person_entity_list.dart';
 import 'package:dartz/dartz.dart';
 import '../../core/error/failure.dart';
 import '../entities/item_entity.dart';
 import '../entities/item_entity_list.dart';
 
 abstract class ItemRepositoryInterface {
-  // Future<Either<Failure, int>> createFullItem(final String name,
-  //     String? description, List<int>? categoryIds, List<int>? personIds);
-  // Future<Either<Failure, int>> createUnassignedItem(
-  //     final String name, String? description, List<int>? categoryIds);
-  // Future<Either<Failure, int>> createUncategorizedItem(
-  //     final String name, String? description, List<int>? personIds);
+  Future<Either<Failure, int>> createFullItem(
+      {required final String name,
+      String? description,
+      CategoryEntityList? categoryEntityList,
+      PersonEntityList? personEntityList});
+  Future<Either<Failure, int>> createUnassignedItem(final String name,
+      String? description, CategoryEntityList? categoryEntityList);
+  Future<Either<Failure, int>> createUncategorizedItem(
+      final String name, String? description, List<int>? personIds);
   Future<Either<Failure, int>> createNamedItem({required final String name});
   Future<Either<Failure, int>> countItems();
   Future<Either<Failure, ItemEntity>> getItemById({required final int id});
