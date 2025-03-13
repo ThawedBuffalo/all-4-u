@@ -1,7 +1,7 @@
 #!/bin/bash
 
 run_unit_tests() {
-  # https://testsigma.com/blog/flutter-test-coverage/
+  dart run support_scripts/full_coverage_generator.dart
   flutter test --coverage;
   exclude_from_lcov
   genhtml coverage/lcov.info -o coverage
@@ -12,13 +12,16 @@ exclude_from_lcov() {
 
   # ref: https://pub.dev/packages/remove_from_coverage/install
   echo "excluding files..."
+  remove_from_coverage -f coverage/lcov.info -r 'core/configs'
+  remove_from_coverage -f coverage/lcov.info -r 'core/di'
+  remove_from_coverage -f coverage/lcov.info -r 'data/daos' #objectbox specific
+  remove_from_coverage -f coverage/lcov.info -r 'data/database' #objectbox specific
+  remove_from_coverage -f coverage/lcov.info -r 'data/datasources' #objectbox specific
+  remove_from_coverage -f coverage/lcov.info -r 'domain/entities' #generated entity specific
+  remove_from_coverage -f coverage/lcov.info -r 'main.dart'
+  remove_from_coverage -f coverage/lcov.info -r 'presentation/pages'
+  remove_from_coverage -f coverage/lcov.info -r 'themes'
   remove_from_coverage -f coverage/lcov.info -r '.g.dart$'
-  remove_from_coverage -f coverage/lcov.info -r 'data/models'
-  # removing templates
-  remove_from_coverage -f coverage/lcov.info -r 'core/usecases'
-  # not sure how to test Hive locally yet
-  remove_from_coverage -f coverage/lcov.info -r 'local_data_source.dart$'
-  remove_from_coverage -f coverage/lcov.info -r 'domain/entities'
 }
 
 
