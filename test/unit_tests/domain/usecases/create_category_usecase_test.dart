@@ -1,43 +1,43 @@
-// import 'package:all_4_u/core/error/error_messages.dart';
-// import 'package:all_4_u/core/error/failure.dart';
-// import 'package:all_4_u/data/repositories/category_repository.dart';
-// import 'package:all_4_u/domain/entities/category_entity.dart';
-// import 'package:all_4_u/domain/usecases/create_category_usecase.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:mockito/mockito.dart';
-// import 'package:dartz/dartz.dart';
-//
-// import '../../mock/domain/repository/category_repository_mock.mocks.dart';
-//
-// @GenerateMocks([CategoryRepository])
-// void main() {
-//   final CategoryRepository repository = MockCategoryRepository();
-//   final CreateCategoryUseCase usecase = CreateCategoryUseCase(repository);
-//
-//   final String successTestName = 'successUseCaseTestName';
-//   final String failTestName = 'failedUseCaseTestName';
-//   final int testCategoryId = 71114;
-//   final CategoryEntity testCategoryEntity =
-//       CategoryEntity(id: testCategoryId, name: successTestName);
-//
-//   setUp(() {
-//     when(repository.insertCategory(successTestName))
-//         .thenAnswer((_) async => Right(testCategoryEntity));
-//     when(repository.insertCategory(failTestName)).thenAnswer(
-//         (_) async => Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
-//   });
-//
-//   test('should return CategoryEntity', () async {
-//     final result = await usecase.call(Params(categoryName: successTestName));
-//
-//     verify(repository.insertCategory(successTestName)).called(1);
-//     expect(result, equals(Right(testCategoryEntity)));
-//   });
-//
-//   test('should return DB Failure', () async {
-//     final result = await usecase.call(Params(categoryName: failTestName));
-//
-//     verify(repository.insertCategory(failTestName)).called(1);
-//     expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
-//   });
-// }
+import 'package:all_4_u/core/error/error_messages.dart';
+import 'package:all_4_u/core/error/failure.dart';
+import 'package:all_4_u/core/logging/custom_logger.dart';
+import 'package:all_4_u/data/repositories/category_repository.dart';
+import 'package:all_4_u/domain/usecases/create_category_usecase.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:dartz/dartz.dart';
+import 'create_category_usecase_test.mocks.dart';
+
+@GenerateMocks([CategoryRepository])
+void main() {
+  final CategoryRepository repository = MockCategoryRepository();
+  final CreateCategoryUseCase usecase = CreateCategoryUseCase(repository);
+
+  final String successTestName = 'successUseCaseTestName';
+  final String failTestName = 'failedUseCaseTestName';
+  final int testCategoryId = 71114;
+
+  group('-> createCategory() <-', () {
+    setUp(() {
+      when(repository.createCategory(name: successTestName))
+          .thenAnswer((_) async => Right(testCategoryId));
+      when(repository.createCategory(name: failTestName)).thenAnswer(
+          (_) async => Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
+    });
+
+    test('should return CategoryEntity', () async {
+      CustomLogger.loggerNoStack.i('-> createCategory() <- test starting...');
+      final result = await usecase.call(Params(categoryName: successTestName));
+      verify(repository.createCategory(name: successTestName)).called(1);
+      expect(result, equals(Right(testCategoryId)));
+    });
+
+    test('should return DB Failure', () async {
+      CustomLogger.loggerNoStack.i('-> createCategory() <- test starting...');
+      final result = await usecase.call(Params(categoryName: failTestName));
+      verify(repository.createCategory(name: failTestName)).called(1);
+      expect(result, equals(Left(DBFailure(errorMessage: DB_INSERT_FAILURE))));
+    });
+  });
+}
