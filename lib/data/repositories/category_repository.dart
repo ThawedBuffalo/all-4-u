@@ -81,7 +81,10 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<Either<Failure, int>> updateCategory(
-      {required final CategoryEntity category}) async {
+      {required final int id, required final String name}) async {
+    // create entity from inputs
+    CategoryEntity category = CategoryEntity(id: id, name: name);
+
     final result = await categoryDAO.insert(
         category: CategoryEntityMapper.transformEntityToDTO(category));
     if (result.isLeft()) {
