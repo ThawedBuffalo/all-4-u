@@ -21,13 +21,13 @@ class CategoryEntityList with _$CategoryEntityList {
   CategoryEntityList addCategoryEntity(final CategoryEntity entity) =>
       copyWith(values: [...values, entity]);
 
-  CategoryEntityList updateCategoryEntity(final CategoryEntity newEntity) {
-    return copyWith(
-        values: values
-            .map((entity) => newEntity.id == entity.id ? newEntity : entity)
-            .toList());
-  }
+  // CategoryEntityList updateCategoryEntity(final CategoryEntity newEntity) {
+  //   return copyWith(
+  //       values: values
+  //           .map((entity) => newEntity.id == entity.id ? newEntity : entity)
+  //           .toList());
+  // }
 
-  CategoryEntityList removeCategoryEntityById(final int id) =>
-      copyWith(values: values.where((entity) => entity.id != id).toList());
+  // CategoryEntityList removeCategoryEntityById(final int id) =>
+  //     copyWith(values: values.where((entity) => entity.id != id).toList());
 }

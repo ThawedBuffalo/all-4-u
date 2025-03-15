@@ -5,7 +5,8 @@ import '../entities/category_entity_list.dart';
 
 abstract class CategoryRepositoryInterface {
   Future<Either<Failure, int>> countCategories();
-  Future<Either<Failure, int>> createCategory({required final String name});
+  Future<Either<Failure, int>> createCategory(
+      {required final CategoryEntity category});
   Future<Either<Failure, CategoryEntity>> getCategoryById(
       {required final int id});
   Future<Either<Failure, CategoryEntityList>> getAllCategories();

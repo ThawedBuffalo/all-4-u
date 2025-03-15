@@ -63,17 +63,16 @@ void main() {
       CustomLogger.loggerNoStack.i('-> createCategories() <- test starting...');
       when(mockDAO.insert(category: anyNamed('category')))
           .thenAnswer((_) async => Right(testCategoryDTO.id));
-      final result = await repo.createCategory(name: 'testName');
+      final result = await repo.createCategory(category: testCategoryEntity);
       expect(result, equals(Right(testCategoryDTO.id)));
     });
 
     test('expect db failure', () async {
       CustomLogger.loggerNoStack.i('-> createCategories() <- test starting...');
-      final int testCount = 0;
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(category: anyNamed('category')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.createCategory(name: 'testName');
+      final result = await repo.createCategory(category: testCategoryEntity);
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
@@ -138,7 +137,6 @@ void main() {
 
     test('expect db failure', () async {
       CustomLogger.loggerNoStack.i('-> updateCategory() <- test starting...');
-      final int testCount = 0;
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(category: anyNamed('category')))
           .thenAnswer((_) async => Left(testErrMessage));
@@ -151,7 +149,7 @@ void main() {
     test('deleteCategory()', () async {
       CustomLogger.loggerNoStack.i('-> deleteCategory() <- test starting...');
       repo.deleteCategory(categoryId: testCategoryEntity.id);
-      expect(1,1);
+      expect(1, 1);
     });
 
     test('deleteAllCategories()', () async {

@@ -28,10 +28,9 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<Either<Failure, int>> createCategory(
-      {required final String name}) async {
-    // must set ID to 0 for DB to autoincrement
-    CategoryDTO category = CategoryDTO(id: 0, name: name);
-    final result = await categoryDAO.insert(category: category);
+      {required final CategoryEntity category}) async {
+    final result = await categoryDAO.insert(
+        category: CategoryEntityMapper.transformEntityToDTO(category));
     if (result.isLeft()) {
       return Left(DBFailure(errorMessage: result.asLeft()));
     } else {
@@ -81,10 +80,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<Either<Failure, int>> updateCategory(
-      {required final int id, required final String name}) async {
-    // create entity from inputs
-    CategoryEntity category = CategoryEntity(id: id, name: name);
-
+      {required final CategoryEntity category}) async {
     final result = await categoryDAO.insert(
         category: CategoryEntityMapper.transformEntityToDTO(category));
     if (result.isLeft()) {
