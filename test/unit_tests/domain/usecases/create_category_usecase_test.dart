@@ -20,9 +20,9 @@ void main() {
 
   group('-> createCategory() <-', () {
     setUp(() {
-      when(repository.createCategory(name: successTestName))
+      when(repository.createCategory(category: any))
           .thenAnswer((_) async => Right(testCategoryId));
-      when(repository.createCategory(name: failTestName)).thenAnswer(
+      when(repository.createCategory(category: null)).thenAnswer(
           (_) async => Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
     });
 

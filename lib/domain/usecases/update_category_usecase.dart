@@ -13,7 +13,7 @@ class UpdateCategoryUseCase implements UseCase<void, UpdateCategoryParams> {
 
   @override
   Future<Either<Failure, dynamic>> call(UpdateCategoryParams params) async {
-    final result = await repository.updateCategory(params.categoryId, , category: params.categoryName);
+    final result = await repository.updateCategory(id: params.categoryId, category: params.categoryName);
     if (result.isLeft()) {
       return Future.value(Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
     }

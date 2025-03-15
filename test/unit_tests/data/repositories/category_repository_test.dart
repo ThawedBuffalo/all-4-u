@@ -63,7 +63,7 @@ void main() {
       CustomLogger.loggerNoStack.i('-> createCategories() <- test starting...');
       when(mockDAO.insert(category: anyNamed('category')))
           .thenAnswer((_) async => Right(testCategoryDTO.id));
-      final result = await repo.createCategory(name: 'testName');
+      final result = await repo.createCategory(category: testCategoryEntity);
       expect(result, equals(Right(testCategoryDTO.id)));
     });
 
@@ -73,7 +73,7 @@ void main() {
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(category: anyNamed('category')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.createCategory(name: 'testName');
+      final result = await repo.createCategory(category: testCategoryEntity);
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
