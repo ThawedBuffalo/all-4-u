@@ -13,8 +13,14 @@ class CreateCategoryUseCase implements UseCase<void, Params> {
 
   @override
   Future<Either<Failure, dynamic>> call(Params params) async {
-    final result = await repository.createCategory(
-        category: CategoryEntity(name: params.categoryName));
+    /// expect params to be a String: category name
+    if (params.props == null) {
+      // error - no params
+      return Future.value(Left(EmptyParams(errorMessage: PARAM_ERROR)));
+    }
+
+    CategoryEntity category = CategoryEntity(name: params.categoryName);
+    final result = await repository.createCategory(category: category);
     if (result.isLeft()) {
       return Future.value(Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
     }

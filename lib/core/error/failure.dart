@@ -19,3 +19,12 @@ class DBEmptyResult extends Failure {
   @override
   List<Object?> get props => [errorMessage];
 }
+
+class EmptyParams extends Failure {
+  final String errorMessage;
+
+  EmptyParams({required this.errorMessage});
+
+  @override
+  List<Object?> get props => [errorMessage];
+}
