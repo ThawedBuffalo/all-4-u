@@ -148,7 +148,7 @@ void main() {
   group('-> delete mocks <-', () {
     test('deleteCategory()', () async {
       CustomLogger.loggerNoStack.i('-> deleteCategory() <- test starting...');
-      repo.deleteCategory(categoryId: testCategoryEntity.id);
+      repo.deleteCategoryById(categoryId: testCategoryEntity.id);
       expect(1, 1);
     });
 

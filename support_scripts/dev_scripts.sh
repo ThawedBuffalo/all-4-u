@@ -18,6 +18,7 @@ exclude_from_lcov() {
   remove_from_coverage -f coverage/lcov.info -r 'data/database' #objectbox specific
   remove_from_coverage -f coverage/lcov.info -r 'data/datasources' #objectbox specific
   remove_from_coverage -f coverage/lcov.info -r 'domain/entities' #generated entity specific
+  remove_from_coverage -f coverage/lcov.info -r 'core/usecases/usecase.dart' #usecase interface
   remove_from_coverage -f coverage/lcov.info -r 'main.dart'
   remove_from_coverage -f coverage/lcov.info -r 'presentation/pages'
   remove_from_coverage -f coverage/lcov.info -r 'themes'

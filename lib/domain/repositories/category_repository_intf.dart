@@ -12,6 +12,6 @@ abstract class CategoryRepositoryInterface {
   Future<Either<Failure, CategoryEntityList>> getAllCategories();
   Future<Either<Failure, int>> updateCategory(
       {required final CategoryEntity category});
-  void deleteCategory({required int categoryId});
+  void deleteCategoryById({required int categoryId});
   void deleteAllCategories();
 }
