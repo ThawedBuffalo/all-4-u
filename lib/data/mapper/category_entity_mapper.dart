@@ -10,11 +10,11 @@ class CategoryEntityMapper {
     return CategoryDTO(id: entity.id, name: entity.name);
   }
 
-  static CategoryDTO transformToNewDTO(final CategoryEntity entity) {
-    return CategoryDTO(id: entity.id, name: entity.name);
-  }
-
-  static CategoryDTO transformToDTO(final int id, final String categoryName) {
-    return CategoryDTO(id: id, name: categoryName);
-  }
+  // static CategoryDTO transformToNewDTO(final CategoryEntity entity) {
+  //   return CategoryDTO(id: entity.id, name: entity.name);
+  // }
+  //
+  // static CategoryDTO transformToDTO(final int id, final String categoryName) {
+  //   return CategoryDTO(id: id, name: categoryName);
+  // }
 }

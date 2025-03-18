@@ -13,13 +13,13 @@ class PersonEntityMapper {
         id: entity.id, firstName: entity.firstName, lastName: entity.lastName);
   }
 
-  static PersonDTO transformToNewDTO(
-      final String firstName, final String lastName) {
-    return PersonDTO(id: 0, firstName: firstName, lastName: lastName);
-  }
-
-  static PersonDTO transformToDTO(
-      final int id, final String firstName, final String lastName) {
-    return PersonDTO(id: id, firstName: firstName, lastName: lastName);
-  }
+  // static PersonDTO transformToNewDTO(
+  //     final String firstName, final String lastName) {
+  //   return PersonDTO(id: 0, firstName: firstName, lastName: lastName);
+  // }
+  //
+  // static PersonDTO transformToDTO(
+  //     final int id, final String firstName, final String lastName) {
+  //   return PersonDTO(id: id, firstName: firstName, lastName: lastName);
+  // }
 }
