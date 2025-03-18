@@ -39,7 +39,7 @@ void main() {
     });
 
     test('should return DB Failure', () async {
-      when(mockRepository.createCategory(category: testFailureCategoryEntity))
+      when(mockRepository.updateCategory(category: testFailureCategoryEntity))
           .thenAnswer(
               (_) async => Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
 

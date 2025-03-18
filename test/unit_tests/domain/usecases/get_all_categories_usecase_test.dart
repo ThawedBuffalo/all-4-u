@@ -4,14 +4,19 @@ import 'package:all_4_u/domain/entities/category_entity.dart';
 import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:all_4_u/domain/usecases/get_all_categories_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../helpers/Fake_category_dto_factory.dart';
 import 'create_category_usecase_test.mocks.dart';
 
+@GenerateMocks([CategoryRepository])
 void main() {
   final CategoryRepository repository = MockCategoryRepository();
   final GetAllCategoriesUsecase usecase = GetAllCategoriesUsecase(repository);
+
+  FakeCategoryDTOFactory categoryDTOFactory = FakeCategoryDTOFactory();
 
   final int entity1Id = 1;
   final String entity1Name = 'testEntity1';
