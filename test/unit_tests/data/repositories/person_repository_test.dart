@@ -63,19 +63,16 @@ void main() {
       CustomLogger.loggerNoStack.i('-> createPeople() <- test starting...');
       when(mockDAO.insert(person: anyNamed('person')))
           .thenAnswer((_) async => Right(testPersonDTO.id));
-      final result = await repo.createPerson(
-          firstName: 'testFirstName', lastName: 'testLastName');
+      final result = await repo.createPerson(person: testPersonEntity);
       expect(result, equals(Right(testPersonDTO.id)));
     });
 
     test('expect db failure', () async {
       CustomLogger.loggerNoStack.i('-> createPeople() <- test starting...');
-      final int testCount = 0;
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(person: anyNamed('person')))
           .thenAnswer((_) async => Left(testErrMessage));
-      final result = await repo.createPerson(firstName: 'testFirstName',
-          lastName: 'testLastName');
+      final result = await repo.createPerson(person: testPersonEntity);
       expect(result, equals(Left(DBFailure(errorMessage: testErrMessage))));
     });
   });
@@ -140,7 +137,6 @@ void main() {
 
     test('expect db failure', () async {
       CustomLogger.loggerNoStack.i('-> updatePerson() <- test starting...');
-      final int testCount = 0;
       final String testErrMessage = 'insert failed for duplicate name';
       when(mockDAO.insert(person: anyNamed('person')))
           .thenAnswer((_) async => Left(testErrMessage));
@@ -153,16 +149,14 @@ void main() {
     test('deletePerson()', () async {
       CustomLogger.loggerNoStack.i('-> deletePerson() <- test starting...');
       repo.deletePerson(id: testPersonEntity.id);
-      expect(1,1);
+      expect(1, 1);
     });
 
     test('deleteAllPeople()', () async {
-      CustomLogger.loggerNoStack
-          .i('-> deleteAllPeople() <- test starting...');
+      CustomLogger.loggerNoStack.i('-> deleteAllPeople() <- test starting...');
       // no return to test, adding stub for code coverage, force success
       repo.deleteAllPeople();
       expect(1, 1);
     });
   });
-
 }

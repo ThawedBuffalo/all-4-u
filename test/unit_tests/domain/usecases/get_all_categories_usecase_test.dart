@@ -1,3 +1,6 @@
+import 'package:all_4_u/core/error/error_messages.dart';
+import 'package:all_4_u/core/error/failure.dart';
+import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/core/usecases/usecase.dart';
 import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/domain/entities/category_entity.dart';
@@ -37,13 +40,22 @@ void main() {
   CategoryEntityList testCategoryEntityList =
       CategoryEntityList(values: testEntityListInput);
 
-  when(repository.getAllCategories())
-      .thenAnswer((_) async => Right(testCategoryEntityList));
-
   test('should return CategoryEntityList', () async {
+    CustomLogger.loggerNoStack.i('-> getAllCategories() <- test starting...');
+    when(repository.getAllCategories())
+        .thenAnswer((_) async => Right(testCategoryEntityList));
     final result = await usecase.call(NoParams());
-
     verify(repository.getAllCategories()).called(1);
     expect(result, equals(Right(testCategoryEntityList)));
+  });
+
+  test('should return empty results failure', () async {
+    CustomLogger.loggerNoStack.i('-> getAllCategories() <- test starting...');
+    when(repository.getAllCategories()).thenAnswer((_) async =>
+        Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE)));
+    final result = await usecase.call(NoParams());
+    verify(repository.getAllCategories()).called(1);
+    expect(result,
+        equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
   });
 }

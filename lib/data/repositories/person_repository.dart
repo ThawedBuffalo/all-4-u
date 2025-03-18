@@ -32,11 +32,9 @@ class PersonRepository implements PersonRepositoryInterface {
 
   @override
   Future<Either<Failure, int>> createPerson(
-      {required final String firstName, required final String lastName}) async {
-    // must set ID to 0 for DB to autoincrement
-    PersonDTO person =
-        PersonDTO(id: 0, firstName: firstName, lastName: lastName);
-    final result = await personDAO.insert(person: person);
+      {required final PersonEntity person}) async {
+    final result = await personDAO.insert(
+        person: PersonEntityMapper.transformEntityToDTO(person));
     if (result.isLeft()) {
       return Left(DBFailure(errorMessage: result.asLeft()));
     } else {
@@ -85,8 +83,8 @@ class PersonRepository implements PersonRepositoryInterface {
   @override
   Future<Either<Failure, int>> updatePerson(
       {required final PersonEntity person}) async {
-    final result =
-        await personDAO.insert(person: PersonEntityMapper.transformEntityToDTO(person));
+    final result = await personDAO.insert(
+        person: PersonEntityMapper.transformEntityToDTO(person));
     if (result.isLeft()) {
       return Left(DBFailure(errorMessage: result.asLeft()));
     } else {
