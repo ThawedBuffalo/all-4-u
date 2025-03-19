@@ -1,44 +1,51 @@
-// import 'package:all_4_u/core/usecases/usecase.dart';
-// import 'package:all_4_u/data/repositories/category_repository.dart';
-// import 'package:all_4_u/domain/entities/category_entity.dart';
-// import 'package:all_4_u/domain/entities/category_entity_list.dart';
-// import 'package:all_4_u/domain/usecases/get_all_categories_usecase.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:mockito/mockito.dart';
-// import 'package:dartz/dartz.dart';
-//
-// import '../../mock/domain/repository/category_repository_mock.mocks.dart';
-//
-// void main() {
-//   final CategoryRepository repository = MockCategoryRepository();
-//   final GetAllCategoriesUsecase usecase = GetAllCategoriesUsecase(repository);
-//
-//   final int entity1Id = 1;
-//   final String entity1Name = 'testEntity1';
-//   final CategoryEntity entity1 =
-//       CategoryEntity(id: entity1Id, name: entity1Name);
-//
-//   final int entity2Id = 2;
-//   final String entity2Name = 'testEntity2';
-//   final CategoryEntity entity2 =
-//       CategoryEntity(id: entity2Id, name: entity2Name);
-//
-//   final int entity3Id = 3;
-//   final String entity3Name = 'testEntity3';
-//   final CategoryEntity entity3 =
-//       CategoryEntity(id: entity3Id, name: entity3Name);
-//
-//   List<CategoryEntity> testEntityListInput = [entity1, entity2, entity3];
-//   CategoryEntityList testCategoryEntityList =
-//       CategoryEntityList(values: testEntityListInput);
-//
-//   when(repository.getAllCategories())
-//       .thenAnswer((_) async => Right(testCategoryEntityList));
-//
-//   test('should return CategoryEntityList', () async {
-//     final result = await usecase.call(NoParams());
-//
-//     verify(repository.getAllCategories()).called(1);
-//     expect(result, equals(Right(testCategoryEntityList)));
-//   });
-// }
+import 'package:all_4_u/core/error/error_messages.dart';
+import 'package:all_4_u/core/error/failure.dart';
+import 'package:all_4_u/core/logging/custom_logger.dart';
+import 'package:all_4_u/core/usecases/usecase.dart';
+import 'package:all_4_u/data/dtos/person_dto.dart';
+import 'package:all_4_u/data/repositories/category_repository.dart';
+import 'package:all_4_u/data/repositories/person_repository.dart';
+import 'package:all_4_u/domain/entities/category_entity.dart';
+import 'package:all_4_u/domain/entities/category_entity_list.dart';
+import 'package:all_4_u/domain/entities/person_entity_list.dart';
+import 'package:all_4_u/domain/usecases/get_all_people_usecase.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:dartz/dartz.dart';
+
+import '../../../helpers/Fake_person_dto_factory.dart';
+import 'get_all_people_usecase_test.mocks.dart';
+
+@GenerateMocks([PersonRepository])
+void main() {
+  final PersonRepository repository = MockPersonRepository();
+  final GetAllPeopleUsecase usecase = GetAllPeopleUsecase(repository);
+
+  FakePersonDTOFactory personDTOFactory = FakePersonDTOFactory();
+  List<PersonDTO> testPeopleDTOList =
+      personDTOFactory.generateFakeList(length: 3);
+  PersonEntityList testPeopleEntList =
+      personDTOFactory.generateFakeEntityList(dtoList: testPeopleDTOList);
+
+  group('-> getAllPeople() <-', () {
+    test('should return PersonEntityList', () async {
+      CustomLogger.loggerNoStack.i('-> getAllPeople() <- test starting...');
+      when(repository.getAllPeople())
+          .thenAnswer((_) async => Right(testPeopleEntList));
+      final result = await usecase.call(NoParams());
+      verify(repository.getAllPeople()).called(1);
+      expect(result, equals(Right(testPeopleEntList)));
+    });
+
+    test('should return empty results failure', () async {
+      CustomLogger.loggerNoStack.i('-> getAllPeople() <- test starting...');
+      when(repository.getAllPeople()).thenAnswer((_) async =>
+          Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE)));
+      final result = await usecase.call(NoParams());
+      //verify(repository.getAllPeople()).called(1);
+      expect(result,
+          equals(Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE))));
+    });
+  });
+}

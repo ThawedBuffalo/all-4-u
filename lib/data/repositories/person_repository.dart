@@ -48,7 +48,7 @@ class PersonRepository implements PersonRepositoryInterface {
   }
 
   @override
-  void deletePerson({required int id}) {
+  void deletePersonById({required int id}) {
     personDAO.delete(personId: id);
   }
 

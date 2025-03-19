@@ -148,7 +148,7 @@ void main() {
   group('-> delete mocks <-', () {
     test('deletePerson()', () async {
       CustomLogger.loggerNoStack.i('-> deletePerson() <- test starting...');
-      repo.deletePerson(id: testPersonEntity.id);
+      repo.deletePersonById(id: testPersonEntity.id);
       expect(1, 1);
     });
 

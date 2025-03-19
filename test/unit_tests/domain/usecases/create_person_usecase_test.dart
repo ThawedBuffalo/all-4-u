@@ -1,5 +1,6 @@
 import 'package:all_4_u/core/error/error_messages.dart';
 import 'package:all_4_u/core/error/failure.dart';
+import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/data/dtos/person_dto.dart';
 import 'package:all_4_u/data/repositories/category_repository.dart';
@@ -30,7 +31,8 @@ void main() {
       personDTOFactory.generateFakeEntity(testFailurePersonDTO);
 
   group('-> createPerson() <-', () {
-    test('should return PersonEntity', () async {
+    test('should return id', () async {
+      CustomLogger.loggerNoStack.i('-> createPerson() <- test starting...');
       when(repository.createPerson(person: anyNamed('person')))
           .thenAnswer((_) async => Right(testSuccessPersonEntity.id));
       final result = await usecase.call(CreatePersonParams(
@@ -40,6 +42,7 @@ void main() {
     });
 
     test('should return DB Failure', () async {
+      CustomLogger.loggerNoStack.i('-> createPerson() <- test starting...');
       when(repository.createPerson(person: anyNamed('person'))).thenAnswer(
           (_) async => Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
       final result = await usecase.call(CreatePersonParams(

@@ -1,5 +1,6 @@
 import 'package:all_4_u/core/error/error_messages.dart';
 import 'package:all_4_u/core/error/failure.dart';
+import 'package:all_4_u/core/logging/custom_logger.dart';
 import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/domain/entities/category_entity.dart';
@@ -26,8 +27,9 @@ void main() {
   CategoryEntity testFailureCategoryEntity =
       categoryDTOFactory.generateFakeEntity(testFailureCategoryDTO);
 
-  group('-> createCategory() <-', () {
+  group('-> updateCategory() <-', () {
     test('should return updated ID', () async {
+      CustomLogger.loggerNoStack.i('-> updateCategory() <- test starting...');
       when(mockRepository.updateCategory(category: testSuccessCategoryEntity))
           .thenAnswer((_) async => Right(testSuccessCategoryDTO.id));
 
@@ -39,6 +41,7 @@ void main() {
     });
 
     test('should return DB Failure', () async {
+      CustomLogger.loggerNoStack.i('-> updateCategory() <- test starting...');
       when(mockRepository.updateCategory(category: testFailureCategoryEntity))
           .thenAnswer(
               (_) async => Left(DBFailure(errorMessage: DB_INSERT_FAILURE)));
