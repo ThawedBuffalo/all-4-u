@@ -1,13 +1,9 @@
 import 'package:all_4_u/core/error/error_messages.dart';
 import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
-import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/data/dtos/person_dto.dart';
-import 'package:all_4_u/data/repositories/category_repository.dart';
 import 'package:all_4_u/data/repositories/person_repository.dart';
-import 'package:all_4_u/domain/entities/category_entity.dart';
 import 'package:all_4_u/domain/entities/person_entity.dart';
-import 'package:all_4_u/domain/usecases/create_person_usecase.dart';
 import 'package:all_4_u/domain/usecases/create_person_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
