@@ -1,25 +1,16 @@
 import 'package:all_4_u/core/error/error_messages.dart';
 import 'package:all_4_u/core/error/failure.dart';
 import 'package:all_4_u/core/logging/custom_logger.dart';
-import 'package:all_4_u/data/dtos/category_dto.dart';
 import 'package:all_4_u/data/dtos/item_dto.dart';
-import 'package:all_4_u/data/dtos/person_dto.dart';
 import 'package:all_4_u/data/repositories/item_repository.dart';
-import 'package:all_4_u/domain/entities/category_entity.dart';
-import 'package:all_4_u/domain/entities/category_entity_list.dart';
 import 'package:all_4_u/domain/entities/item_entity.dart';
-import 'package:all_4_u/domain/entities/item_entity_list.dart';
-import 'package:all_4_u/domain/entities/person_entity_list.dart';
-import 'package:all_4_u/domain/usecases/create_category_usecase.dart';
 import 'package:all_4_u/domain/usecases/create_full_item_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dartz/dartz.dart';
 
-import '../../../helpers/Fake_category_dto_factory.dart';
 import '../../../helpers/Fake_item_dto_factory.dart';
-import '../../../helpers/Fake_person_dto_factory.dart';
 
 import 'create_full_item_usecase_test.mocks.dart';
 
