@@ -36,10 +36,18 @@ migrate_working_dir/
 .pub/
 /build/
 pubspec.lock
+coverage/
+android/
+linux/
+ios/
+macros/
+macos/
+
 
 # generated files
 *.g.dart
 *.freezed.dart
+*mocks.dart
 
 #
 #

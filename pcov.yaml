@@ -1,0 +1,8 @@
+exclude:
+  file_name:
+    - '*.g.dart'
+    - '*.freezed.dart'
+    - 'lib/core/usecases/*'
+    - 'lib/domain/entities/*'
+    - 'lib/data/datasources/database/*'
+    - 'lib/core/error/*.dart'

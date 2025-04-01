@@ -1,57 +1,92 @@
+import 'package:all_4_u/core/helpers/EitherX.dart';
+import 'package:all_4_u/data/daos/category_dao_intf.dart';
+import 'package:all_4_u/data/dtos/category_dto.dart';
+import 'package:all_4_u/data/mapper/category_entity_list_mapper.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import '../../core/error/error_messages.dart';
-import '../../core/error/exceptions.dart';
 import '../../core/error/failure.dart';
-import '../../domain/entities/category.dart';
+import '../../domain/entities/category_entity.dart';
+import '../../domain/entities/category_entity_list.dart';
 import '../../domain/repositories/category_repository_intf.dart';
-import '../datasources/category_local_data_source_intf.dart';
+import '../mapper/category_entity_mapper.dart';
 
+@Injectable(as: CategoryRepositoryInterface)
 class CategoryRepository implements CategoryRepositoryInterface {
-  final CategoryLocalDataSourceInterface dataSource;
+  final CategoryDAOInterface categoryDAO;
+  CategoryRepository({required this.categoryDAO});
 
-  CategoryRepository({required this.dataSource});
-
-  // @override
-  // Either<Failure, Category>> getCategory(String categoryName) {
-  //   try {
-  //     final localCategory = dataSource.getCategory(categoryName);
-  //     return (Right(localCategory));
-  //   } on LocalStoreException {
-  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-  //   }
-  // }
-
-  Either<Failure, Category> getSettingsData() {
-    try {
-      final localSettings = dataSource.getSettingsData();
-      return (Right(localSettings));
-    } on LocalStoreException {
-      return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
+  @override
+  Future<Either<Failure, int>> countCategories() async {
+    final numberOfCategories = await categoryDAO.countAll();
+    if (numberOfCategories == 0) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return Right(numberOfCategories);
     }
   }
 
   @override
-  Future<Either<Failure, Category>> saveCategory(Category categoryToSave) {
-    try {
-      final localCategory = dataSource.getCategory(categoryToSave);
-      return (Right(localCategory));
-    } on LocalStoreException {
-      return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
+  Future<Either<Failure, int>> createCategory(
+      {required final CategoryEntity category}) async {
+    final result = await categoryDAO.insert(
+        category: CategoryEntityMapper.transformEntityToDTO(category));
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
     }
   }
 
   @override
-  Future<Either<Failure, Category>> getCategory(String categoryName) {
-    // TODO: implement getCategory
-    throw UnimplementedError();
+  void deleteCategoryById({required int categoryId}) {
+    categoryDAO.delete(categoryId: categoryId);
   }
 
-  // @override
-  // Future<Either<Failure, void>> saveCategory(Category userCategory) async {
-  //   try {
-  //     return Right(await dataSource.saveCategory(userCategory));
-  //   } on LocalStoreException {
-  //     return Left(LocalStorageFailure(errorMessage: LOCAL_STORAGE_FAILURE));
-  //   }
-  // }
+  @override
+  void deleteAllCategories() {
+    categoryDAO.deleteAll();
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntityList>> getAllCategories() async {
+    final List<CategoryDTO> categoryDTOList = await categoryDAO.findAll();
+
+    if (categoryDTOList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      return Right(CategoryEntityListMapper.transformDTOListToEntityList(
+          categoryDTOList));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> getCategoryById(
+      {required final int id}) async {
+    final List<CategoryDTO> categoryDTOList =
+        await categoryDAO.findOne(categoryId: id);
+
+    if (categoryDTOList.isEmpty) {
+      return Left(DBEmptyResult(errorMessage: DB_EMPTY_RESULTS_FAILURE));
+    } else {
+      if (categoryDTOList.length > 1) {
+        return Left(DBEmptyResult(errorMessage: DB_RETURNED_MORE));
+      } else {
+        return Right(
+            CategoryEntityMapper.transformDTOToEntity(categoryDTOList[0]));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> updateCategory(
+      {required final CategoryEntity category}) async {
+    final result = await categoryDAO.insert(
+        category: CategoryEntityMapper.transformEntityToDTO(category));
+    if (result.isLeft()) {
+      return Left(DBFailure(errorMessage: result.asLeft()));
+    } else {
+      return Right(result.asRight());
+    }
+  }
 }

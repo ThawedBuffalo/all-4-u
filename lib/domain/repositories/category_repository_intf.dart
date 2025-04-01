@@ -1,8 +1,17 @@
-import 'package:all_4_u/domain/entities/category.dart';
 import 'package:dartz/dartz.dart';
 import '../../core/error/failure.dart';
+import '../entities/category_entity.dart';
+import '../entities/category_entity_list.dart';
 
 abstract class CategoryRepositoryInterface {
-  Future<Either<Failure, Category>> getCategory(String categoryName);
-  Future<Either<Failure, Category>> saveCategory(Category categoryToSave);
+  Future<Either<Failure, int>> countCategories();
+  Future<Either<Failure, int>> createCategory(
+      {required final CategoryEntity category});
+  Future<Either<Failure, CategoryEntity>> getCategoryById(
+      {required final int id});
+  Future<Either<Failure, CategoryEntityList>> getAllCategories();
+  Future<Either<Failure, int>> updateCategory(
+      {required final CategoryEntity category});
+  void deleteCategoryById({required int categoryId});
+  void deleteAllCategories();
 }
