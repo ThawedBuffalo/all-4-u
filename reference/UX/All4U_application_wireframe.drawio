@@ -1,11 +1,22 @@
-<mxfile host="drawio-plugin" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" modified="2025-04-02T01:53:13.141Z" version="22.1.22" etag="cTjKVWMYa9uuf4TxSMQz" type="embed">
-  <diagram name="Page-1" id="cGTeN9kJY1GJr-a1NgAe">
-    <mxGraphModel dx="1101" dy="593" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+<mxfile host="drawio-plugin" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" modified="2025-04-02T11:13:20.776Z" etag="ZJhLZjPEzAzYq2ZF4zLB" version="22.1.22" type="embed" pages="2">
+  <diagram name="Template" id="cGTeN9kJY1GJr-a1NgAe">
+    <mxGraphModel dx="954" dy="778" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="3" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=1;shape=mxgraph.android.phone2;strokeColor=#c0c0c0;" vertex="1" parent="1">
-          <mxGeometry x="80" y="40" width="200" height="390" as="geometry" />
+        <mxCell id="4" value="" style="whiteSpace=wrap;html=1;fillColor=none;imageHeight=24;shadow=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" vertex="1">
+          <mxGeometry x="280" y="240" width="280" height="580" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="HomePage" id="PGh94i63kuyHogHI5goc">
+    <mxGraphModel dx="954" dy="778" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="Xv4lErRk-BMarT-712l8-0" />
+        <mxCell id="Xv4lErRk-BMarT-712l8-1" parent="Xv4lErRk-BMarT-712l8-0" />
+        <mxCell id="Xv4lErRk-BMarT-712l8-2" value="" style="whiteSpace=wrap;html=1;fillColor=none;imageHeight=24;shadow=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="Xv4lErRk-BMarT-712l8-1" vertex="1">
+          <mxGeometry x="280" y="240" width="280" height="580" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
